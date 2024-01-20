@@ -2,10 +2,20 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+
+
 
 const LoginForm = (props) => {
-    const [email, setEmail] = useState('');
+
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  
+  const notifyA = (msg) => toast.success(msg);
+  const notifyB = (msg) => toast.error(msg);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,6 +30,15 @@ const LoginForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    const url = 'http://localhost:8000/login';
+    const data = { email, password };
+    axios.post(url, data)
+      .then((res) => {
+        notifyA(res.data.message);
+      }).catch((error) => {
+        notifyB(error.response.data.error)
+      })
+
     console.log('Form submitted with data:', e);
     setEmail('')
     setPassword('')
