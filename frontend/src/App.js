@@ -1,14 +1,15 @@
 
 import React from 'react';
-import {BrowserRouter as Router,Route,Routes} from 'react-router-dom';
+import {BrowserRouter,Route,Routes} from 'react-router-dom';
 import './index.css';
 import LandingPage from './pages/LandingPage.jsx'
 import './index.js'
 import CommunityPage from './pages/CommunityPage.jsx';
 import JobPage from './pages/JobPage.jsx';
 function App() {
+ 
   return (
-    <Router>
+    <BrowserRouter>
     <div className="App w-screen">
       <Routes>
      <Route path="/" element={<LandingPage />} />
@@ -17,7 +18,7 @@ function App() {
      </Routes>
   
     </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
