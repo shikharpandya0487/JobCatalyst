@@ -33,7 +33,7 @@ function LandingPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const url = 'http://localhost:8000/login';
+    const url = 'http://localhost:5000/api/auth/login';
     const data = { email, password };
     axios.post(url, data)
       .then((res) => {
