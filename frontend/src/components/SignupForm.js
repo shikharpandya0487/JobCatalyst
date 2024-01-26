@@ -37,7 +37,7 @@ const SignupForm = ( props ) => {
       return ;
     }
     // Add your signup logic here, such as sending the data to your server
-    const url = 'http://localhost:8000/signup';
+    const url = 'http://localhost:5000/api/auth/signup';
     const data = { username, email, password };
     axios.post(url, data)
       .then((res) => {
@@ -69,7 +69,7 @@ const SignupForm = ( props ) => {
       <Modal.Body className='flex flex-col gap-2 items-start'>
         <Form onSubmit={handleSubmit} className='w-full'>
 
-        <Form.Group controlId="formEmail" className='w-full'>
+        <Form.Group controlId="formUser" className='w-full'>
             <Form.Label>UserName</Form.Label>
             <Form.Control
               type="input"
