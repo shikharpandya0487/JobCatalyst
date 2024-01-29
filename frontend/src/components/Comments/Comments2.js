@@ -47,8 +47,9 @@ const Comments2 = ({currentUserId}) => {
          console.log("The id of the4 editted comment",commentId);
     }
 
-    const replyComment=()
+    const replyComment=()=>{
     console.log(backendComments);
+    }
     //we want to fetch data
     useEffect(()=>{
           getCommentsApi()
