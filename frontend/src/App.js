@@ -5,7 +5,7 @@ import './index.css';
 import LandingPage from './pages/LandingPage.jsx'
 import './index.js'
 import CommunityPage from './pages/CommunityPage.jsx';
-import JobPage from './pages/JobPage.jsx';
+import Job from './pages/Job.jsx';
 function App() {
  
   return (
@@ -14,7 +14,7 @@ function App() {
       <Routes>
      <Route path="/" element={<LandingPage />} />
      <Route path="/community" element={<CommunityPage/>}/>
-     <Route path="/job" element={<JobPage/>}/>
+     <Route path="/jobs" element={<Job/>}/>
      </Routes>
   
     </div>
