@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage.jsx'
 import './index.js'
 import CommunityPage from './pages/CommunityPage.jsx';
 import Job from './pages/Job.jsx';
+import UserPage from './pages/userPage.jsx';
 function App() {
  
   return (
@@ -15,6 +16,7 @@ function App() {
      <Route path="/" element={<LandingPage />} />
      <Route path="/community" element={<CommunityPage/>}/>
      <Route path="/jobs" element={<Job/>}/>
+     <Route path="/profile" element={<UserPage/>}/>
      </Routes>
   
     </div>
