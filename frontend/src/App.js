@@ -7,6 +7,7 @@ import './index.js'
 import CommunityPage from './pages/CommunityPage.jsx';
 import Job from './pages/Job.jsx';
 import UserPage from './pages/userPage.jsx';
+import AddPost from './components/AddPost.js';
 function App() {
  
   return (
@@ -17,6 +18,7 @@ function App() {
      <Route path="/community" element={<CommunityPage/>}/>
      <Route path="/jobs" element={<Job/>}/>
      <Route path="/profile" element={<UserPage/>}/>
+     <Route path="/add-post" element={<AddPost/>}/>
      </Routes>
   
     </div>
