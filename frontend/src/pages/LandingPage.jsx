@@ -1,13 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate} from 'react-router-dom';
 import Navbar from "../components/Navbar";
 import axios from 'axios';
-import './GoogleLogin.css'
+// import './GoggleLogin.css'
+
 
 function LandingPage() {
 
+  const navigate = useNavigate();
+  
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isEmailValid, setIsEmailValid] = useState(false)
+
 
   const SubmitHandler = (e) => {
     e.preventDefault();
@@ -32,25 +37,26 @@ function LandingPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     const url = 'http://localhost:5000/api/auth/login';
     const data = { email, password };
     axios.post(url, data)
       .then((res) => {
-        console.log(res.data.message);
+        navigate('/community');
+          localStorage.setItem('token',res.data.token);
+          localStorage.setItem('userId',res.data.user);
       }).catch((error) => {
-        console.log(error.response.data.error);
+        console.log(error);
       })
 
-    console.log('Form submitted with data:', e);
     setEmail('')
-    setPassword('')
+    setPassword('') 
   };
+    
 
-
-  const loginwithgoogle = () =>{
-    window.open("http://localhost:8000/auth/google/callback","_self")
-  } 
+  //LOGIN WITH GOOGLE
+  const loginwithgoogle = () => {
+    window.open("http://localhost:5000/auth/google/callback", "_self")
+  }
 
   return (
     <>
@@ -114,8 +120,8 @@ function LandingPage() {
               {/* Sign in by google */}
 
               <button className='login-with-google-btn' onClick={loginwithgoogle}>
-                    Sign In With Google
-                </button>
+                Sign In With Google
+              </button>
 
               {/* Sign in by facebook  */}
 
@@ -128,10 +134,6 @@ function LandingPage() {
                 <span className="text-lg">Sign in with FaceBook</span>
               </button>
             </div>
-
-
-
-
 
             <div class="w-full h-0 border border-black"></div>
 

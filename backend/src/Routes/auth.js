@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const jwtSecret = "hudhfpwidfhbcekdj";
 
 const User = require("../models/User");
 
@@ -15,7 +17,7 @@ router.post("/signup", async (req, res) => {
         if (!email || !username || !password) {
             return res.status(422).json({ error: "Please fill in all the fields" });
         }
-
+        
         const existingUser = await User.findOne({ $or: [{ email }, { username }] });
 
         if (existingUser) {
@@ -54,7 +56,9 @@ router.post("/login", async (req, res) => {
         const match = await bcrypt.compare(password, savedUser.password);
 
         if (match) {
-            return res.status(200).json({ message: "Signed in successfully" });
+            const token = jwt.sign({_id : savedUser.id},jwtSecret);
+            const {_id} = savedUser;
+            return res.status(200).json({token :token , user : _id, message: "Signed in successfully" });
         } else {
             return res.status(422).json({ error: "Invalid password" });
         }
