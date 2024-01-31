@@ -4,10 +4,11 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
-
+import { useNavigate} from 'react-router-dom';
 
 const LoginForm = (props) => {
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,9 +35,11 @@ const LoginForm = (props) => {
     const data = { email, password };
     axios.post(url, data)
       .then((res) => {
-        notifyA(res.data.message);
+        navigate('/community');
+          localStorage.setItem('token',res.data.token);
+          localStorage.setItem('userId',res.data.user);
       }).catch((error) => {
-        notifyB(error.response.data.error)
+        console.log(error.response.data.error)
       })
 
     console.log('Form submitted with data:', e);

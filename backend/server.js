@@ -5,10 +5,14 @@ const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
+
 const authrouter=require("../backend/src/Routes/auth.js")
+const postrouter=require("../backend/src/Routes/post.js")
+
 //Importing the routers 
 const connectDb = require("./src/database/Connection.js");
 const User = require("./src/models/User.js");
+const post = require("./src/models/Post.js");
 app.use(cors())
 app.use(express.json()); 
 
@@ -20,15 +24,14 @@ const clientid = "183771193647-f0ba9rv1tmtld2jmcite1cpjccr2sqrc.apps.googleuserc
 const clientsecret = "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"
 
 app.use("/api/auth",authrouter);  
+app.use("/api/post",postrouter);  
 
 app.use(cors({  
     origin:"http://localhost:3000", 
     methods:"GET,POST,PUT,DELETE",
     credentials:true
 }))
-
-
-
+ 
 
 // setup session
 app.use(session({
@@ -93,4 +96,4 @@ connectDb().then(()=>{
     app.listen(PORT,()=>{
         console.log(`server is running at port: ${PORT}`);
 });
-});
+});   

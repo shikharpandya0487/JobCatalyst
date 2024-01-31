@@ -1,48 +1,29 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Navbar from '../components/Navbar';
+import axios from 'axios';
 import Stories from '../components/Stories';
 import JobPosting from '../components/JobPosting';
 import EmployerSpotlight from '../components/EmployerSpotlight';
 
 const CommunityPage = () => {
-  const data = [
-    {
-      title: 'SDE INTERVIEW Experience : Apple',
-      company: 'Apple',
-      position: ' Position: SDE1',
-      location: ' Location: Pune',
-      jobType: ' job Type: Full Time',
-      salary: ' Salary Offer: 2L/MONTH',
-      description: 'looking to work long-term with a determined video editor who has experience in talking head Youtube videos.Please attach your top 3 talking head edits to the cover letter ,and i will take a look .For the budget I pay anywhere from 5-12/minutes of footage ,depending on the depth of editing You must speak good English and complete video edits withim 48-72 hours ',
-      tags: ['Tag1','Tag2'],
-      image: '',
-      posted: ' Posted: 1 Hour ago',
-    },
-    {
-      title: 'Rejection Experience : INTERVIEW',
-      company: 'Apple',
-      position: ' Position: SDE1',
-      location: ' Location: Pune',
-      jobType: ' job Type: Full Time',
-      salary: 'Salary Offer: 2L/MONTH',
-      description: 'looking to work long-term with a determined video editor who has experience in talking head Youtube videos.Please attach your top 3 talking head edits to the cover letter ,and i will take a look .For the budget I pay anywhere from 5-12/minutes of footage ,depending on the depth of editing You must speak good English and complete video edits withim 48-72 hours ',
-      tags: ['Tag1','Tag2'],
-      image: '',
-      posted: ' Posted: 1 Hour ago',
-    },
-    {
-      title: 'SDE INTERVIEW Experience : Apple',
-      company: 'Apple',
-      position: ' Position: SDE1',
-      location: ' Location: Pune',
-      jobType: ' job Type: Full Time',
-      salary: ' Salary Offer: 2L/MONTH',
-      description: 'looking to work long-term with a determined video editor who has experience in talking head Youtube videos.Please attach your top 3 talking head edits to the cover letter ,and i will take a look .For the budget I pay anywhere from 5-12/minutes of footage ,depending on the depth of editing You must speak good English and complete video edits withim 48-72 hours ',
-      tags: ['Tag1','Tag2'],
-      image: '',
-      posted: ' Posted: 1 Hour ago',
-    },
-  ];
+  
+  const [data, setData] = useState([]);
+  console.log(data);
+
+  //DISPLAYING DATA ON COMMUNITY PAGE 
+  useEffect(() => {
+    const url = 'http://localhost:5000/api/post/get-posts'
+    axios.get(url)
+      .then((res) => {
+        if (res.data.product) {
+          setData(res.data.product);
+        }
+      }).catch((err) => {
+        alert("server err");
+      })
+  }, [])
+
+
   const stories = [
     {
       p1: '!! Person Bagged 1.5Cr job in Visa',
@@ -112,18 +93,21 @@ const CommunityPage = () => {
         <div className="grid-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">  
           {data.map((item, index) => (
             <JobPosting
-              key={index}
-              title={item.title}
-              company={item.company}
-              position={item.position}
-              location={item.location}
-              jobType={item.jobType}
-              salary={item.salary}
-              description={item.description}
-              tags={item.tags}
-              image={item.image}
-              posted={item.posted}
-            />
+            key={index}
+            title={item.title}
+            company={item.company}
+            position={item.position}
+            location={item.location}
+            jobType={item.jobtype}
+            salary={item.salary}
+            description={item.description}
+            tags={item.tag}
+            // image={item.image}
+            posted={item.createdAt}
+            postedBy={item.postedBy.username}
+            id={item._id}
+            post={item}
+          />
           ))}
           </div>
       </main>
