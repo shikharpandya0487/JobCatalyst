@@ -1,5 +1,6 @@
 import React,{useRef,useState} from 'react'
 import JoditEditor from 'jodit-react';
+import Navbar from '../components/Navbar';
 
 const Job_post = () => {
 
@@ -14,7 +15,7 @@ const Job_post = () => {
   return (
     <div className='w-screen h-screen'>
        
-       
+       <Navbar/>
 
       <div className='mx-auto w-8/12 h-full flex flex-col items-center justify-start gap-3'>
 
