@@ -46,8 +46,8 @@ export const getComments = async () => {
     };
   };
   
-  export const updateComment = async (text) => {
-    return { text };
+  export const updateComment = async (text,commendId) => {
+    return { text,commendId };
   };
   
   export const deleteComment = async () => {

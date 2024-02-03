@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import {getComments as getCommentsApi,createComment as createCommentApi, deleteComment as deleteCommentApi} from '../DemoApi/api.js'
+import {getComments as getCommentsApi,createComment as createCommentApi, deleteComment as deleteCommentApi, updateComment as updateCommentApi} from '../DemoApi/api.js'
 import Comment from './Comment'
 import CommentForm from './CommentsForm.js'
 
 const Comments2 = ({currentUserId}) => {
     // states to track the comments made 
     const [backendComments,setBackendComments]=useState([])
-    
+    const [activeComment,setActiveComment]=useState(null)
+
     // writing a function to find the root comment 
     const rootComments=backendComments.filter(data=>data.parentId===null)
    
@@ -22,8 +23,13 @@ const Comments2 = ({currentUserId}) => {
         console.log("Added comment",text,parentId);
         //creating the comment and adding it to the array of objects
         createCommentApi(text,parentId)
-        .then((comment)=>setBackendComments([comment,...backendComments]))
-        .catch((e)=>{
+        .then(
+          (comment)=>setBackendComments([comment,...backendComments]))  
+          .then(
+            setActiveComment(null)
+          )  
+          .catch(
+          (e)=>{
             console.log("error on adding comments",e);
         })
     }
@@ -39,17 +45,31 @@ const Comments2 = ({currentUserId}) => {
                 const updatedBackendComments=backendComments.filter(backendComment=>backendComment.id!==commentId)
                 setBackendComments(updatedBackendComments)
             })
-            .catch()          
+            .catch((e)=>{
+              console.log(
+                "error in deleting the comment"
+              );
+            })          
         }
     }
-    
-    const editComment=(commentId)=>{
-         console.log("The id of the4 editted comment",commentId);
-    }
 
-    const replyComment=()=>{
+    const replyComment=(text,parentId)=>{
     console.log(backendComments);
     }
+
+   const updateComment=(text,commendId)=>{
+    updateCommentApi(text,commendId)
+    .then(()=>{
+      const updatedBackendComments=backendComments.map((comment)=>comment.id===commendId?{...comment,body:text}:comment)
+      setBackendComments(updatedBackendComments)
+      setActiveComment(null)
+    })
+    .catch((e)=>{
+      console.log("Error while updating the comments",e);
+    })
+    
+   }
+
     //we want to fetch data
     useEffect(()=>{
           getCommentsApi()
@@ -66,7 +86,6 @@ const Comments2 = ({currentUserId}) => {
     <div className='comments w-full'>
 
      <div className='comments-title'>
-       <h4>Comments</h4>
      </div>
        {/* form for comments  */}
       <div className="comment-form-title">
@@ -93,6 +112,11 @@ const Comments2 = ({currentUserId}) => {
                     replies={getReplies(rootComment.id)}
                     currentUserId={currentUserId}
                     deleteComment={deleteComment}
+                    activeComment={activeComment}
+                    setActiveComment={setActiveComment}
+                    addComment={addComment}
+                    // parentId={parentId}
+                    updateComment={updateComment}
                     />
                 )
             )

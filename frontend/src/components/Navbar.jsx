@@ -24,7 +24,7 @@ function Navbar() {
     <div className='bg-slate-600 w-screen overflow-x-hidden'>
       <div className='mx-auto px-4 sm:px-6 lg:px-8 w-full'>
 
-        <div className='flex items-center justify-evenly h-16 sm:justify-between md:justify-between'>
+        <div className='w-full flex items-center justify-between gap-2 h-16 sm:justify-evenly md:justify-between'>
             <div className='flex items-center text-white'>
             
                 Navbar 
@@ -34,17 +34,18 @@ function Navbar() {
 
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4 text-white">
-                <li className='text-white transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link className='' style={{ textDecoration: 'none', color: 'inherit' }}  to="/">Home</Link></li>
-                <li className='text-white transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link to="/community">Community</Link></li>
-                <li className='text-white transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link to="/jobs">Jobs</Link></li>
-                <li className='text-white transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link to="/salaries">Salaries</Link></li>
-                <li className='text-white transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link to="/companies">Companies</Link></li>
-                <li className='text-white transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link to="/connections">Connections</Link></li>
-                <li className='text-white transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link to="/profile">Profile</Link></li>
+                <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/">Home</Link></div>
+                <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/community">Community</Link></div>
+                <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/job-post">Job-post</Link></div>
+                <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/jobs">Jobs</Link></div>
+                <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/salaries">Salaries</Link></div>
+                <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/companies">Companies</Link></div>
+                <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/connections">Connections</Link></div>
+                <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/profile">Profile</Link></div>
 
                 
                 <SignupForm show={modalShowSignup} onHide={()=>setModalShowSignup(false)}  />
-                {!localStorage.getItem('token') ?  <div className='flex flex-row '>
+                {!localStorage.getItem('token') ?  <div className='flex flex-row justify-evenly items-center gap-4 p-2 w-fit '>
                 <button className='w-20 p-1 h-10 bg-gray-300 rounded-[40px] flex justify-center items-center text-red-500' onClick={()=>setModalShowlogin(true)}> 
                   Login
                 </button>
@@ -87,7 +88,7 @@ function Navbar() {
 
       </div>
       {open?(
-        <div className='md:hidden justify-between'>
+        <div className='md:hidden justify-evenly'>
           <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3'>
           <li className='text-white transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link to="/">Community</Link></li>
                 <li className='text-gray-300 hover:gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'><Link to="/jobs">Jobs</Link></li>

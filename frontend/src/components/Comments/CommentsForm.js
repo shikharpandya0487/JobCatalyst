@@ -1,9 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
 
-const CommentsForm = ({handleSubmit,submitLabel}) => {
+const CommentsForm = ({submitLabel,hasCancelButton,initialText='',handleSubmit,handleCancel}) => {
     //states to store the text given as input 
-    const [text,setText]=useState("")
+    const [text,setText]=useState(initialText)
        
    const onSubmit=(e)=>{
     e.preventDefault();
@@ -23,9 +23,17 @@ const CommentsForm = ({handleSubmit,submitLabel}) => {
       onChange={(e)=>setText(e.target.value)}
       />
       {/* here the button has type submit by default so it will be submitted  */}
-      <button className='comment-form-button' >
-       {submitLabel}
+      <button className='comment-form-button' type='submit' disabled={!text}>
+        {submitLabel}
       </button>
+
+      {
+        hasCancelButton && (
+          <button type='button' className='comment-form-button comment-form-cancel-button' onClick={handleCancel}>
+              CANCEL
+          </button>
+        )
+      }
     </form>
   )
 }
