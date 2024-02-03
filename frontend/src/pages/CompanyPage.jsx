@@ -1,4 +1,5 @@
 import * as React from "react";
+import {Link} from "react-router-dom";
 import Navbar from "../components/Navbar";
 function CompanyPage() {
   const handleCreate = () => {
@@ -8,14 +9,14 @@ function CompanyPage() {
     <form className="flex flex-col bg-white rounded-md md:rounded-[78px]">
       <Navbar/>
       <section className="flex flex-col self-center mt-10 md:mt-5 w-full max-w-[1559px] md:max-w-full">
-      <div className="md:flex-1 flex flex-row px-5 max-w-full ">
-      <h2 className="justify-center items-start pt-5 pb-10 text-3xl md:text-5xl text-black md:px-10">
+      <div className="md:flex-1 flex justify-between px-5 max-w-full ">
+      <h2 className="justify-center items-start pt-5 pb-10 text-3xl md:text-5xl text-black md:px-20">
         Create an Employer Account
       </h2>
       <img
         src="./Employee image.png"
         alt="Employee Image"
-        className="max-w-[270px] h-[130px] order-last pt-5 px-50"
+        className="max-w-[300px] h-[170px] order-last pt-5 px-50 mr-10"
       />
     </div>
         <div className="flex flex-col md:flex-row gap-5 justify-between text-lg md:text-lg text-black md:flex-wrap mt-5">
@@ -60,12 +61,15 @@ function CompanyPage() {
             />
           </div>
         </div>
+        <Link to="/job-basics">
         <button
           className="justify-center items-start px-6 py-2 mt-5 ml-5 md:ml-5 w-28 md:w-30 text-lg md:text-lg text-black whitespace-nowrap bg-blue-500 rounded-xl md:rounded-3xl"
           onClick={handleCreate}
         >
           Create
         </button>
+        </Link>
+
       </section>
       <div />
     </form>
