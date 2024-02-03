@@ -8,6 +8,9 @@ import CommunityPage from './pages/CommunityPage.jsx';
 import Job from './pages/Job.jsx';
 import UserPage from './pages/userPage.jsx';
 import AddPost from './components/AddPost.js';
+import CompanyPage from './pages/CompanyPage.jsx';
+import JobBasics from './pages/JobBasics.jsx';
+import DetailsOfJob from './pages/DetailsOfJob.jsx';
 function App() {
  
   return (
@@ -19,6 +22,9 @@ function App() {
      <Route path="/jobs" element={<Job/>}/>
      <Route path="/profile" element={<UserPage/>}/>
      <Route path="/add-post" element={<AddPost/>}/>
+     <Route path="/companies" element={<CompanyPage/>}/>
+     <Route path="/job-basics" element={<JobBasics/>}/>
+     <Route path="/details" element={<DetailsOfJob/>}></Route>
      </Routes>
   
     </div>
