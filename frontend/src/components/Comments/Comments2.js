@@ -19,7 +19,7 @@ const Comments2 = ({currentUserId}) => {
     }
 
     const addComment=(text,parentId)=>{
-        console.log("Added comment",text,parentId);
+        // console.log("Added comment",text,parentId);
         //creating the comment and adding it to the array of objects
         createCommentApi(text,parentId)
         .then((comment)=>setBackendComments([comment,...backendComments]))
@@ -29,7 +29,7 @@ const Comments2 = ({currentUserId}) => {
     }
 
     const deleteComment=(commentId)=>{
-        console.log(commentId);
+        // console.log(commentId);
 
         if(window.confirm("Are u sure that u want to delete the comment"))
         {
@@ -60,7 +60,7 @@ const Comments2 = ({currentUserId}) => {
         },[]
     )
 
-    console.log(rootComments.body);
+    // console.log(rootComments.body);
 
   return (
     <div className='comments w-full'>

@@ -36,6 +36,14 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     }],
+    heart:[{
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }],
+    congrats:[{
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }],
     postedBy: {
         type: Schema.Types.ObjectId,
         ref: "User"

@@ -7,7 +7,7 @@ const PasswordAndSecurity = () => {
   const [twoFactorAuth, setTwoFactorAuth] = useState(false);
 
   useEffect (()=> {
-         //security setting from backend
+        //security setting from backend
          const fetchUserSecuritySettings = async () => {
             try {
                 const response = await fetch("/api/user/security");
@@ -19,6 +19,7 @@ const PasswordAndSecurity = () => {
          };
          fetchUserSecuritySettings();
   },[])
+
   //function for checking password strength
   const checkPasswordStrength = (password) => {
     const hasCapital = /[A-Z]/.test(password);
@@ -37,12 +38,13 @@ const PasswordAndSecurity = () => {
   const handleChangePassword = async () => {
     try {
         //replace with actual Api end point
-        const response = await fetch("/api/user/change-password",{
+        const response = await fetch("http://localhost:5000/api/auth/change-password",{
             method: "POST",
             headers: {
                 "Content-Type" : "application/json",
+                'Authorization': 'Bearer '+ localStorage.getItem('token'),
             },
-            body: JSON.stringify({currentPassword: password,newPassword,confirmPassword}),
+            body: JSON.stringify({currentPassword: password,newPassword}),
         });
         if(response.ok){
             console.log("Password Changed successfully");

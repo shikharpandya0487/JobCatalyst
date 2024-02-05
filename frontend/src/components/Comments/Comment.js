@@ -2,7 +2,7 @@ import React from 'react'
 
 
 const Comment = ({comment,replies,currentUserId,deleteComment}) => {
-    console.log(comment);
+    // console.log(comment);
     const canReply=Boolean(currentUserId)
     
     
@@ -15,8 +15,8 @@ const Comment = ({comment,replies,currentUserId,deleteComment}) => {
 
     const createdAt=new Date(comment.createdAt).toLocaleDateString()
 
-     console.log(canDelete);
-     console.log(canEdit);
+    //  console.log(canDelete);
+    //  console.log(canEdit);
     return (
         
     <div className='comment w-full'>

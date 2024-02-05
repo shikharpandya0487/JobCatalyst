@@ -79,4 +79,91 @@ router.put("/dislike-post",requireLogin,(req,res)=>{
 })
 
 
+
+//LIKE PRODUCT AND ADD THEM TO THAT POST DATABASE
+router.put("/heart-post",requireLogin,(req,res)=>{
+    let postId = req.body.postId;
+    let userId = req.user._id;
+    console.log(postId,userId);
+    Post.findByIdAndUpdate( postId ,{
+        $push:{heart:userId}
+    },{
+        new:true
+    }).then(() => {
+        res.send({ msg: "liked sucessfully" })
+    }).catch((error) => {
+        res.send({ msg: 'server error' })
+    })
+})
+
+//DISLIKE PRODUCT AND REMOVE THEM FROM POST
+router.put("/unheart-post",requireLogin,(req,res)=>{
+    let postId = req.body.postId;
+    let userId = req.user._id;
+    console.log(postId,userId);
+    Post.findByIdAndUpdate( postId ,{
+        $pull:{heart:userId}
+    },{
+        new:true
+    }).then(() => {
+        res.send({ msg: "dislike sucessfully" })
+    }).catch((error) => {
+        res.send({ msg: 'server error' })
+    })
+})
+
+
+
+//LIKE PRODUCT AND ADD THEM TO THAT POST DATABASE
+router.put("/cong-post",requireLogin,(req,res)=>{
+    let postId = req.body.postId;
+    let userId = req.user._id;
+    console.log(postId,userId);
+    Post.findByIdAndUpdate( postId ,{
+        $push:{congrats:userId}
+    },{
+        new:true
+    }).then(() => {
+        res.send({ msg: "liked sucessfully" })
+    }).catch((error) => {
+        res.send({ msg: 'server error' })
+    })
+})
+
+//DISLIKE PRODUCT AND REMOVE THEM FROM POST
+router.put("/discong-post",requireLogin,(req,res)=>{
+    let postId = req.body.postId;
+    let userId = req.user._id;
+    console.log(postId,userId);
+    Post.findByIdAndUpdate( postId ,{
+        $pull:{congrats:userId}
+    },{
+        new:true
+    }).then(() => {
+        res.send({ msg: "dislike sucessfully" })
+    }).catch((error) => {
+        res.send({ msg: 'server error' })
+    })
+})
+
+
+
+
+router.get("/search",(req,res)=>{
+    let search = req.query.search;
+
+    Post.find({
+        $or: [
+            { title: { $regex: search } },
+        ]
+    })
+    .populate("postedBy","_id username")
+        .then((result) => {
+            res.send({ msg: "find success", post: result });
+        })
+        .catch((err) => {
+            res.send({ msg: "server errorr" });
+        });
+})
+
 module.exports = router;

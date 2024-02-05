@@ -11,13 +11,16 @@ const postrouter=require("../backend/src/Routes/post.js")
 
 //Importing the routers 
 const connectDb = require("./src/database/Connection.js");
+
 const User = require("./src/models/User.js");
 const post = require("./src/models/Post.js");
-app.use(cors())
-app.use(express.json()); 
 
 const googleUser = require("./src/models/GoogleUser")
 require("./src/models/User.js")
+
+
+app.use(cors())
+app.use(express.json()); 
 
 //google login client id and secret 
 const clientid = "183771193647-f0ba9rv1tmtld2jmcite1cpjccr2sqrc.apps.googleusercontent.com"
