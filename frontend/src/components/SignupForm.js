@@ -4,55 +4,94 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
 const SignupForm = ( props ) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [user,setUser]=useState({
+    username:"",
+    email:"",
+    password:"",
+});
 
-  const notifyA = (msg) => toast.success(msg);
-  const notifyB = (msg) => toast.error(msg);
+//context api
+//now here you will be required to get the context
+//first import useAuth (our custom Hook);
+//get the context in an object
+//AB DIRECTLY MEIN APNE FUNCTION KO USE KAR SAKHTA HOON
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+//BOOM BOOM CONTEXT API KI JAI HO
+const navigate=useNavigate();
+const {storetockenInLS}=useAuth();
+//handling the input value
+const handleInput=(e)=>{
+    console.log(e);
+    let name=e.target.name;
+    let value=e.target.value;
+    setUser({
+        ...user, //keeping the rest of the things as same
+        [name]:value, //this name can be anything
+        //it can be username, password, email,phone number
+        //passing the dynamic value;
+    })
+}
+// handling the form submission
+const handleSubmit=async (e)=>{
+    e.preventDefault(); //preventing the default behavior which is reloading the page
+    // alert(user);
 
-    // Update the respective state based on the input name
-    if (name === 'username') {
-      setUsername(value);
-    }else if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'password') {
-      setPassword(value);
-    } else if (name === 'confirmPassword') {
-      setConfirmPassword(value);
+    //CONNNECTING FRONTEND WITH BACKEND
+    console.log(user);
+    try{
+        const response=await fetch("http://localhost:5000/api/auth/signup",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+            },
+            body:JSON.stringify(user),
+        });
+        //here one thing is, jb user submit pr click karta hai to data abhi bhi form pr rehta hai
+        //handling that issue
+        const res_data=await response.json();
+        console.log("res from server",res_data);
+
+        //if response.ok==true,then res_data will contain success data,
+        //otherwise it will contain the false error message inside it
+
+
+        if(response.ok){ //ok ek already existing field hai in response object(See in inspect)
+
+            //we can also extract the response data from the input
+            // const res_data=await response.json();
+            //  commented this as we are fixing the error
+            //res_data will contain an object which contain the tocken userid
+            //store tocken in local storage
+            storetockenInLS(res_data.tocken);
+            // console.log("Res from server",res_data);
+            //we can also store the tocken in local storage using
+            // localStorage.setItem("tocken",res_data.tocken);
+            //but since this code will be required on many pages, therefore convert it into a method
+
+            setUser({
+                username:"",
+                email:"",
+                password:""
+            }) //sbko blank mark kardiya
+            //we can even navigate them to other page after submitting
+
+            toast.success("Registration Sucess");
+            navigate("/community");
+            //using useNavigate
+            //for this first must declare a const using navigate 
+            //see above for that
+        }
+        else{
+            toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message);
+        }
     }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if(password != confirmPassword)
-    {
-      alert("password doesnt match");
-      return ;
+    catch(error){
+        console.log("Register !!",error);
     }
-    // Add your signup logic here, such as sending the data to your server
-    const url = 'http://localhost:5000/api/auth/signup';
-    const data = { username, email, password };
-    axios.post(url, data)
-      .then((res) => {
-        notifyA(res.data.message);
-      }).catch((error) => {
-        notifyB(error.response.data.error)
-      })
-
-    console.log('Form submitted with data:', { email, password, confirmPassword });
-    setUsername('');
-    setEmail('');
-    setConfirmPassword('');
-    setPassword('');
-    props.onHide();
-  };
+  }
 
   return (
     <Modal
@@ -75,8 +114,8 @@ const SignupForm = ( props ) => {
               type="input"
               placeholder="Enter your UserName"
               name="username"
-              value={username}
-              onChange={handleChange}
+              value={user.username}
+              onChange={handleInput}
               className='text-center'
               required
             />
@@ -87,8 +126,8 @@ const SignupForm = ( props ) => {
               type="email"
               placeholder="Enter your email"
               name="email"
-              value={email}
-              onChange={handleChange}
+              value={user.email}
+              onChange={handleInput}
               className='text-center'
               required
          
@@ -100,8 +139,8 @@ const SignupForm = ( props ) => {
               type="password"
               placeholder="Enter your password"
               name="password"
-              value={password}
-              onChange={handleChange}
+              value={user.password}
+              onChange={handleInput}
              className='text-center'
               required
             />
@@ -112,8 +151,8 @@ const SignupForm = ( props ) => {
               type="password"
               placeholder="Confirm your password"
               name="confirmPassword"
-              value={confirmPassword}
-              onChange={handleChange}
+              value={user.password}
+              onChange={handleInput}
               className='text-center'
               required
             />

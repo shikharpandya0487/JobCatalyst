@@ -2,50 +2,60 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useNavigate} from 'react-router-dom';
+import { useAuth } from "../store/auth";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = (props) => {
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
 
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  
-  const notifyA = (msg) => toast.success(msg);
-  const notifyB = (msg) => toast.error(msg);
-
+  const { storetockenInLS } = useAuth(); //using contextapi to store the jwt token in local storage
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    
-    if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'password') {
-      setPassword(value);
-  }
-}
+    let name = e.target.name;
+    let value = e.target.value;
+    setUser({
+      ...user,
+      [name]: value, //jo bhi value hogi uske according save ho jayegi
+    });
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    const url = 'http://localhost:5000/api/auth/login';
-    const data = { email, password };
-    axios.post(url, data)
-      .then((res) => {
-        navigate('/community');
-          localStorage.setItem('token',res.data.token);
-          localStorage.setItem('userId',res.data.user);
-      }).catch((error) => {
-        console.log(error.response.data.error)
-      })
+  const handleSubmit = async (e) => {
+    //form default behaviour->refresh the page
+    e.preventDefault(); //preventing the default behavior which is reloading the page
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
 
-    console.log('Form submitted with data:', e);
-    setEmail('')
-    setPassword('')
-    props.onHide();
+      const res_data = await response.json();
+
+      if (response.ok) {
+        toast.success("LOGIN SUCCESS");
+        storetockenInLS(res_data.tocken); // Fix typo in variable name "tocken" to "token"
+        console.log("Res from server", res_data);
+        setUser({
+          email: "",
+          password: "",
+        });
+        navigate("/");
+      } else {
+        toast.error(
+          res_data.extraDetails ? res_data.extraDetails : res_data.message
+        );
+      }
+      console.log(response);
+    } catch (error) {
+      console.log("Login", error);
+    }
   };
 
   return (
@@ -68,18 +78,18 @@ const LoginForm = (props) => {
               type="email"
               placeholder="Enter your email"
               name="email"
-              value={email}
+              value={user.email}
               onChange={handleChange}
               required
             />
           </Form.Group>
-          <Form.Group controlId="formEmail">
-            <Form.Label>password</Form.Label>
+          <Form.Group controlId="formPassword">
+            <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Enter your password"
               name="password"
-              value={password}
+              value={user.password}
               onChange={handleChange}
               required
             />
@@ -89,7 +99,6 @@ const LoginForm = (props) => {
       </Modal.Body>
     </Modal>
   );
-  }
+};
 
-
-export default LoginForm
+export default LoginForm;
