@@ -21,7 +21,7 @@ require("./src/models/User.js")
 
 //google login client id and secret 
 const clientid = "183771193647-f0ba9rv1tmtld2jmcite1cpjccr2sqrc.apps.googleusercontent.com"
-const clientsecret = "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"
+const clientsecret = "GOCS PX-zyHLvrKTJsyQGjkiy2Mb_Eq401e3"
 
 app.use("/api/auth",authrouter);  
 app.use("/api/post",postrouter);  
