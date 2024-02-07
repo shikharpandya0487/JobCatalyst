@@ -1,5 +1,4 @@
-import React,{useEffect, useState} from 'react'
-import Edit from './Edit';
+import React,{useState} from 'react'
 import axios from 'axios';
 import { IoPersonCircleSharp } from "react-icons/io5";
 
@@ -180,6 +179,9 @@ const JobPosting = ({
 
   const userId = localStorage.getItem('userId');
 
+  // states to manage the comments 
+  const [openComments,setOpenComments]=useState(false)
+
     return (
       <div className="bg-pink-50  rounded-2xl p-4 mb-4">
         <div className="flex items-center mb-4">
@@ -238,7 +240,7 @@ const JobPosting = ({
              <p className="text-gray-700 select-none">Job Type: {jobType}</p>
           </div>
           {/* like dislike icon */}
-          <div className='flex flex-col space-y-[20px] '>
+          {/* <div className='flex flex-col space-y-[20px] '>
           {
             post.likes.find((id)=> id == userId)
             ?
@@ -266,20 +268,22 @@ const JobPosting = ({
           <h5>{post.congrats.length} Likes</h5>
 
           </div>
+          <h5>{post.likes.length} Likes</h5> 
+        </div>*/}
 
 
           <div className='flex justify-evenly gap-4 items-center p-1 w-full'> 
 
-           <div className='w-fit flex flex-col p-1'>
-            <div className="comment flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2">
-               <img className='rounded-full' src="Comments.png" alt="Placeholder" />    
+           <div className='w-fit flex flex-col items-center justify-center p-1'>
+            <div className="comment flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2 cursor-pointer" onClick={()=>setOpenComments((open)=>!open)}>
+               <img className='rounded-full' src="Chat.png" alt="Placeholder" />    
             </div>
             <div className='text-center w-fit'>
               Comment
             </div>
            </div>
             
-           <div className='w-fit flex flex-col p-1'>
+           <div className='w-fit flex flex-col items-center justify-center p-1 cursor-pointer'>
             <div className="like flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2">
               <img className='rounded-full' src="FacebookLike.png" alt="Placeholder" />             
             </div>
@@ -288,7 +292,7 @@ const JobPosting = ({
             </div>
            </div>
            
-           <div className='w-fit flex flex-col p-1'>
+           <div className='w-fit flex flex-col items-center justify-center p-1 cursor-pointer'>
             <div className="share flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2">
               <img className='rounded-full' src="ForwardArrow.png" alt="Placeholder" />
             </div>
@@ -298,9 +302,17 @@ const JobPosting = ({
            </div>
 
           </div>
-          <div className='flex w-full rounded-md flex-col p-2 justify-start items-start max-h-[600px] gap-2'>
+
             {/* addcomment */}
-             <Comments2 currentUserId={1}/>
+          <div className='flex w-full rounded-md flex-col p-2 justify-start items-start min-h-fit gap-2'>
+              
+              {/* button  */}
+              <div className="buttonForComments w-full">
+                <button className=' rounded-md w-fit h-fit p-2 bg-blue-600 text-white font-semibold flex justify-center items-center'  onClick={()=>setOpenComments((open)=>!open)}>
+                 {openComments?'Close Comments':'Open Comments'}
+                </button>
+              </div>             
+            { openComments && <Comments2 currentUserId={1}/>}
           </div>
 
 

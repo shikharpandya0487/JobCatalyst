@@ -1,21 +1,32 @@
 import React from 'react'
+import CommentsForm from './CommentsForm';
 
 
-const Comment = ({comment,replies,currentUserId,deleteComment}) => {
+const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setActiveComment,addComment,parentId=null,updateComment}) => {
     // console.log(comment);
     const canReply=Boolean(currentUserId)
     
     
     // diabling the edit or delete of comment after 5min of formation 
    // diabling the edit or delete of comment after 5min of formation 
-     const tenMinute = 600000; // it's in milliseconds
-     const timePassed = new Date().getTime() - new Date(comment.createdAt).getTime() > tenMinute;
-     const canEdit = currentUserId === comment.userId && !timePassed;
-     const canDelete = currentUserId === comment.userId && !timePassed;
+   const tenMinute = 600000; // 10 minutes in milliseconds
+   const commentCreationTime = new Date(comment.createdAt);
+   const currentTime = new Date();
+   const timePassed = currentTime - commentCreationTime > tenMinute;
+  
+   const canEdit = currentUserId === comment.userId && !timePassed;
+   const canDelete = currentUserId === comment.userId && !timePassed;
+   
+   const isReplying=activeComment && activeComment.type==="replying" && activeComment.id===comment.id 
+
+   const isEditing=activeComment && activeComment.type==="editing" && activeComment.id===comment.id
 
     const createdAt=new Date(comment.createdAt).toLocaleDateString()
 
+    const replyId=parentId?parentId:comment.id 
+
     //  console.log(canDelete);
+
     //  console.log(canEdit);
     return (
         
@@ -38,16 +49,45 @@ const Comment = ({comment,replies,currentUserId,deleteComment}) => {
             </div>
 
             {/* main text  */}
-             
-             <div className='comment-text'>
-                 {comment.body}
-             </div>
+                  { !isEditing &&
+                  <div className='comment-text'>
+                      {comment.body}
+                  </div>
+                  }
+
+                  {
+                    isEditing && (
+                      <CommentsForm
+                        submitLabel="Update"
+                        hasCancelButton 
+                        initialText={comment.body}
+                        handleSubmit={(text)=>updateComment(text,comment.id)}
+                        handleCancel={()=>setActiveComment(null)}
+                      />
+                    )
+                  }
+
              <div className="comment-actions">
-              { // I Have to make it to && but due to error I have kept it as or ||
-              canReply || <div className="comment-action">Reply</div>}
-            { canEdit || <div className="comment-action">Edit</div>}
-            { canDelete ||   <div className="comment-action" onClick={()=>deleteComment(comment.id)}>Delete</div>}
+                  { // I Have to make it to && but due to error I have kept it as or ||
+                  canReply &&<div className="comment-action" onClick={()=>setActiveComment({id:comment.id,type:"replying"})}>Reply</div>}
+                { canEdit || <div className="comment-action" onClick={()=>setActiveComment({id:comment.id,type:"editing"})}>Edit</div>}
+                { canDelete ||  <div className="comment-action" onClick={()=>deleteComment(comment.id)}>Delete</div>}
              </div>
+
+
+
+             {isReplying && (
+              <CommentsForm
+               submitLabel="Reply"
+               handleSubmit={(text)=>addComment(text,replyId)}
+              />
+             )}
+
+             
+
+
+
+
              {replies.length>0 && 
                 <div className='replies'>
                   {
@@ -60,6 +100,11 @@ const Comment = ({comment,replies,currentUserId,deleteComment}) => {
                         replies={[]} 
                         currentUserId={currentUserId}
                         deleteComment={deleteComment}
+                        activeComment={activeComment}
+                        setActiveComment={setActiveComment}
+                        addComment={addComment}
+                        parentId={comment.id}
+                        updateComment={updateComment}
                         />
                     ))
 
