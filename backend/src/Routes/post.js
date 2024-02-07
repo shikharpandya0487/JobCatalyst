@@ -4,166 +4,47 @@ const requireLogin = require("../middlewares/requireLogin");
 const router = express.Router();
 
 const Post = require("../models/Post.js");
+const Comment = require("../models/Comment.js");
 
+const {createPost,getPosts,likePost,dislikePost,heart,disheart,congrats,discongrats,search,createComment,getComments,deleteComment,updateComment} = require("../controllers/PostController.js")
 
 //CREATE POST
-router.post("/create-post",requireLogin,(req,res)=>{
-    const { company,title,description,tag,position,salary,location,jobtype,postedBy } = req.body;
-    if(!company || !title || !description || !position || !salary || !location || !jobtype)
-    {
-        return res.status(422).json({error:"please enter all the feilds"});
-    }
-    const post = new Post({
-        company,
-        title,
-        description,
-        tag,
-        position,
-        salary,
-        location,
-        jobtype,
-        postedBy: req.user
-    })
-    post.save()
-    .then((result) => {
-        const createdAt = new Date(result.createdAt); 
-        const localCreatedAt = createdAt.toLocaleString();
-        return res.json({ message: "Posted Successfully", post: result, time: localCreatedAt })
-    }).catch(err => console.log(err))
-
-})
+router.post("/create-post",requireLogin,createPost)
 
 //GET ALL POST ON COMMUNITY PAGE 
-router.get("/get-posts",(req,res)=>{
-    Post.find()
-        .populate("postedBy","_id username")
-        .then((result) => {
-            res.json({ msg: "find success", product: result });
-        })
-        .catch((err) => {
-            res.send({ msg: "server error" });
-        });
-})
+router.get("/get-posts",getPosts)
 
+//LIKE POST AND ADD THEM TO THAT POST DATABASE
+router.put("/like-post",requireLogin,likePost)
 
-//LIKE PRODUCT AND ADD THEM TO THAT POST DATABASE
-router.put("/like-post",requireLogin,(req,res)=>{
-    let postId = req.body.postId;
-    let userId = req.user._id;
-    console.log(postId,userId);
-    Post.findByIdAndUpdate( postId ,{
-        $push:{likes:userId}
-    },{
-        new:true
-    }).then(() => {
-        res.send({ msg: "liked sucessfully" })
-    }).catch((error) => {
-        res.send({ msg: 'server error' })
-    })
-})
+//DISLIKE POST AND REMOVE THEM FROM POST
+router.put("/dislike-post",requireLogin,dislikePost)
 
-//DISLIKE PRODUCT AND REMOVE THEM FROM POST
-router.put("/dislike-post",requireLogin,(req,res)=>{
-    let postId = req.body.postId;
-    let userId = req.user._id;
-    console.log(postId,userId);
-    Post.findByIdAndUpdate( postId ,{
-        $pull:{likes:userId}
-    },{
-        new:true
-    }).then(() => {
-        res.send({ msg: "dislike sucessfully" })
-    }).catch((error) => {
-        res.send({ msg: 'server error' })
-    })
-})
+//REACT HEART ON POST AND ADD THEM TO THAT POST DATABASE
+router.put("/heart-post",requireLogin,heart)
 
-
+//DISHEART PRODUCT AND REMOVE THEM FROM POST
+router.put("/unheart-post",requireLogin,disheart )
 
 //LIKE PRODUCT AND ADD THEM TO THAT POST DATABASE
-router.put("/heart-post",requireLogin,(req,res)=>{
-    let postId = req.body.postId;
-    let userId = req.user._id;
-    console.log(postId,userId);
-    Post.findByIdAndUpdate( postId ,{
-        $push:{heart:userId}
-    },{
-        new:true
-    }).then(() => {
-        res.send({ msg: "liked sucessfully" })
-    }).catch((error) => {
-        res.send({ msg: 'server error' })
-    })
-})
+router.put("/cong-post",requireLogin,congrats)
 
 //DISLIKE PRODUCT AND REMOVE THEM FROM POST
-router.put("/unheart-post",requireLogin,(req,res)=>{
-    let postId = req.body.postId;
-    let userId = req.user._id;
-    console.log(postId,userId);
-    Post.findByIdAndUpdate( postId ,{
-        $pull:{heart:userId}
-    },{
-        new:true
-    }).then(() => {
-        res.send({ msg: "dislike sucessfully" })
-    }).catch((error) => {
-        res.send({ msg: 'server error' })
-    })
-})
+router.put("/discong-post",requireLogin,discongrats)
 
+//ADD COMMENT
+router.post('/comments',requireLogin, createComment)
 
+//GET COMMENT FROM THE POST ID OF SPECIFIC POST
+router.get('/:postId/get-comment', getComments);
 
-//LIKE PRODUCT AND ADD THEM TO THAT POST DATABASE
-router.put("/cong-post",requireLogin,(req,res)=>{
-    let postId = req.body.postId;
-    let userId = req.user._id;
-    console.log(postId,userId);
-    Post.findByIdAndUpdate( postId ,{
-        $push:{congrats:userId}
-    },{
-        new:true
-    }).then(() => {
-        res.send({ msg: "liked sucessfully" })
-    }).catch((error) => {
-        res.send({ msg: 'server error' })
-    })
-})
+//DELETE COMMENT
+router.delete('/delete-comments/:commentId', deleteComment);
 
-//DISLIKE PRODUCT AND REMOVE THEM FROM POST
-router.put("/discong-post",requireLogin,(req,res)=>{
-    let postId = req.body.postId;
-    let userId = req.user._id;
-    console.log(postId,userId);
-    Post.findByIdAndUpdate( postId ,{
-        $pull:{congrats:userId}
-    },{
-        new:true
-    }).then(() => {
-        res.send({ msg: "dislike sucessfully" })
-    }).catch((error) => {
-        res.send({ msg: 'server error' })
-    })
-})
+//UPDATE COMMENT
+router.put('/update-comments/:commentId', updateComment);
 
-
-
-
-router.get("/search",(req,res)=>{
-    let search = req.query.search;
-
-    Post.find({
-        $or: [
-            { title: { $regex: search } },
-        ]
-    })
-    .populate("postedBy","_id username")
-        .then((result) => {
-            res.send({ msg: "find success", post: result });
-        })
-        .catch((err) => {
-            res.send({ msg: "server errorr" });
-        });
-})
+//SEARCH THE POST ON THE BASIS OF TITLE
+router.get("/search",search)
 
 module.exports = router;
