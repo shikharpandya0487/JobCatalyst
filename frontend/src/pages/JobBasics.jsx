@@ -65,7 +65,7 @@ const JobBasics = () => {
            Go Back
           </button>
         </Link>
-        <Link to="/details">
+        <Link to="/job-post">
           <button
             className=" order-last  px-6 py-2 mt-4 ml-10 mr-10 md:ml-10 mr-10 w-28 md:w-30 text-lg md:text-lg text-black whitespace-nowrap bg-blue-500 rounded-xl md:rounded-3xl"
             onClick={handleCreate}

@@ -10,8 +10,8 @@ import UserPage from './pages/userPage.jsx';
 import AddPost from './components/AddPost.js';
 import CompanyPage from './pages/CompanyPage.jsx';
 import JobBasics from './pages/JobBasics.jsx';
-import DetailsOfJob from './pages/DetailsOfJob.jsx';
 import JobPost from './pages/Job_post.jsx';
+import SalaryPage from './pages/SalaryPage.jsx';
 function App() {
  
   return (
@@ -25,8 +25,8 @@ function App() {
      <Route path="/add-post" element={<AddPost/>}/>
      <Route path="/companies" element={<CompanyPage/>}/>
      <Route path="/job-basics" element={<JobBasics/>}/>
-     <Route path="/details" element={<DetailsOfJob/>}></Route>
      <Route path="/job-post" element={<JobPost/>}/>
+     <Route path="/salaries" element={<SalaryPage/>}></Route>
      </Routes>
   
     </div>
