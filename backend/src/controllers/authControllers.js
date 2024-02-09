@@ -63,7 +63,7 @@ const login=async(req,res)=>{
             });
         }
         else{
-            res.status(5001).json({message:"INVALID SERVER ERROR"});
+            res.status(501).json({message:"INVALID SERVER ERROR"});
         }
 
     }
@@ -76,7 +76,7 @@ const user=async(req,res)=>{
     try{
         const userData=req.user;
         console.log(userData);
-        return res.status(200).json({msg:userData});
+        return res.status(200).json({userData});
     }   
     catch(error){
         console.log(`Error from the user route ${error}`);
