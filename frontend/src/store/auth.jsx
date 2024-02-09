@@ -31,7 +31,7 @@ export const AuthProvider=({children})=>{
                 const data=await response.json();
                 //ab ye fetched data ko ek state varibale mein daalna padega,
                 //so that frontend mein show kar saken
-                console.log("User data");
+                console.log("User data",data.userData);
                 setUser(data.userData);
                 //ab user ke ander hmara data hoga
             }
