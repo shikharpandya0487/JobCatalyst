@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const router = express.Router();
 const {signup,login,changePass}  = require("../controllers/UserController.js");
 const requireLogin = require("../middlewares/requireLogin.js");  
