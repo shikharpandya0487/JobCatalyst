@@ -48,9 +48,8 @@ export const getComments = async (postId) => {
     // ];
   };
   
-  export const createComment = async (text, parentId ,postId) => {
+export const createComment = async (text, parentId ,postId) => {
     try {
-      // Make an API request to create a comment on the server
       const data = { text,parentId,postId };
       const headers = {
         'Content-Type': 'application/json',
@@ -63,12 +62,9 @@ export const getComments = async (postId) => {
         data:data,
         headers: headers,
       })
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      // Handle errors (e.g., network issues, server errors)
       console.error('Error creating comment:', error.message);
-      throw error; // Propagate the error to the calling code
     }
 
   //   return {

@@ -12,94 +12,46 @@ const CommunityPage = () => {
   const [search,setSearch] = useState('');
 
 
-    //DISPLAYING DATA ON COMMUNITY PAGE 
-    useEffect(() => {
-      const url = 'http://localhost:5000/api/post/get-posts'
-      axios.get(url)
-        .then((res) => {
-          if (res.data.product) {
-            setData(res.data.product);
+  //DISPLAYING DATA ON COMMUNITY PAGE 
+  useEffect(() => {
+      const fetchData = async () => {
+          const url = 'http://localhost:5000/api/post/get-posts';
+          try {
+              const response = await axios.get(url);
+              if (response.data.post) {
+                  console.log(response.data.post);
+                  setData(response.data.post);
+              }
+          } catch (error) {
+              console.error(error);
+              alert("Server error");
           }
-        }).catch((err) => {
-          alert("server err");
-        })
-    }, [])
+      };
+      fetchData();
+  }, []);
   
   
   
-  //search product on the basis of title 
-  const handleSearch = () =>{
-        const url = 'http://localhost:5000/api/post/search?search=' + search ;
-        axios.get(url)
-            .then((res) => {
-              console.log(res.data.post);
-              if(res.data.post.length !==0)
-                setData(res.data.post);
-              else 
-                alert("No result found");
-                setSearch('');                
-            }).catch((err) => {
-                alert("server err");
-            })
-  }
-  // const [data, setData] = useState([]);
-  // console.log(data);
+  
+//search product on the basis of title 
+const handleSearch = async () => {
+    const url = `http://localhost:5000/api/post/search?search=${search}`;
+    try {
+        const response = await axios.get(url);
+        console.log(response.data.post);
+        
+        if (response.data.post.length !== 0) {
+            setData(response.data.post);
+        } else {
+            alert("No result found");
+        }
+        setSearch('');
+    } catch (error) {
+        console.error(error);
+        alert("Server error");
+    }
+};
 
- // DISPLAYING DATA ON COMMUNITY PAGE 
-  // useEffect(() => {
-  //   const url = 'http://localhost:5000/api/post/get-posts'
-  //   axios.get(url)
-  //     .then((res) => {
-  //       if (res.data.product) {
-  //         setData(res.data.product);
-  //       }
-  //     }).catch((err) => {
-  //       alert("server err");
-  //     })
-  // }, [])
-
-//   const data = [
-//     {
-//       title: "SDE INTERVIEW Experience : Apple",
-//       company: "Apple",
-//       position: " Position: SDE1",
-//       location: " Location: Pune",
-//       jobType: " job Type: Full Time",
-//       salary: " Salary Offer: 2L/MONTH",
-//       description:
-//         "looking to work long-term with a determined video editor who has experience in talking head Youtube videos.Please attach your top 3 talking head edits to the cover letter ,and i will take a look .For the budget I pay anywhere from 5-12/minutes of footage ,depending on the depth of editing You must speak good English and complete video edits withim 48-72 hours ",
-//       tags: ["Tag1", "Tag2"],
-//       image: "",
-//       posted: " Posted: 1 Hour ago",
-//     },
-//     {
-//       title: "Rejection Experience : INTERVIEW",
-//       company: "Apple",
-//       position: " Position: SDE1",
-//       location: " Location: Pune",
-//       jobType: " job Type: Full Time",
-//       salary: "Salary Offer: 2L/MONTH",
-//       description:
-//         "looking to work long-term with a determined video editor who has experience in talking head Youtube videos.Please attach your top 3 talking head edits to the cover letter ,and i will take a look .For the budget I pay anywhere from 5-12/minutes of footage ,depending on the depth of editing You must speak good English and complete video edits withim 48-72 hours ",
-//       tags: ["Tag1", "Tag2"],
-//       image: "",
-//       posted: " Posted: 1 Hour ago",
-//     },
-//     {
-//       title: "SDE INTERVIEW Experience : Apple",
-//       company: "Apple",
-//       position: " Position: SDE1",
-//       location: " Location: Pune",
-//       jobType: " job Type: Full Time",
-//       salary: " Salary Offer: 2L/MONTH",
-//       description:
-//         "looking to work long-term with a determined video editor who has experience in talking head Youtube videos.Please attach your top 3 talking head edits to the cover letter ,and i will take a look .For the budget I pay anywhere from 5-12/minutes of footage ,depending on the depth of editing You must speak good English and complete video edits withim 48-72 hours ",
-//       tags: ["Tag1", "Tag2"],
-//       image: "",
-//       posted: " Posted: 1 Hour ago",
-//     },
-//   ];
-// >>>>>>> f0d60da5858689b9ac0fdcb0cef97e00a56ab2ab
 
 
   const stories = [
@@ -186,7 +138,7 @@ const CommunityPage = () => {
                 tags={item.tag}
                 // image={item.image}
                 posted={moment(item.createdAt).fromNow()}
-                // postedBy={item.postedBy.username}
+                postedBy={item.postedBy.username}
                 id={item._id}
                 post={item}
               />

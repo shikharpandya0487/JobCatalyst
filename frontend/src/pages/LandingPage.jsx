@@ -35,22 +35,22 @@ function LandingPage() {
   }
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const url = 'http://localhost:5000/api/auth/login';
     const data = { email, password };
-    axios.post(url, data)
-      .then((res) => {
+    try {
+        const response = await axios.post(url, data);
         navigate('/community');
-          localStorage.setItem('token',res.data.token);
-          localStorage.setItem('userId',res.data.user);
-      }).catch((error) => {
-        console.log(error);
-      })
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userId', response.data.user);
+    } catch (error) {
+        console.error(error);
+    }
+    setEmail('');
+    setPassword('');
+};
 
-    setEmail('')
-    setPassword('') 
-  };
     
 
   //LOGIN WITH GOOGLE

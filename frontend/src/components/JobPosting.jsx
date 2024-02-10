@@ -32,150 +32,28 @@ const JobPosting = ({
     setExpanded(!expanded);
   };
 
-  // useEffect(() => {
-  //   const url = 'http://localhost:5000/api/post/get-posts'
-  //   axios.get(url)
-  //     .then((res) => {
-  //       if (res.data.product) {
-  //         console.log("refresh");
-  //       }
-  //     }).catch((err) => {
-  //       alert("server err");
-  //     })
-  // }, [refresh])
-
 
   //LIKE POST 
-  const likePost = (id) => {
+  const handleReaction = async (urlEndpoint, id) => {
     const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'http://localhost:5000/api/post/like-post';
-    const data = { postId: id }
-    axios({
-      method: 'put',
-      url: url,
-      data: data,
-      headers: headers,
-    })
-      .then((res) => {
-        console.log("liked");
+    const url = `http://localhost:5000/api/post/${urlEndpoint}`;
+    const data = { postId: id };
+    try {
+        const response = await axios({
+            method: 'put',
+            url: url,
+            data: data,
+            headers: headers,
+        });
+        console.log("Action successful");
         setRefresh(!refresh);
-      }).catch((err) => {
-        console.log("server err", err);
-      })
-  }
-
-  //DISLIKE POST
-  const dislikePost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-    const url = 'http://localhost:5000/api/post/dislike-post';
-    const data = { postId: id }
-    axios({
-      method: 'put',
-      url: url,
-      data: data,
-      headers: headers,
-    })
-      .then((res) => {
-        console.log("liked");
-        setRefresh(!refresh);
-      }).catch((err) => {
-        console.log("server err", err);
-      })
-  }
-
-  //react heart on a post 
-  const heartPost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-    const url = 'http://localhost:5000/api/post/heart-post';
-    const data = { postId: id }
-    axios({
-      method: 'put',
-      url: url,
-      data: data,
-      headers: headers,
-    })
-      .then((res) => {
-        console.log("liked");
-        setRefresh(!refresh);
-      }).catch((err) => {
-        console.log("server err", err);
-      })
-  }
-
-  //disheart POST
-  const disHeartPost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-    const url = 'http://localhost:5000/api/post/unheart-post';
-    const data = { postId: id }
-    axios({
-      method: 'put',
-      url: url,
-      data: data,
-      headers: headers,
-    })
-      .then((res) => {
-        console.log("liked");
-        setRefresh(!refresh);
-      }).catch((err) => {
-        console.log("server err", err);
-      })
-  }
-
-  //congrats on a POST 
-  const congratsPost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-    const url = 'http://localhost:5000/api/post/cong-post';
-    const data = { postId: id }
-    axios({
-      method: 'put',
-      url: url,
-      data: data,
-      headers: headers,
-    })
-      .then((res) => {
-        console.log("liked");
-        setRefresh(!refresh);
-      }).catch((err) => {
-        console.log("server err", err);
-      })
-  }
-
-  //discongrats POST
-  const disCongratsPost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-    const url = 'http://localhost:5000/api/post/discong-post';
-    const data = { postId: id }
-    axios({
-      method: 'put',
-      url: url,
-      data: data,
-      headers: headers,
-    })
-      .then((res) => {
-        console.log("liked");
-        setRefresh(!refresh);
-      }).catch((err) => {
-        console.log("server err", err);
-      })
-  }
+    } catch (err) {
+        console.log("Server error", err);
+    }
+};
 
   const userId = localStorage.getItem('userId');
 
@@ -188,9 +66,10 @@ const JobPosting = ({
         {/* <img src={image} alt={company} className="w-12 h-12 mr-4" /> */}
         <IoPersonCircleSharp className="w-12 h-12 mr-4" />
         <div>
-          <p className="text-gray-700 text-sm">{posted}</p>
           <h3 className="text-2xl font-normal pt-2">{title}</h3>
-          {/* <h6 className="text-gray-700 text-sm">Posted by: {postedBy}</h6> */}
+          <h6 className="text-gray-700 text-sm">Posted by: {postedBy}</h6>
+          <p className="text-gray-700 text-sm">{posted}</p>
+
         </div>
         <div className="pl-10 pr-10">
 
@@ -244,27 +123,27 @@ const JobPosting = ({
           {
             post.likes.find((id) => id == userId)
               ?
-              <FaThumbsUp onClick={() => dislikePost(id)} />
+              <FaThumbsUp onClick={(id) => handleReaction('dislike-post', id)} />
               :
-              <FaRegThumbsUp onClick={() => likePost(id)} />
+              <FaRegThumbsUp onClick={(id) => handleReaction('like-post', id)} />
           }
           <h5>{post.likes.length} Likes</h5>
 
           {
             post.heart.find((id) => id == userId)
               ?
-              <FaHeart onClick={() => disHeartPost(id)} />
+              <FaHeart onClick={(id) => handleReaction('unheart-post', id)} />
               :
-              <CiHeart onClick={() => heartPost(id)} />
+              <CiHeart onClick={ (id) => handleReaction('heart-post', id)} />
           }
           <h5>{post.heart.length} Likes</h5>
 
           {
             post.congrats.find((id) => id == userId)
               ?
-              <FaHandsClapping onClick={() => disCongratsPost(id)} />
+              <FaHandsClapping onClick={(id) => handleReaction('discong-post', id)} />
               :
-              <PiHandsClapping onClick={() => congratsPost(id)} />
+              <PiHandsClapping onClick={ (id) => handleReaction('cong-post', id)} />
           }
           <h5>{post.congrats.length} Likes</h5>
       </div>

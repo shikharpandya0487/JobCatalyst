@@ -1,11 +1,10 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const jwtSecret = "hudhfpwidfhbcekdj";
+const jwt = require('jsonwebtoken')
+const jwtSecret = process.env.JWT_SECRET_KEY;
 const User = require("../models/User");
 
 
-//  signup 
-module.exports.signup =  async (req, res) => {
+const signup =  async (req, res) => {
     const { username, email, password } = req.body;
     try {
         if (!email || !username || !password) {
@@ -33,8 +32,7 @@ module.exports.signup =  async (req, res) => {
     }
 }
 
-//login
-module.exports.login = async (req, res) => {
+const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -48,10 +46,7 @@ module.exports.login = async (req, res) => {
         if (!savedUser) {
             return res.status(422).json({ error: "Invalid email" });
         }
-        console.log(password);
-        console.log(savedUser.password);
         const match = await bcrypt.compare(password, savedUser.password);
-        console.log(match);
         if (match) {
             const token = jwt.sign({_id : savedUser.id},jwtSecret);
             const {_id} = savedUser;
@@ -65,9 +60,7 @@ module.exports.login = async (req, res) => {
     }
 }
 
-
-//change password
-module.exports.changePass = async(req,res)=>{
+const changePass = async(req,res)=>{
     const {currentPassword,newPassword} = req.body;
     const userr = req.user;
     const userpassword = req.user.password; 
@@ -81,7 +74,7 @@ module.exports.changePass = async(req,res)=>{
             return res.status(201).json("password change succesfully")
         }
         else {
-            console.log("password does not matched"); 
+            return res.status(401).json("password does not match")
         }
 
     } catch (error) {
@@ -89,3 +82,6 @@ module.exports.changePass = async(req,res)=>{
         res.status(500).json({ error: "Internal Server Error" });
     }
     }
+
+    
+module.exports = {signup,login,changePass} 

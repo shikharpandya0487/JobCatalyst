@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
-import { useAuth } from "../store/auth";
+// import { useAuth } from "../store/auth";
 import { useNavigate } from "react-router-dom";
+
 
 const LoginForm = (props) => {
   const [user, setUser] = useState({
@@ -13,7 +15,7 @@ const LoginForm = (props) => {
   });
 
   const navigate = useNavigate();
-  const { storetockenInLS } = useAuth(); //using contextapi to store the jwt token in local storage
+  // const { storetockenInLS } = useAuth(); //using contextapi to store the jwt token in local storage
 
   const handleChange = (e) => {
     let name = e.target.name;
@@ -25,38 +27,21 @@ const LoginForm = (props) => {
   };
 
   const handleSubmit = async (e) => {
-    //form default behaviour->refresh the page
-    e.preventDefault(); //preventing the default behavior which is reloading the page
+    e.preventDefault();
+    const url = 'http://localhost:5000/api/auth/login';
+    const data = user;
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
-
-      const res_data = await response.json();
-
-      if (response.ok) {
-        toast.success("LOGIN SUCCESS");
-        storetockenInLS(res_data.tocken); // Fix typo in variable name "tocken" to "token"
-        console.log("Res from server", res_data);
-        setUser({
-          email: "",
-          password: "",
-        });
-        navigate("/");
-      } else {
-        toast.error(
-          res_data.extraDetails ? res_data.extraDetails : res_data.message
-        );
-      }
-      console.log(response);
+        const response = await axios.post(url, data);
+        navigate('/community');
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userId', response.data.user);
     } catch (error) {
-      console.log("Login", error);
+        console.log(error.response.data.error);
     }
-  };
+    setUser({});
+    props.onHide();
+};
+
 
   return (
     <Modal

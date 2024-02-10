@@ -1,151 +1,179 @@
 const Post = require("../models/Post.js");
 const Comment = require("../models/Comment.js");
 
-module.exports.createPost = (req,res)=>{
-    const { company,title,description,tag,position,salary,location,jobtype,postedBy } = req.body;
-    if(!company || !title || !description || !position || !salary || !location || !jobtype)
-    {
-        return res.status(422).json({error:"please enter all the feilds"});
-    }
-    const post = new Post({
-        company,
-        title,
-        description,
-        tag,
-        position,
-        salary,
-        location,
-        jobtype,
-        postedBy: req.user
-    })
-    post.save()
-    .then((result) => {
-        const createdAt = new Date(result.createdAt); 
-        const localCreatedAt = createdAt.toLocaleString();
-        return res.json({ message: "Posted Successfully", post: result, time: localCreatedAt })
-    }).catch(err => console.log(err))
+const createPost = async (req, res) => {
+  try {
+      const { company, title, description, tag, position, salary, location, jobtype, postedBy } = req.body;
+      if (!company || !title || !description || !position || !salary || !location || !jobtype) {
+          return res.status(422).json({ error: "Please enter all the fields" });
+      }
 
-}
+      const post = new Post({
+          company,
+          title,
+          description,
+          tag,
+          position,
+          salary,
+          location,
+          jobtype,
+          postedBy: req.user
+      });
 
-module.exports.getPosts = (req,res)=>{
-    Post.find()
-        .populate("postedBy","_id username")
-        .then((result) => {
-            res.json({ msg: "find success", product: result });
-        })
-        .catch((err) => {
-            res.send({ msg: "server error" });
-        });
-}
+      const result = await post.save();
+      const createdAt = new Date(result.createdAt);
+      const localCreatedAt = createdAt.toLocaleString();
 
-module.exports.likePost = (req,res)=>{
-    let postId = req.body.postId;
-    let userId = req.user._id;
-    console.log(postId,userId);
-    Post.findByIdAndUpdate( postId ,{
-        $push:{likes:userId}
-    },{
-        new:true
-    }).then(() => {
-        res.send({ msg: "liked sucessfully" })
-    }).catch((error) => {
-        res.send({ msg: 'server error' })
-    })
-}
+      return res.json({ message: "Posted Successfully", post: result, time: localCreatedAt });
+  } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
-module.exports.dislikePost = (req,res) => {
-    let postId = req.body.postId;
-    let userId = req.user._id;
-    console.log(postId,userId);
-    Post.findByIdAndUpdate( postId ,{
-        $pull:{likes:userId}
-    },{
-        new:true
-    }).then(() => {
-        res.send({ msg: "dislike sucessfully" })
-    }).catch((error) => {
-        res.send({ msg: 'server error' })
-    })
-}
 
-module.exports.heart = (req,res)=>{
-  let postId = req.body.postId;
-  let userId = req.user._id;
-  console.log(postId,userId);
-  Post.findByIdAndUpdate( postId ,{
-      $push:{heart:userId}
-  },{
-      new:true
-  }).then(() => {
-      res.send({ msg: "liked sucessfully" })
-  }).catch((error) => {
-      res.send({ msg: 'server error' })
-  })
-}
+const getPosts = async (req, res) => {
+  try {
+      const result = await Post.find().populate("postedBy", "_id username");
+      res.json({ msg: "Find success", post: result });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ msg: "Server error" });
+  }
+};
 
-module.exports.disheart =(req,res)=>{
-  let postId = req.body.postId;
-  let userId = req.user._id;
-  console.log(postId,userId);
-  Post.findByIdAndUpdate( postId ,{
-      $pull:{heart:userId}
-  },{
-      new:true
-  }).then(() => {
-      res.send({ msg: "dislike sucessfully" })
-  }).catch((error) => {
-      res.send({ msg: 'server error' })
-  })
-}
+const likePost = async (req, res) => {
+  try {
+      const postId = req.body.postId;
+      const userId = req.user._id;
+      console.log(postId, userId);
 
-module.exports.congrats = (req,res)=>{
-  let postId = req.body.postId;
-  let userId = req.user._id;
-  console.log(postId,userId);
-  Post.findByIdAndUpdate( postId ,{
-      $push:{congrats:userId}
-  },{
-      new:true
-  }).then(() => {
-      res.send({ msg: "liked sucessfully" })
-  }).catch((error) => {
-      res.send({ msg: 'server error' })
-  })
-}
+      await Post.findByIdAndUpdate(postId, {
+          $push: { likes: userId }
+      }, {
+          new: true
+      });
 
-module.exports.discongrats = (req,res)=>{
-  let postId = req.body.postId;
-  let userId = req.user._id;
-  console.log(postId,userId);
-  Post.findByIdAndUpdate( postId ,{
-      $pull:{congrats:userId}
-  },{
-      new:true
-  }).then(() => {
-      res.send({ msg: "dislike sucessfully" })
-  }).catch((error) => {
-      res.send({ msg: 'server error' })
-  })
-}
+      res.json({ msg: "Liked successfully" });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' });
+  }
+};
 
-module.exports.search= (req,res)=>{
-    let search = req.query.search;
+const dislikePost = async (req, res) => {
+  try {
+      const postId = req.body.postId;
+      const userId = req.user._id;
+      console.log(postId, userId);
 
-    Post.find({
-        $or: [
-            { title: { $regex: search } },
-        ]
-    })
-    .populate("postedBy","_id username")
-        .then((result) => {
-            res.send({ msg: "find success", post: result });
-        })
-        .catch((err) => {
-            res.send({ msg: "server errorr" });
-        });
-}
+      await Post.findByIdAndUpdate(postId, {
+          $pull: { likes: userId }
+      }, {
+          new: true
+      });
 
-module.exports.createComment =  async (req, res) => {
+      res.json({ msg: "Disliked successfully" });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+const heart = async (req, res) => {
+  try {
+      const postId = req.body.postId;
+      const userId = req.user._id;
+      console.log(postId, userId);
+
+      await Post.findByIdAndUpdate(postId, {
+          $push: { heart: userId }
+      }, {
+          new: true
+      });
+
+      res.json({ msg: "Hearted successfully" });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+const disheart = async (req, res) => {
+  try {
+      const postId = req.body.postId;
+      const userId = req.user._id;
+      console.log(postId, userId);
+
+      await Post.findByIdAndUpdate(postId, {
+          $pull: { heart: userId }
+      }, {
+          new: true
+      });
+
+      res.json({ msg: "Disliked successfully" });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+const congrats = async (req, res) => {
+  try {
+      const postId = req.body.postId;
+      const userId = req.user._id;
+      console.log(postId, userId);
+
+      await Post.findByIdAndUpdate(postId, {
+          $push: { congrats: userId }
+      }, {
+          new: true
+      });
+
+      res.json({ msg: "Congratulated successfully" });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+const discongrats = async (req, res) => {
+  try {
+      const postId = req.body.postId;
+      const userId = req.user._id;
+      console.log(postId, userId);
+
+      await Post.findByIdAndUpdate(postId, {
+          $pull: { congrats: userId }
+      }, {
+          new: true
+      });
+
+      res.json({ msg: "Disliked successfully" });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+const search = async (req, res) => {
+  try {
+      const searchTerm = req.query.search;
+
+      const result = await Post.find({
+          $or: [
+              { title: { $regex: searchTerm, $options: 'i' } }, // Case-insensitive search
+          ]
+      }).populate("postedBy", "_id username");
+
+      res.json({ msg: "Find success", post: result });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+const createComment =  async (req, res) => {
     try {
       userId = req.user._id;
       const { postId, text, parentCommentId } = req.body; 
@@ -180,7 +208,7 @@ module.exports.createComment =  async (req, res) => {
     }
 };
   
-module.exports.getComments = async (req, res) => {  
+const getComments = async (req, res) => {  
     try {
         const postId = req.params.postId;
         if (!postId) {
@@ -190,12 +218,12 @@ module.exports.getComments = async (req, res) => {
           const post = await Post.findById(postId).populate({
             path: 'comments',
             populate: {
-              path: 'user', // Populate the user details for each comment
-              select: 'username', // Select the fields you want to include
+              path: 'user', 
+              select: 'username', 
             },
           }).populate({
             path: 'comments',
-            populate: { path: 'replies' }, // Populate the replies for each comment
+            populate: { path: 'replies' }, 
           });
       
           if (!post) {
@@ -211,7 +239,7 @@ module.exports.getComments = async (req, res) => {
         }
 };
 
-module.exports.deleteComment = async (req, res) => {
+const deleteComment = async (req, res) => {
     try {
       const commentId = req.params.commentId;
       const comment = await Comment.findById(commentId);
@@ -232,7 +260,7 @@ module.exports.deleteComment = async (req, res) => {
         // If it's a parent comment, remove it from the post's comments array
         console.log(comment.post)
         const post = await Post.findByIdAndUpdate(
-          comment.post, // Assuming you have a 'post' field in the Comment model referencing the Post
+          comment.post, 
           { $pull: { comments: commentId } },
           { new: true }
         );
@@ -242,7 +270,6 @@ module.exports.deleteComment = async (req, res) => {
         }
       }
   
-        // Delete the comment
         await comment.deleteOne();
   
       res.status(200).json({ message: 'Comment deleted successfully' });
@@ -252,7 +279,7 @@ module.exports.deleteComment = async (req, res) => {
     }
 };
 
-module.exports.updateComment = async (req, res) => {
+const updateComment = async (req, res) => {
     try {
       const commentId = req.params.commentId;
       const { text } = req.body;
@@ -262,11 +289,10 @@ module.exports.updateComment = async (req, res) => {
         return res.status(404).json({ error: 'Comment not found' });
       }
   
-      // Update the text of the comment
       comment.text = text;
       await comment.save();
   
-      // Update the text of all replies
+      
       await Comment.updateMany({ parentComment: commentId }, { $set: { text } });
   
       res.status(200).json({ message: 'Comment updated successfully' });
@@ -276,3 +302,5 @@ module.exports.updateComment = async (req, res) => {
     }
 };
   
+
+module.exports = {createPost,getPosts,likePost,dislikePost,heart,disheart,congrats,discongrats,search,createComment,getComments,deleteComment,updateComment}
