@@ -4,6 +4,7 @@ import ContactInfo from "../components/ContactInfo";
 import MyTeams from "../components/MyTeams";
 import PasswordAndSecurity from "../components/Password&Security";
 import NotificationandSetting from "../components/NotificationandSetting";
+import {useAuth} from "../store/auth"
 const UserSettings = () => {
     const [showUserProfile,setShowUserProfile] = useState(true);
     const [showContactInfo,setShowContactInfo] = useState(false);
@@ -47,7 +48,7 @@ const UserSettings = () => {
     }
 
 
-    
+    const {user}=useAuth();
 
   return (
     <section className="flex flex-col items-start justify-start py-4 px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-32">
