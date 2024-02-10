@@ -8,16 +8,18 @@ const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 
 const authrouter=require("../backend/src/Routes/auth.js")
 const postrouter=require("../backend/src/Routes/post.js")
+// const commentrouter=require("../backend/src/Routes/comment.js")
 
 //Importing the routers 
 const connectDb = require("./src/database/Connection.js");
-const User = require("./src/models/User.js");
-const post = require("./src/models/Post.js");
-app.use(cors())
-app.use(express.json()); 
+
 
 const googleUser = require("./src/models/GoogleUser")
 require("./src/models/User.js")
+
+
+app.use(cors())
+app.use(express.json()); 
 
 //google login client id and secret 
 const clientid = "183771193647-f0ba9rv1tmtld2jmcite1cpjccr2sqrc.apps.googleusercontent.com"
@@ -25,6 +27,8 @@ const clientsecret = "GOCS PX-zyHLvrKTJsyQGjkiy2Mb_Eq401e3"
 
 app.use("/api/auth",authrouter);  
 app.use("/api/post",postrouter);  
+// app.use("/api/comment",commentrouter);  
+
 
 app.use(cors({  
     origin:"http://localhost:3000", 

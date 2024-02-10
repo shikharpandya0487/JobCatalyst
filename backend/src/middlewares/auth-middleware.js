@@ -2,6 +2,7 @@
 //when the jwt tocken then only user data will become acessible
 const jwt=require("jsonwebtoken")
 const User=require("../models/User") 
+
 const authMiddleware=async (req,res,next)=>{
     const token=req.header("Authorization");
     if(!token){

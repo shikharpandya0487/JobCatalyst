@@ -3,9 +3,9 @@ import CommentsForm from './CommentsForm';
 
 
 const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setActiveComment,addComment,parentId=null,updateComment}) => {
-    console.log(comment);
+    // console.log(comment);
     const canReply=Boolean(currentUserId)
-    
+    console.log(comment)
     
     // diabling the edit or delete of comment after 5min of formation 
    // diabling the edit or delete of comment after 5min of formation 
@@ -25,9 +25,6 @@ const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setA
 
     const replyId=parentId?parentId:comment.id 
 
-     console.log(canDelete);
-
-     console.log(canEdit);
     return (
         
     <div className='comment w-full'>
@@ -39,7 +36,7 @@ const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setA
             <div className='comment-content'>
                 {/* Author  */}
                 <div className='comment-author'>
-                    {comment.username}
+                    {comment.user.username}
                 </div>
               
                  {/* creationg time  */}
@@ -51,7 +48,7 @@ const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setA
             {/* main text  */}
                   { !isEditing &&
                   <div className='comment-text'>
-                      {comment.body}
+                      {comment.text}
                   </div>
                   }
 
@@ -67,9 +64,9 @@ const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setA
                     )
                   }
 
-             <div className="comment-actions">
+              <div className="comment-actions">
                   { // I Have to make it to && but due to error I have kept it as or ||
-                  canReply &&<div className="comment-action" onClick={()=>setActiveComment({id:comment.id,type:"replying"})}>Reply</div>}
+                canReply &&<div className="comment-action" onClick={()=>setActiveComment({id:comment.id,type:"replying"})}>Reply</div>}
                 { canEdit || <div className="comment-action" onClick={()=>setActiveComment({id:comment.id,type:"editing"})}>Edit</div>}
                 { canDelete ||  <div className="comment-action" onClick={()=>deleteComment(comment.id)}>Delete</div>}
              </div>
@@ -82,11 +79,6 @@ const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setA
                handleSubmit={(text)=>addComment(text,replyId)}
               />
              )}
-
-             
-
-
-
 
              {replies.length>0 && 
                 <div className='replies'>

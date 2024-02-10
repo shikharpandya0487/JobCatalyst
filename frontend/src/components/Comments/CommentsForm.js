@@ -9,9 +9,10 @@ const CommentsForm = ({submitLabel,hasCancelButton,initialText='',handleSubmit,h
     e.preventDefault();
     //To prevent form from getting submitted on it's own
     handleSubmit(text)
-    setText("")
+    setText("") 
 
-   }
+  }
+  
   return (
     <form onSubmit={onSubmit}>
       <textarea className='comment-form-textarea' 

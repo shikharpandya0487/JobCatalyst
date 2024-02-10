@@ -36,6 +36,15 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     }],
+    heart:[{
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }],
+    congrats:[{
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }],
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
     postedBy: {
         type: Schema.Types.ObjectId,
         ref: "User"

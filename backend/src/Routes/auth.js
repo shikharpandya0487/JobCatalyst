@@ -1,11 +1,17 @@
 const express = require("express");
 const router = express.Router();
-//fetching the authController
-const authcontrollers=require("../controllers/authControllers");
-const authMiddleware=require("../middlewares/auth-middleware");
-router.route("/").get(authcontrollers.home);
+const usercontroller = require("../controllers/UserController.js");
+const requireLogin = require("../middlewares/requireLogin.js");  
 
-router.route("/signup").post(authcontrollers.signup)
-router.route("/login").post(authcontrollers.login);
-router.route("/user").get(authMiddleware,authcontrollers.user);
+ 
+router.get('/', (req, res) => {
+    res.send("Hello");
+});
+
+router.post("/signup",usercontroller.signup);
+
+router.post("/login",usercontroller.login);
+   
+router.post("/change-password",requireLogin,usercontroller.changePass)
+
 module.exports = router;
