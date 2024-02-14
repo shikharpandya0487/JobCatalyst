@@ -29,13 +29,6 @@ app.use("/api/auth",authrouter);
 app.use("/api/post",postrouter);  
 app.use("/api/resume",resumerouter);
 
-app.use(express.static("./build"));
-
-// app.use(express.static(path.join(__dirname, '../client/build')));
-
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, '../myJobCatalyst/client/build', 'index.html'));
-// });
 
 
 app.use(cors({  

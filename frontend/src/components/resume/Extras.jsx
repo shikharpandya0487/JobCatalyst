@@ -4,14 +4,15 @@ const Extras = ({ formData, setFormData }) => {
   return (
     <div>
       <form>
-        <h3>Languages you can speak:</h3>
+        <h4>Languages you can speak</h4>
         <div>
-          <label for="name">
-            Languages
+          <label for="name" className="font-semibold mt-2">
+            Languages:
           </label>
           <input
             type="text"
             id="name"
+            className="rounded-2xl ml-2"
             value={formData.extra_1}
             onChange={(e) => {
               setFormData({ ...formData, extra_1: e.target.value });
@@ -20,14 +21,15 @@ const Extras = ({ formData, setFormData }) => {
         </div>
 
         <hr />
-        <h3>Things you like to do:</h3>
+        <h4>Things you like to do:</h4>
         <div>
-          <label for="name">
-            Hobbies
+          <label for="name" className="font-semibold mt-2">
+            Hobbies:
           </label>
           <input
             type="text"
             id="name"
+            className="rounded-2xl ml-2"
             value={formData.extra_2}
             onChange={(e) => {
               setFormData({ ...formData, extra_2: e.target.value });
