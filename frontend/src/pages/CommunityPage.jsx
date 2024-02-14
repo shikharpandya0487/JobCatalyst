@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
 import moment from 'moment';
-import Stories from '../components/Stories';
-import JobPosting from '../components/JobPosting';
-import EmployerSpotlight from '../components/EmployerSpotlight';
+import Stories from '../components/community/Stories';
+import JobPosting from '../components/community/JobPosting';
+import EmployerSpotlight from '../components/community/EmployerSpotlight';
 
 const CommunityPage = () => {
 
   const [data, setData] = useState([]);
   const [search,setSearch] = useState('');
-
+   
 
   //DISPLAYING DATA ON COMMUNITY PAGE 
   useEffect(() => {
@@ -136,7 +136,7 @@ const handleSearch = async () => {
                 salary={item.salary}
                 description={item.description}
                 tags={item.tag}
-                // image={item.image}
+                image={item.imgPath}
                 posted={moment(item.createdAt).fromNow()}
                 postedBy={item.postedBy.username}
                 id={item._id}

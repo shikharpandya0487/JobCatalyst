@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../store/auth";
+import { useAuth } from "../../store/auth";
 
 const UserProfileInfo = () => {
   // const [userData, setUserData] = useState({});

@@ -7,7 +7,7 @@ import './index.js'
 import CommunityPage from './pages/CommunityPage.jsx';
 import Job from './pages/Job.jsx';
 import UserPage from './pages/userPage.jsx';
-import AddPost from './components/AddPost.js';
+import AddPost from './components/community/AddPost.js';
 import CompanyPage from './pages/CompanyPage.jsx';
 import JobBasics from './pages/JobBasics.jsx';
 import JobPost from './pages/Job_post.jsx';

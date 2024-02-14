@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar.jsx";
 import data from "../components/DummyData/Data.json";
-import JobPosting from "../components/JobPosting.jsx";
+import JobPosting from "../components/community/JobPosting.jsx";
 import ForCompanies from "../components/ForCompanies.jsx";
 
 function Job() {
