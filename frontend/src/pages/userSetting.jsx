@@ -1,9 +1,10 @@
 import React,{useState} from "react";
-import UserProfileInfo from "../components/userProfileInfo";
-import ContactInfo from "../components/ContactInfo";
-import MyTeams from "../components/MyTeams";
-import PasswordAndSecurity from "../components/Password&Security";
-import NotificationandSetting from "../components/NotificationandSetting";
+import UserProfileInfo from "../components/settings/userProfileInfo";
+import ContactInfo from "../components/settings/ContactInfo";
+import MyTeams from "../components/settings/MyTeams";
+import PasswordAndSecurity from "../components/settings/Password&Security";
+import NotificationandSetting from "../components/settings/NotificationandSetting";
+import ResumeSetting from "../components/resume/Form"
 import {useAuth} from "../store/auth"
 const UserSettings = () => {
     const [showUserProfile,setShowUserProfile] = useState(true);
@@ -11,12 +12,14 @@ const UserSettings = () => {
     const [showMyTeams,setShowMyTeams] = useState(false);
     const [showSetting,setShowSetting] = useState(false);
     const [showNotification,setShowNotification] = useState(false);
+    const [showResume,setShowResume] = useState(false);
     const showMyProfile = () => {
         setShowUserProfile(true);
         setShowContactInfo(false);
         setShowMyTeams(false);
         setShowSetting(false);
         setShowNotification(false);
+        setShowResume(false);
     }
     const showContactInformation = () => {
         setShowUserProfile(false);
@@ -24,6 +27,7 @@ const UserSettings = () => {
         setShowMyTeams(false);
         setShowSetting(false);
         setShowNotification(false);
+        setShowResume(false);
     }
     const showMyTeamInfo = () => {
         setShowUserProfile(false);
@@ -31,6 +35,7 @@ const UserSettings = () => {
         setShowMyTeams(true);
         setShowSetting(false);
         setShowNotification(false);
+        setShowResume(false);
     }
     const showMyTeamSetting = () => {
         setShowUserProfile(false);
@@ -38,6 +43,7 @@ const UserSettings = () => {
         setShowMyTeams(false);
         setShowSetting(true);
         setShowNotification(false);
+        setShowResume(false);
     }
     const showNotificationmethod = () => {
         setShowUserProfile(false);
@@ -45,7 +51,16 @@ const UserSettings = () => {
         setShowMyTeams(false);
         setShowSetting(false);
         setShowNotification(true);
+        setShowResume(false);
     }
+    const showResumemethod = () => {
+      setShowUserProfile(false);
+      setShowContactInfo(false);
+      setShowMyTeams(false);
+      setShowSetting(false);
+      setShowNotification(false);
+      setShowResume(true);
+  }
 
 
     const {user}=useAuth();
@@ -118,7 +133,7 @@ const UserSettings = () => {
                       style={{ width: "3px" ,height:'30px',backgroundColor:'grey'}}
                       className="mr-3 mb-2 bg-gray-700 h-full"
                     ></div>
-                    <p className="text-lg font-normal hover:text-green-600 transition-all">
+                    <p className="text-lg font-normal hover:text-green-600 transition-all"  onClick={showResumemethod}>
                       Resume
                     </p>
                   </div>
@@ -207,6 +222,14 @@ const UserSettings = () => {
           {showSetting && (
             <div className="bg-gray-100 p-4 rounded-2xl w-full">
               <PasswordAndSecurity />
+            </div>
+          )}
+        </div>
+
+        <div className={`w-full ml-20 md:ml-4 ${showResume ? "border-2 border-green-600 rounded-2xl" : ""}`}>
+          {showResume && (
+            <div >
+              <ResumeSetting />
             </div>
           )}
         </div>

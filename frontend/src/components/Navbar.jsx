@@ -57,8 +57,8 @@ function Navbar() {
                     </div>
                     :
                     <div className='flex flex-row '>
-                      <li className='text-white transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link to="/profile">Profile</Link></li>
-                      <li className='text-white transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link to="/add-post">Add Post</Link></li>
+                      <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link  style={{ textDecoration: 'none', color: 'inherit' }} to="/profile">Profile</Link></div>
+                      <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link  style={{ textDecoration: 'none', color: 'inherit' }} to="/add-post">Add Post</Link></div>
                       <button className="w-20 p-1 h-10 bg-gradient-to-b from-lime-300 via-green-700 to-lime-300 rounded-[80px] shadow text-red-500" onClick={handleLogout}> 
                       Logout
                       </button> 

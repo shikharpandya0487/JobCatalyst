@@ -4,15 +4,15 @@ const app = express();
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
+const path = require('path');
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 
 const authrouter=require("../backend/src/Routes/auth.js")
 const postrouter=require("../backend/src/Routes/post.js")
-// const commentrouter=require("../backend/src/Routes/comment.js")
+const resumerouter=require("../backend/src/Routes/resume.js")
 
 //Importing the routers 
 const connectDb = require("./src/database/Connection.js");
-
 
 const googleUser = require("./src/models/GoogleUser")
 require("./src/models/User.js")
@@ -25,9 +25,17 @@ app.use(express.json());
 const clientid = "183771193647-f0ba9rv1tmtld2jmcite1cpjccr2sqrc.apps.googleusercontent.com"
 const clientsecret = "GOCS PX-zyHLvrKTJsyQGjkiy2Mb_Eq401e3"
 
-app.use("/api/auth",authrouter);  
+app.use("/api/auth",authrouter);   
 app.use("/api/post",postrouter);  
-// app.use("/api/comment",commentrouter);  
+app.use("/api/resume",resumerouter);
+
+app.use(express.static("./build"));
+
+// app.use(express.static(path.join(__dirname, '../client/build')));
+
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../myJobCatalyst/client/build', 'index.html'));
+// });
 
 
 app.use(cors({  

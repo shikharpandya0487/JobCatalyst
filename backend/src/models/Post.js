@@ -32,6 +32,10 @@ const postSchema = new Schema({
         type:String ,
         require:true
     },
+    imgPath:{
+        type:String,
+        require:true
+    },
     likes:[{
         type: Schema.Types.ObjectId,
         ref: "User"

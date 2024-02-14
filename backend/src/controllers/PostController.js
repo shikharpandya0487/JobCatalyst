@@ -1,9 +1,18 @@
 const Post = require("../models/Post.js");
 const Comment = require("../models/Comment.js");
+const uploadToCloudinary = require("../utils/uploadOnCloudinary.utils.js")
+
 
 const createPost = async (req, res) => {
   try {
       const { company, title, description, tag, position, salary, location, jobtype, postedBy } = req.body;
+
+      const file =  req.file || {};
+      const filePath = file ? file.path:"";
+
+      //upload to cloudinary
+      const fileUpload = await uploadToCloudinary(filePath);
+
       if (!company || !title || !description || !position || !salary || !location || !jobtype) {
           return res.status(422).json({ error: "Please enter all the fields" });
       }
@@ -17,8 +26,9 @@ const createPost = async (req, res) => {
           salary,
           location,
           jobtype,
+          imgPath:fileUpload?.url||"",
           postedBy: req.user
-      });
+      }); 
 
       const result = await post.save();
       const createdAt = new Date(result.createdAt);
@@ -30,10 +40,10 @@ const createPost = async (req, res) => {
       return res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
+ 
 
 const getPosts = async (req, res) => {
-  try {
+  try { 
       const result = await Post.find().populate("postedBy", "_id username");
       res.json({ msg: "Find success", post: result });
   } catch (err) {
@@ -301,6 +311,36 @@ const updateComment = async (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
 };
+
+const deletePost = async (req,res)=>{
+
+  try {
+    const {postId}= req.body;
+      const post = await Post.findById(postId).populate({
+        path: 'postedBy',
+        populate: { path: '_id' }, 
+      });
+      if(!post)
+      {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+      const userId = post.postedBy._id;
+      if(userId.toString() !== req.user._id.toString())
+      {
+        return res.status(200).json({message:"you cannot delete this post"})
+      }
+      else {
+        await post.deleteOne();
+        res.status(200).json({ message: 'Post deleted successfully' });
+      }
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Server error' });
+  }
+  
+}
   
 
-module.exports = {createPost,getPosts,likePost,dislikePost,heart,disheart,congrats,discongrats,search,createComment,getComments,deleteComment,updateComment}
+
+
+module.exports = {createPost,getPosts,likePost,dislikePost,heart,disheart,congrats,discongrats,search,createComment,getComments,deleteComment,updateComment,deletePost}
