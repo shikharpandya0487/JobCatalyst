@@ -81,6 +81,7 @@ const Form = () => {
             const response = await axios.get("http://localhost:5000/api/resume/fetch-pdf", {
               responseType: "blob",
             });
+            console.log(response.data);
             //Process and save the PDF
             const pdfBlob = new Blob([response.data], {
               type: "application/pdf",

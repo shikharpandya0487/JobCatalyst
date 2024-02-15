@@ -68,10 +68,10 @@ module.exports = ({
               <div class="row text-center">
                   <div class="col-lg-6">
                       <h1><b>${name}</b></h1>
-                      <p class="lead email"><strong>Email:</strong> ${email}</p>
+                      <p class="lead email"><strong>Email:</strong> <a href=${email}>${email}</a></p>
                       <p class="lead"><strong>Contact:</strong> (+92)${phone}</p>
-                      <p class="lead"><strong>LinkedIn:</strong> ${linkedin}</p>
-                      <p class="lead"><strong>Github:</strong> ${github}</p>
+                      <p class="lead"><strong>LinkedIn:</strong><a href=${linkedin}>${linkedin}</a></p>
+                      <p class="lead"><strong>Github:</strong><a href=${github}>${github}</a></p>
                   </div>    
               </div>
             

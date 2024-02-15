@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const pdf = require('html-pdf');
-const pdfSample = require('../pdf-sample'); // Replace with the correct path to your pdfSample file
+const pdfSample = require('../pdf-sample'); 
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ router.post("/create-pdf", (req, res) => {
 });
 
 router.get("/fetch-pdf", (req, res) => {
-  const filePath = path.join(__dirname, '../Resume.pdf');
+  const filePath = path.join(__dirname, '../../Resume.pdf');
   res.sendFile(filePath, (err) => {
     if (err) {
       console.error(err);
@@ -25,5 +25,7 @@ router.get("/fetch-pdf", (req, res) => {
     }
   });
 });
+
+
 
 module.exports = router;
