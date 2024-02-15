@@ -4,53 +4,57 @@ const PersonalDetails = ({ formData, setFormData }) => {
   return (
     <div>
       <form>
-        <div>
-          <label for="name">
-            Name
+        <div className="mb-2">
+          <label for="name" className="font-semibold">
+            Name:
           </label>
           <input
             type="text"
             id="name"
+            className="rounded-2xl ml-2"
             value={formData.name}
             onChange={(e) => {
               setFormData({ ...formData, name: e.target.value });
             }}
           />
         </div>
-        <div>
-          <label for="Email">
-            Email
+        <div className="mb-2">
+          <label for="Email" className="font-semibold">
+            Email:
           </label>
           <input
             type="email"
             id="Email"
             value={formData.email}
+            className="rounded-2xl ml-2"
             onChange={(e) => {
               setFormData({ ...formData, email: e.target.value });
             }}
           />
         </div>
-        <div>
-          <label for="phone">
-            Phone
+        <div className="mb-2">
+          <label for="phone" className="font-semibold">
+            Phone:
           </label>
           <input
             type="text"
             id="phone"
             value={formData.phone}
+            className="rounded-2xl ml-2"
             onChange={(e) => {
               setFormData({ ...formData, phone: e.target.value });
             }}
           />
         </div>
 
-        <div className="col-12">
-          <label for="github">
-            Github
+        <div className="col-12 mb-2">
+          <label for="github" className="font-semibold">
+            Github:
           </label>
           <input
             type="text"
             id="github"
+            className="rounded-2xl ml-2"
             placeholder="https://github/YOURUSERNAME"
             value={formData.github}
             onChange={(e) => {
@@ -58,13 +62,14 @@ const PersonalDetails = ({ formData, setFormData }) => {
             }}
           />
         </div>
-        <div className="col-12">
-          <label for="LinkedIn">
-            LinkedIn
+        <div className="col-12 mb-2">
+          <label for="LinkedIn" className="font-semibold">
+            LinkedIn:
           </label>
           <input
             type="text"
             id="LinkedIn"
+            className="rounded-2xl ml-2"
             placeholder="https://linkedIn/YOURUSERNAME"
             value={formData.linkedin}
             onChange={(e) => {
@@ -72,13 +77,14 @@ const PersonalDetails = ({ formData, setFormData }) => {
             }}
           />
         </div>
-        <div className="col-12">
-          <label for="Skills">
-            Skills
+        <div className="col-12 mb-2">
+          <label for="Skills" className="font-semibold">
+            Skills:
           </label>
           <input
             type="text"
             id="Skills"
+            className="rounded-2xl ml-2 px-3"
             placeholder="Enter skills and separate each of them with a comma "
             value={formData.skills}
             onChange={(e) => {
