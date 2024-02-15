@@ -6,6 +6,7 @@ import PasswordAndSecurity from "../components/settings/Password&Security";
 import NotificationandSetting from "../components/settings/NotificationandSetting";
 import ResumeSetting from "../components/resume/Form"
 import {useAuth} from "../store/auth"
+import JobRecord from "../components/settings/JobRecord";
 const UserSettings = () => {
     const [showUserProfile,setShowUserProfile] = useState(true);
     const [showContactInfo,setShowContactInfo] = useState(false);
@@ -13,6 +14,7 @@ const UserSettings = () => {
     const [showSetting,setShowSetting] = useState(false);
     const [showNotification,setShowNotification] = useState(false);
     const [showResume,setShowResume] = useState(false);
+    const [showRecord,setShowRecord] = useState(false);
     const showMyProfile = () => {
         setShowUserProfile(true);
         setShowContactInfo(false);
@@ -20,6 +22,7 @@ const UserSettings = () => {
         setShowSetting(false);
         setShowNotification(false);
         setShowResume(false);
+        setShowRecord(false);
     }
     const showContactInformation = () => {
         setShowUserProfile(false);
@@ -28,6 +31,7 @@ const UserSettings = () => {
         setShowSetting(false);
         setShowNotification(false);
         setShowResume(false);
+        setShowRecord(false);
     }
     const showMyTeamInfo = () => {
         setShowUserProfile(false);
@@ -36,6 +40,7 @@ const UserSettings = () => {
         setShowSetting(false);
         setShowNotification(false);
         setShowResume(false);
+        setShowRecord(false);
     }
     const showMyTeamSetting = () => {
         setShowUserProfile(false);
@@ -44,6 +49,7 @@ const UserSettings = () => {
         setShowSetting(true);
         setShowNotification(false);
         setShowResume(false);
+        setShowRecord(false);
     }
     const showNotificationmethod = () => {
         setShowUserProfile(false);
@@ -52,6 +58,7 @@ const UserSettings = () => {
         setShowSetting(false);
         setShowNotification(true);
         setShowResume(false);
+        setShowRecord(false);
     }
     const showResumemethod = () => {
       setShowUserProfile(false);
@@ -60,6 +67,16 @@ const UserSettings = () => {
       setShowSetting(false);
       setShowNotification(false);
       setShowResume(true);
+      setShowRecord(false);
+  }
+    const showRecordMethod = () => {
+    setShowUserProfile(false);
+    setShowContactInfo(false);
+    setShowMyTeams(false);
+    setShowSetting(false);
+    setShowNotification(false);
+    setShowResume(false);
+    setShowRecord(true);
   }
 
 
@@ -122,9 +139,9 @@ const UserSettings = () => {
                   <div className="flex gap-1 items-center pt-2">
                     <div
                       style={{ width: "3px",height: '30px' ,backgroundColor:'grey' }}
-                      className="mr-3  mb-2 bg-gray-700 h-full"
-                    ></div>
-                    <p className="text-lg font-normal hover:text-green-600 transition-all text-center">
+                      className={`mr-3 mb-2 bg-gray-700 h-full ${showRecord ? 'border-green-700' : ''}`}
+                      ></div>
+                    <p className="text-lg font-normal hover:text-green-600 transition-all text-center" onClick={showRecordMethod}>
                       Job Record
                     </p>
                   </div>
@@ -238,6 +255,14 @@ const UserSettings = () => {
           {showNotification && (
             <div className="bg-gray-100 p-4 rounded-2xl w-full">
               <NotificationandSetting />
+            </div>
+          )}
+        </div>
+
+        <div className={`w-full ml-20 md:ml-4 ${showRecord ? "border-2 border-green-600 rounded-2xl" : ""}`}>
+          {showRecord && (
+            <div className="bg-gray-100 p-4 rounded-2xl w-full">
+              <JobRecord />
             </div>
           )}
         </div>

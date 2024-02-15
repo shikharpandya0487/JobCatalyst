@@ -29,6 +29,8 @@ app.use("/api/auth",authrouter);
 app.use("/api/post",postrouter);  
 app.use("/api/resume",resumerouter);
 
+
+
 app.use(cors({  
     origin:"http://localhost:3000", 
     methods:"GET,POST,PUT,DELETE",
