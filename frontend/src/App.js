@@ -12,6 +12,7 @@ import CompanyPage from './pages/CompanyPage.jsx';
 import JobBasics from './pages/JobBasics.jsx';
 import JobPost from './pages/Job_post.jsx';
 import SalaryPage from './pages/SalaryPage.jsx';
+import VerifyEmail from './pages/VerifyEmail.jsx';
 function App() {
  
   return (
@@ -27,6 +28,7 @@ function App() {
      <Route path="/job-basics" element={<JobBasics/>}/>
      <Route path="/job-post" element={<JobPost/>}/>
      <Route path="/salaries" element={<SalaryPage/>}></Route>
+     <Route path="/verify-email" element={<VerifyEmail/>}></Route>
      </Routes>
   
     </div>
