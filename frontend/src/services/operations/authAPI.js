@@ -8,6 +8,8 @@ const {
     SENDOTP_API,
     SIGNUP_API,
     LOGIN_API,
+    RESETPASSTOKEN_API,
+    RESETPASSWORD_API,
   } = endpoints
 
   export  function login(email, password, navigate) {
@@ -89,6 +91,8 @@ const {
         })
   
         console.log("SIGNUP API RESPONSE............", response)
+        localStorage.setItem("tocken", JSON.stringify(response.data.token))
+        localStorage.setItem("user", JSON.stringify(response.data.user))
   
         if (!response.data.success) {
           throw new Error(response.data.message)
@@ -102,5 +106,51 @@ const {
       }
       dispatch(setLoading(false))
       toast.dismiss(toastId)
+    }
+  }
+
+  export function getPasswordResetToken(email , setEmailSent) {
+    return async(dispatch) => {
+      dispatch(setLoading(true));
+      try{
+        const response = await apiConnector("POST", RESETPASSTOKEN_API, {email,})
+  
+        console.log("RESET PASSWORD TOKEN RESPONSE....", response);
+  
+        if(!response.data.success) {
+          throw new Error(response.data.message);
+        }
+  
+        toast.success("Reset Email Sent");
+        setEmailSent(true);
+      }
+      catch(error) {
+        console.log("RESET PASSWORD TOKEN Error", error);
+        toast.error("Failed to send email for resetting password");
+      }
+      dispatch(setLoading(false));
+    }
+  }
+  
+  export function resetPassword(password, confirmPassword, token) {
+    return async(dispatch) => {
+      dispatch(setLoading(true));
+      try{
+        const response = await apiConnector("POST", RESETPASSWORD_API, {password, confirmPassword, token});
+  
+        console.log("RESET Password RESPONSE ... ", response);
+  
+  
+        if(!response.data.success) {
+          throw new Error(response.data.message);
+        }
+  
+        toast.success("Password has been reset successfully");
+      }
+      catch(error) {
+        console.log("RESET PASSWORD TOKEN Error", error);
+        toast.error("Unable to reset password");
+      }
+      dispatch(setLoading(false));
     }
   }
