@@ -3,8 +3,8 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
 import { login } from "../services/operations/authAPI";
 import { useDispatch } from "react-redux";
 
@@ -84,6 +84,11 @@ const LoginForm = (props) => {
             />
           </Form.Group>
           <Button type="submit">Log In</Button>
+          <Link to="/forgot-password">
+            <p className="mt-1 ml-auto max-w-max text-xs text-blue-100">
+              Forgot Password
+            </p>
+          </Link>
         </Form>
       </Modal.Body>
     </Modal>
