@@ -104,7 +104,7 @@ function UpdatePassword() {
             </button>
           </form>
           <div className="mt-6 flex items-center justify-between">
-            <Link to="/login">
+            <Link to="/">
               <p className="flex items-center gap-x-2 text-richblack-5">
                 <BiArrowBack /> Back To Login
               </p>

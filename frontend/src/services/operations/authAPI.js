@@ -113,7 +113,7 @@ const {
     return async(dispatch) => {
       dispatch(setLoading(true));
       try{
-        const response = await apiConnector("POST", RESETPASSTOKEN_API, {email,})
+        const response = await apiConnector("POST", "http://localhost:5000/api/auth/reset-password-token", {email,})
   
         console.log("RESET PASSWORD TOKEN RESPONSE....", response);
   
@@ -136,7 +136,7 @@ const {
     return async(dispatch) => {
       dispatch(setLoading(true));
       try{
-        const response = await apiConnector("POST", RESETPASSWORD_API, {password, confirmPassword, token});
+        const response = await apiConnector("POST","http://localhost:5000/api/auth/reset-password", {password, confirmPassword, token});
   
         console.log("RESET Password RESPONSE ... ", response);
   
