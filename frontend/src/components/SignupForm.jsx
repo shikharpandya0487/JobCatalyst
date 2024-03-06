@@ -4,7 +4,13 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { sendOtp } from "../services/operations/authAPI"
+import { setSignupData } from "../slices/authSlice"
+import { toast } from "react-hot-toast"
+import { useDispatch } from "react-redux"
+
 const SignupForm = ( props ) => {
+  const dispatch = useDispatch()
   const [user,setUser]=useState({
     username:"",
     email:"",
@@ -13,39 +19,42 @@ const SignupForm = ( props ) => {
 });
 
 const navigate=useNavigate();
-
+const { username, email, password, confirmPassword } = user
 
 // const {storetockenInLS}=useAuth();
 //handling the input value
-const handleInput=(e)=>{
-    console.log(e);
-    let name=e.target.name;
-    let value=e.target.value;
-    setUser({
-        ...user, //keeping the rest of the things as same
-        [name]:value, //this name can be anything
-        //it can be username, password, email,phone number
-        //passing the dynamic value;
-    })
+const handleInput = (e) => {
+  setUser((prevData) => ({
+    ...prevData,
+    [e.target.name]: e.target.value,
+  }))
 }
 // handling the form submission
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (user.password !== user.confirmPassword) {
-    alert("Passwords don't match");
-    return;
+const handleSubmit = (e) => {
+  e.preventDefault()
+
+  if (password !== confirmPassword) {
+    toast.error("Passwords Do Not Match")
+    return
   }
-  const url = 'http://localhost:5000/api/auth/signup';
-  const data = user;
-  try {
-    const response = await axios.post(url, data);
-    navigate("/");
-  } catch (error) {
-      console.log(error.response.data.error);
+  const signupData = {
+    ...user,
   }
-  setUser({});
-  props.onHide();
-};
+
+  // Setting signup data to state
+  // To be used after otp verification
+  dispatch(setSignupData(signupData))
+  // Send OTP to user for verification
+  dispatch(sendOtp(user.email, navigate))
+
+  // Reset
+  setUser({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  })
+}
 
   return (
     <Modal

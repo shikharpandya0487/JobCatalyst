@@ -13,8 +13,15 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    token: {
+        type: String,
+    },
+    resetPasswordExpires: {
+        type: Date,
     }
-});
+},
+{ timestamps: true });
 // userSchema.methods.comparePassword= async function(password){
 //     return bcrypt.compare(password,this.password)
 // };
@@ -55,6 +62,6 @@ const userSchema = new mongoose.Schema({
 //     }
 // }
 // Export the Mongoose model
-const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+// Export the Mongoose model for the user schema, using the name "user"
+module.exports = mongoose.model("User", userSchema);

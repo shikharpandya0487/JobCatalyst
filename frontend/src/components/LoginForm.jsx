@@ -1,47 +1,51 @@
 import React, { useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-// import { useAuth } from "../store/auth";
-import { useNavigate } from "react-router-dom";
-
+import { login } from "../services/operations/authAPI";
+import { useDispatch } from "react-redux";
 
 const LoginForm = (props) => {
+  const dispatch = useDispatch();
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-
   const navigate = useNavigate();
-  // const { storetockenInLS } = useAuth(); //using contextapi to store the jwt token in local storage
+  const { email, password } = user;
 
   const handleChange = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
-    setUser({
-      ...user,
-      [name]: value, //jo bhi value hogi uske according save ho jayegi
-    });
+    setUser((prevData) => ({
+      ...prevData,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = 'http://localhost:5000/api/auth/login';
-    const data = user;
     try {
-        const response = await axios.post(url, data);
-        navigate('/community');
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', response.data.user);
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password
+      });
+      if (response.data.success) {
+        // Handle successful login
+        // For example, set token in local storage and navigate to another page
+        localStorage.setItem("token", response.data.token);
+        navigate("/community");
+      } else {
+        // Handle unsuccessful login
+        toast.error(response.data.message);
+      }
     } catch (error) {
-        console.log(error.response.data.error);
+      console.error("Login failed:", error);
+      // Handle error
+      toast.error("An error occurred while logging in. Please try again later.");
     }
-    setUser({});
-    props.onHide();
-};
-
+  };
 
   return (
     <Modal
@@ -63,7 +67,7 @@ const LoginForm = (props) => {
               type="email"
               placeholder="Enter your email"
               name="email"
-              value={user.email}
+              value={email}
               onChange={handleChange}
               required
             />
@@ -74,12 +78,17 @@ const LoginForm = (props) => {
               type="password"
               placeholder="Enter your password"
               name="password"
-              value={user.password}
+              value={password}
               onChange={handleChange}
               required
             />
           </Form.Group>
           <Button type="submit">Log In</Button>
+          <Link to="/forgot-password">
+            <p className="mt-1 ml-auto max-w-max text-xs text-blue-100">
+              Forgot Password
+            </p>
+          </Link>
         </Form>
       </Modal.Body>
     </Modal>

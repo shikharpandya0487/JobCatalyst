@@ -12,6 +12,9 @@ import CompanyPage from './pages/CompanyPage.jsx';
 import JobBasics from './pages/JobBasics.jsx';
 import JobPost from './pages/Job_post.jsx';
 import SalaryPage from './pages/SalaryPage.jsx';
+import VerifyEmail from './pages/VerifyEmail.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
+import UpdatePassword from './pages/UpdatePassword.jsx';
 function App() {
  
   return (
@@ -27,6 +30,9 @@ function App() {
      <Route path="/job-basics" element={<JobBasics/>}/>
      <Route path="/job-post" element={<JobPost/>}/>
      <Route path="/salaries" element={<SalaryPage/>}></Route>
+     <Route path="/verify-email" element={<VerifyEmail/>}></Route>
+     <Route path="/forgot-password" element={<ForgotPassword/>}></Route>
+     <Route path="update-password/:id" element={<UpdatePassword/>}></Route>
      </Routes>
   
     </div>
