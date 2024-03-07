@@ -24,7 +24,7 @@ const uploadToCloudinary = async (localFilePath) => {
 
         console.log("error uploading file to cloudinary",error.message);
         res.status(500).json({ error: "Internal Server Error" })
-    }
-    
+    }    
 }
+
 module.exports = uploadToCloudinary;

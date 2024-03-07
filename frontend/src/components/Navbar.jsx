@@ -42,7 +42,6 @@ function Navbar() {
                 <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/companies">Companies</Link></div>
                 <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/connections">Connections</Link></div>
                 <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/profile">Profile</Link></div>
-
                 
                 <SignupForm show={modalShowSignup} onHide={()=>setModalShowSignup(false)}  />
                 {!localStorage.getItem('token') ?  <div className='flex flex-row justify-evenly items-center gap-4 p-2 w-fit '>

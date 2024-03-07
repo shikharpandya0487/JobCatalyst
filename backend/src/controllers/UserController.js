@@ -81,7 +81,7 @@ const changePass = async(req,res)=>{
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
-    }
+}
 
     
 module.exports = {signup,login,changePass} 

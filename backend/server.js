@@ -12,10 +12,10 @@ const postrouter=require("../backend/src/Routes/post.js")
 const resumerouter=require("../backend/src/Routes/resume.js")
 
 //Importing the routers 
-const connectDb = require("./src/database/Connection.js");
+const connectDb = require("./src/database/Connection.js"); 
 
 const googleUser = require("./src/models/GoogleUser")
-require("./src/models/User.js")
+require("./src/models/User.js")  
 
 
 app.use(cors())
@@ -44,7 +44,7 @@ app.use(session({
     resave:false,
     saveUninitialized:true
 }))
-
+ 
 // setuppassport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -94,7 +94,7 @@ app.get("/auth/google/callback",passport.authenticate("google",{
     successRedirect:"http://localhost:3000/",
     failureRedirect:"http://localhost:3000/login"
 }))
-
+ 
 
 connectDb().then(()=>{
     const PORT=5000;

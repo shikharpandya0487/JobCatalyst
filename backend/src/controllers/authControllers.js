@@ -99,8 +99,6 @@ exports.signup=async(req,res)=>{
 
 }
 
-
-
 //login
 exports.login=async(req,res)=>{
     try{
