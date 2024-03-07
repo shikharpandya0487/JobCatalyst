@@ -18,23 +18,24 @@ const LoginForm = (props) => {
   const { email, password } = user;
 
   const handleChange = (e) => {
-    setUser((prevData) => ({
-      ...prevData,
+    setUser({
+      ...user,
       [e.target.name]: e.target.value,
-    }));
+  });
   };
 
   const handleSubmit = async (e) => {
+    const data=user
+
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password
-      });
+      const response = await axios.post("http://localhost:5000/api/auth/login",data);
       if (response.data.success) {
         // Handle successful login
         // For example, set token in local storage and navigate to another page
+        console.log(response.data);
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem('userId', response.data.user._id);
         navigate("/community");
       } else {
         // Handle unsuccessful login
@@ -45,6 +46,8 @@ const LoginForm = (props) => {
       // Handle error
       toast.error("An error occurred while logging in. Please try again later.");
     }
+    setUser({})
+    props.onHide()
   };
 
   return (
