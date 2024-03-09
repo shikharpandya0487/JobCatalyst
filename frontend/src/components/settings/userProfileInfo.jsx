@@ -1,43 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../store/auth";
+
+import axios from 'axios'
 
 const UserProfileInfo = () => {
-  // const [userData, setUserData] = useState({});
-  // useEffect(() => {
-  //   //fetch user data here
-  //   //fetch call with your actual Api call
-  //   fetchUserData()
-  //     .then((data) => setUserData(data))
-  //     .catch((error) => console.error("error ", error));
-  // }, []);
-  // // const [userData,setUserData]=useState(true);
-  // const {user} =useAuth();
-  // if(userData && user){
+  
+  const userId=localStorage.getItem('userId')
+  console.log(userId)
+  const profileDataApi = `http://localhost:5000/api/user/profile/${userId}`;
+
+ 
 
 
-  // }
-  // const fetchUserData = async () => {
-  //   //replace with actual api endpoint
-  //   const response = await fetch("api-endpoint");
-  //   const data = await response.json();
-  //   return data;
-  // };
 
   const[profile,setprofile]=useState({
     username:"",
     email:"",
     contact:"",
   });
-  const {user}=useAuth();
+  
   const[userData,setUserData]=useState(true);
-  if(userData && user){
-    setprofile({
-      username:user.username,
-      email:user.email,
-      contact:user.email,
-    });
-    setUserData(false);
-  }
+
+  useEffect(()=>{
+    axios.get(profileDataApi)
+    .then((response)=>{
+      const {username,email,contact}=response.data 
+      setprofile({username,email,contact})
+    })
+  },[userId,profileDataApi])
 
 
   return (

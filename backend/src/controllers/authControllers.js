@@ -145,7 +145,7 @@ exports.login=async(req,res)=>{
                 user,
                 message:"Logged in succesfully",
             })
-
+            console.log("logged in successfully");
         }
         else{
             return res.status(401).json({
@@ -162,6 +162,7 @@ exports.login=async(req,res)=>{
         })
     }
 }
+
 exports.sendotp = async (req, res) => {
 	try {
 		const { email } = req.body;
