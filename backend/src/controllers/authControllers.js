@@ -1,9 +1,12 @@
+const dotenv=require('dotenv')
+dotenv.config()
 const User=require("../models/User");
 const OTP=require("../models/OTP");
 const otpGenerator=require("otp-generator");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
 require("dotenv").config(); //load the configuration
+const jwtSecret = process.env.JWT_SECRET_KEY;
 const mailSender = require("../utils/mailSender");
 
 exports.home=async(req,res)=>{
@@ -78,13 +81,19 @@ exports.signup=async(req,res)=>{
             email,
             password:hashedPassword,
         })
-        console.log("Data saved");
+        console.log("Data saved",user);
         //return res
+        jwt.sign({userId:user._id,username}, jwtSecret, {}, (err, token) => {
+            if (err) throw err;
+            res.cookie('token', token, {sameSite:'none', secure:true}).status(201).json({
+              id: createdUser._id,
+            });
+          });
+
         return res.status(200).json({
             success:true,
             user,
-            message:"USER IS REGISTERED SUCCESSFULLY",
-            user
+            message:"USER IS REGISTERED SUCCESSFULLY"
         });
         
     }
@@ -126,6 +135,7 @@ exports.login=async(req,res)=>{
         if(await bcrypt.compare(password,user.password)){
             //create the tocken using sign method
             const payload={
+                username:user.username,
                 email:user.email,
                 id:user._id,
             }

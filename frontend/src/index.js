@@ -13,13 +13,12 @@ import {configureStore} from "@reduxjs/toolkit"
 const store = configureStore({
   reducer:rootReducer,
 });
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
-    // <AuthProvider>
-    <React.StrictMode>
+  
       <Provider store = {store}>
       <App />
       </Provider>
-    </React.StrictMode>
-    // </AuthProvider>
   );
 

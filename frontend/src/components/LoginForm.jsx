@@ -30,6 +30,7 @@ const LoginForm = (props) => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:5000/api/auth/login",data);
+      console.log(response);
       if (response.data.success) {
         // Handle successful login
         // For example, set token in local storage and navigate to another page
