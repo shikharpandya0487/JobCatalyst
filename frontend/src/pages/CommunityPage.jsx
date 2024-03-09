@@ -138,7 +138,7 @@ const handleSearch = async () => {
                 tags={item.tag}
                 image={item.imgPath}
                 posted={moment(item.createdAt).fromNow()}
-                postedBy={item.postedBy.username}
+                postedBy={item.postedBy?.username}
                 id={item._id}
                 post={item}
               />

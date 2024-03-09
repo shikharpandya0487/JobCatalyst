@@ -313,6 +313,7 @@ const updateComment = async (req, res) => {
 };
 
 const deletePost = async (req,res)=>{
+
   try {
     const {postId}= req.body;
       const post = await Post.findById(postId).populate({
@@ -336,9 +337,10 @@ const deletePost = async (req,res)=>{
       console.error(error);
       res.status(500).json({ error: 'Server error' });
   }
+  
 }
   
 
 
 
-module.exports = {createPost,getPosts,likePost,dislikePost,heart,disheart,congrats,discongrats,search,createComment,getComments,deleteComment,updateComment,deletePost};
+module.exports = {createPost,getPosts,likePost,dislikePost,heart,disheart,congrats,discongrats,search,createComment,getComments,deleteComment,updateComment,deletePost}

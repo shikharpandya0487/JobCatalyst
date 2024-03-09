@@ -350,7 +350,7 @@ const handleEdit = async (id)=>{
             {openComments ? 'Close Comments' : 'Open Comments'}
           </button>
         </div>
-        {openComments && <Comments2 postId={id} currentUserId={userId} />}
+        {openComments && <Comments2 postId={id} currentUserId={userId}/>}
       </div>
 
       

@@ -18,6 +18,3 @@ const EmployerSpotlight = ({
   };
 
   export default EmployerSpotlight
-
-
-
