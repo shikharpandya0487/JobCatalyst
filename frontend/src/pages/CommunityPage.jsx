@@ -19,7 +19,7 @@ const CommunityPage = () => {
           try {
               const response = await axios.get(url);
               if (response.data.post) {
-                  console.log(response.data.post);
+                  console.log(response.data);
                   setData(response.data.post);
               }
           } catch (error) {
@@ -138,7 +138,7 @@ const handleSearch = async () => {
                 tags={item.tag}
                 image={item.imgPath}
                 posted={moment(item.createdAt).fromNow()}
-                postedBy={item.postedBy.username}
+                postedBy={item.postedBy?.username}
                 id={item._id}
                 post={item}
               />
