@@ -6,7 +6,7 @@ const uploadToCloudinary = require("../utils/uploadOnCloudinary.utils.js")
 const createPost = async (req, res) => {
   try {
       const { company, title, description, tag, position, salary, location, jobtype, postedBy } = req.body;
-
+      console.log(req.file);
       const file =  req.file || {};
       const filePath = file ? file.path:"";
 
@@ -16,7 +16,7 @@ const createPost = async (req, res) => {
       if (!company || !title || !description || !position || !salary || !location || !jobtype) {
           return res.status(422).json({ error: "Please enter all the fields" });
       }
-
+      console.log(req.user);
       const post = new Post({
           company,
           title,
@@ -40,7 +40,6 @@ const createPost = async (req, res) => {
       return res.status(500).json({ error: "Internal Server Error" });
   }
 };
- 
 
 const getPosts = async (req, res) => {
   try { 
@@ -181,11 +180,11 @@ const search = async (req, res) => {
       console.error(error);
       res.status(500).json({ msg: 'Server error' });
   }
-};
-
+};    
+      
 const createComment =  async (req, res) => {
-    try {
-      userId = req.user._id;
+    try {  
+      userId = "65ec4b00b3a23311401af9fd";
       const { postId, text, parentCommentId } = req.body; 
 
       const newComment = new Comment({ text, user: userId, parentComment:parentCommentId,post:postId });
@@ -193,7 +192,7 @@ const createComment =  async (req, res) => {
   
       if (parentCommentId) {
 
-        console.log("yes")
+        console.log("yes")     
         const parentComment = await Comment.findById(parentCommentId);
         if (!parentComment) {
           return res.status(404).json({ error: 'Parent comment not found' });
@@ -216,7 +215,7 @@ const createComment =  async (req, res) => {
       console.error(error);
       res.status(500).json({ error: 'Server error' });
     }
-};
+};    
   
 const getComments = async (req, res) => {  
     try {
@@ -315,7 +314,7 @@ const updateComment = async (req, res) => {
 const deletePost = async (req,res)=>{
 
   try {
-    const {postId}= req.body;
+      const {postId}= req.body;
       const post = await Post.findById(postId).populate({
         path: 'postedBy',
         populate: { path: '_id' }, 
@@ -327,7 +326,7 @@ const deletePost = async (req,res)=>{
       const userId = post.postedBy._id;
       if(userId.toString() !== req.user._id.toString())
       {
-        return res.status(200).json({message:"you cannot delete this post"})
+        return res.status(200).json({message:"you cannot delete this post"}) 
       }
       else {
         await post.deleteOne();
@@ -340,7 +339,84 @@ const deletePost = async (req,res)=>{
   
 }
   
+const myPost = async (req, res) => {
+  const userId = req.params.userId;
+  
+  try {
+      // Use findOne instead of find to find posts for a specific user
+      
+      const posts = await Post.find({ 'postedBy': userId });
+      
+      if (!posts || posts.length === 0) {
+          return res.status(404).json({ error: 'No posts found for the given user ID' });
+      }
+      res.json({    
+          msg: 'Find success',
+          posts: posts,
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const getPost = async (req, res) => {
+  try {
+    const postId = req.query.postId; 
+    const post = await Post.findOne({ _id: postId });  // Assuming postId corresponds to the _id field of your Post model        
+    console.log(post);
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }      
+
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}; 
 
 
+const editPost =  async (req, res) => {
+  const postId = req.params.postId;
+  const updatedPostData = req.body;
+  // console.log(updatedPostData);
+  const file =  req.file;
+  console.log("file h",req.file);
+  try {
+    let imagePath = '';
+    if (file) {
+      
+      const filePath = file.path;
+      const fileUpload = await uploadToCloudinary(filePath);
+      
+      imagePath = fileUpload?.url||"";
+    }
 
-module.exports = {createPost,getPosts,likePost,dislikePost,heart,disheart,congrats,discongrats,search,createComment,getComments,deleteComment,updateComment,deletePost}
+    
+    if (imagePath) {
+      updatedPostData.imagePath = imagePath;
+    }
+
+      const updatedPost = await Post.findByIdAndUpdate(
+          postId,
+          { $set: updatedPostData },
+          { new: true }
+      );
+
+      if (!updatedPost) {
+          return res.status(404).json({ error: 'Post not found' });
+      }
+
+      res.json({
+          msg: 'Post updated successfully',
+          post: updatedPost,
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+   
+
+module.exports = {createPost,getPosts,likePost,dislikePost,heart,disheart,congrats,discongrats,search,createComment,getComments,deleteComment,updateComment,deletePost,myPost,getPost,editPost}

@@ -11,7 +11,6 @@ const authrouter=require("../backend/src/Routes/auth.js")
 const postrouter=require("../backend/src/Routes/post.js")
 const resumerouter=require("../backend/src/Routes/resume.js")
 const userRouter=require("./src/Routes/userData.js")
-
 const fs=require('fs')
 //Importing the routers  
 const connectDb = require("./src/database/Connection.js")
@@ -26,10 +25,6 @@ app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
 }))
-require("./src/models/User.js")  
-
-
-app.use(cors())
 app.use(express.json()); 
 
 //google login client id and secret 
@@ -49,13 +44,6 @@ app.use(cors({
 }))
  
 
-// setup session
-app.use(session({
-    secret:"YOUR SECRET KEY",
-    resave:false,
-    saveUninitialized:true
-}))
- 
 // setuppassport
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -105,7 +93,7 @@ app.get("/auth/google/callback",passport.authenticate("google",{
     successRedirect:"http://localhost:3000/",
     failureRedirect:"http://localhost:3000/login"
 }))
- 
+
 
 app.use("/msg",testRouter);  
 
@@ -165,7 +153,7 @@ app.get('/people',async (req,res)=>{
         }))
       }); 
     }
-       
+        
     //creating new property .isAlive indicating the online status
     connection.isAlive=true 
      
@@ -186,7 +174,7 @@ app.get('/people',async (req,res)=>{
 
 
     const response=req.headers.cookie
-    if(response)
+    if(response) 
     {
         const tokenCookieString=response.split(';').find(str=>str.startsWith('token='))
         //  console.log(tokenCookieString);
@@ -240,14 +228,14 @@ app.get('/people',async (req,res)=>{
                 text
               });   
         //we send the text to other person
-       [...wss.clients].filter((c)=>{   
+       [...wss.clients].filter((c)=>{          
           if(c.id===recipient)
           {
-            return c
+            return c;
           }
         }).forEach(c=>{
           c.send(JSON.stringify({
-            text,
+            text,                           
             sender:connection.id,
             _id:messageDocument._id,
             recipient,
@@ -259,6 +247,4 @@ app.get('/people',async (req,res)=>{
     notifyAllOnlinePeople()
 
  
-}) 
-
-     
+})

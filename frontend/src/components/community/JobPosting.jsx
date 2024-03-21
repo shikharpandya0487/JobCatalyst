@@ -204,17 +204,9 @@ const handleDelete = async (id) => {
   }
 }
 
-const handleEdit = async (id)=>{
-  navigate('/add-post')
-  try {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-  } catch (error) {
-    
-  }
-}
+const handleEdit = (id) => {
+  navigate(`/edit-post/${id}`);
+};
 
 
   const userId = localStorage.getItem('userId');
@@ -242,7 +234,7 @@ const handleEdit = async (id)=>{
       <div className="mb-4">
         <h4 className="text-lg font-medium">Description: </h4>
         <p className="text-gray-700">
-          {expanded ? description : description.slice(0, 250) + '...'}
+          {/*  {expanded ? description : description.slice(0, 250) + '...'} */}
           {expanded && description.length > 250 && (
             <span>
               {' '}
@@ -275,7 +267,7 @@ const handleEdit = async (id)=>{
         </div>
         {/* reaction icons */}
         
-        {/* <div className='flex flex-col space-y-[20px] '>
+        <div className='flex flex-col space-y-[20px] '>
           {
             post.likes.find((id)=> id == userId)
             ?
@@ -302,7 +294,7 @@ const handleEdit = async (id)=>{
           }
           <h5>{post.congrats.length} Congratulation</h5>
 
-        </div> */}
+        </div>         
 
       <div className='flex justify-evenly gap-4 items-center p-1 w-full'>
 
