@@ -3,6 +3,9 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+*{
+  box-sizing: border-box;
+}
 
 .comments {
     margin-top: 20px;

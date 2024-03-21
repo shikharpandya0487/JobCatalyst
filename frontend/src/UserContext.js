@@ -1,43 +1,35 @@
-import { createContext, useEffect, useState } from "react";
-import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
-export const UserContext = createContext();
+export const ChatContext = createContext();
 
-export function UserContextProvider({ children }) {
-  const [username, setUsername] = useState(null);
-  const [id, setId] = useState(null);
-  const [loading, setLoading] = useState(true);
+const ChatProvider=({ children }) =>{
 
-  useEffect(() => {  
-   axios.get('/profile-msg')
-      .then(response => {
-        console.log("profile response",response);
-        localStorage.setItem('token',response.data.token)
-        localStorage.setItem('LoggedIn',true)
-        // console.log(localStorage.getItem('LoggedIn'))
-        setId(response.data.userData.id);
-        setUsername(response.data.userData.username);
-        
-      })
-      .catch(error => {
-        console.log("Error fetching user data: from profile-msg", error);
-      })
-      .finally(() => {
-        setLoading(false);
-        console.log(id,username)
-      });
- 
-  }, []);
+  const [user,setUser]=useState()
+  const [selectedChat,setSelectedChat]=useState()
+   const [notification,setNotification]=useState([])
+   const [chats,setChats]=useState([])
   
+  const navigate=useNavigate()
 
-  if (loading) {
-    //  a loading indicator here
-    return <div>Loading...</div>;
-  }
+   useEffect(()=>{
+    const userInfo=JSON.parse(localStorage.getItem("user"))
+    console.log(userInfo)
+    setUser(userInfo)
+
+    if(!userInfo) navigate('/');
+
+
+    },[])
 
   return (
-    <UserContext.Provider value={{ username, setUsername, id, setId }}>
+    <ChatContext.Provider value={{user,setUser,selectedChat,setSelectedChat,notification,setNotification,chats,setChats}}>
       {children}
-    </UserContext.Provider>
+    </ChatContext.Provider>
   );
 }
+
+export const ChatState=()=>{
+  return useContext(ChatContext)
+}
+export default ChatProvider

@@ -14,7 +14,7 @@ const Comments2 = ({postId, currentUserId }) => {
   const [activeComment, setActiveComment] = useState(null);
 
   // writing a function to find the root comment
-  const rootComments = backendComments.filter((data) => data.parentId === null);
+  const rootComments = backendComments.filter((data) => data?.parentId === null);
 
 
   // we have to sort the array according to (createdAt) time of their creation
@@ -22,7 +22,7 @@ const Comments2 = ({postId, currentUserId }) => {
     //here the time will be in string so we have to convert the string to javascript Date to perform the sorting
     //get time calculates the time in milliseconds
     return backendComments
-      .filter((backendComment) => backendComment.parentId === commendId)
+      .filter((backendComment) => backendComment?.parentId === commendId)
       .sort(
         (a, b) =>
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()

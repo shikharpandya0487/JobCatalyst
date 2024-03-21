@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 const jwtSecret = process.env.JWT_SECRET_KEY;;
-const User = require("../models/User");
+const User = require("../models/user/User");
 
 module.exports = (req, res, next) => {
     const { authorization } = req.headers;

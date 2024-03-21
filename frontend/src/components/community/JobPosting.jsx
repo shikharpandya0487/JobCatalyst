@@ -18,13 +18,13 @@ const MediaDisplay = ({ url }) => {
 
   if (isVideo) {
     return (
-      <video width="640" height="360" controls>
+      <video className='w-3/4 h-3/6' controls>
         <source src={url} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     );
   } else {
-    return <img src={url} alt="Media" />;
+    return <img className='w-3/4 rounded-md' src={url} alt="Media" />;
   }
 };
 
@@ -50,6 +50,11 @@ const JobPosting = ({
     setExpanded(!expanded);
   };
   const navigate = useNavigate();
+
+  if(title)
+  {
+    title=title.toLowerCase()
+  }
 
 //LIKE POST 
 const likePost = (id) => {
@@ -223,22 +228,33 @@ const handleEdit = async (id)=>{
   const [openComments, setOpenComments] = useState(false)
 
   return (
-    <div className="bg-pink-50  rounded-2xl p-4 mb-4">
-      <div className="flex items-center mb-4">
+    <div className="bg-slate-200  w-3/4 p-2 rounded-lg">
+      <div className="flex gap-1 items-center w-full h-15">
         {/* <img src={image} alt={company} className="w-12 h-12 mr-4" /> */}
-        <IoPersonCircleSharp className="w-12 h-12 mr-4" />
-        <div>
-          <h3 className="text-2xl font-normal pt-2">{title}</h3>
-          <h6 className="text-gray-700 text-sm">Posted by: {postedBy}</h6>
-          <p className="text-gray-700 text-sm">{posted}</p>
-
+          
+        <div className='flex flex-col justify-center items-start pl-4 select-none w-1/3'>
+          <IoPersonCircleSharp className="w-14 h-14 flex justify-center items-center" />
+          <div>
+            <h6 className="text-slate-700 text-sm font-light">Posted by: <b className='font-semibold cursor-pointer hover:underline text-lg'>{postedBy}</b></h6>
+            <p className="text-slate-700 text-sm font-light">{posted}</p>
+          </div>
         </div>
-        <div className="pl-10 pr-10">
 
-          <p className="text-gray-900 font-medium">Salary: {salary}/Month</p>
+        <div className="flex flex-col gap-2 items-center justify-between w-2/3 h-fit">
+
+          <div className='text-center w-fit'>
+            <h1 className=" font-normal pb-2">
+          
+                    {title && title.length > 0 && (
+                    <h1 className="font-normal pt-2">{title[0].toUpperCase() + title.slice(1)}</h1>
+                  )}
+            </h1>
+          </div>
         </div>
       </div>
-      {image && <MediaDisplay url={image} />}
+      <div className='flex justify-center items-center'>
+      {image && <MediaDisplay  url={image} />}
+      </div>
       <div className="mb-4">
         <h4 className="text-lg font-medium">Description: </h4>
         <p className="text-gray-700">
@@ -258,21 +274,16 @@ const handleEdit = async (id)=>{
             Read more
           </a>
         )}
-      </div>
-      <div className="mb-4">
-        <div className="flex flex-wrap ">
-          <span className="bg-gray-200 px-2 py-1 mr-6 rounded-xl w-20 text-xs text-center">
-            {tags}
+          <span className="bg-gray-200 px-2 py-1 mr-6 rounded-xl w-20 text-2xl cursor-pointer text-center text-blue-600 ">
+            #{tags}
           </span>
-        </div>
+    
       </div>
+        
 
-      <div className="mb-4 w-full flex flex-col justify-between items-center p-2">
-        <div className='w-full'>
-          <p className="text-gray-700 select-none">Position: {position}</p>
-          <p className="text-gray-700 ">Location: {location}</p>
-          <p className="text-gray-700 select-none">Job Type: {jobType}</p>
-        </div>
+      <div className="w-full flex flex-col justify-between items-center p-2">
+      
+       
         {/* reaction icons */}
         
         {/* <div className='flex flex-col space-y-[20px] '>
@@ -304,7 +315,7 @@ const handleEdit = async (id)=>{
 
         </div> */}
 
-      <div className='flex justify-evenly gap-4 items-center p-1 w-full'>
+      <div className='flex justify-evenly gap-2 items-center p-1 w-full'>
 
         <div className='w-fit flex flex-col items-center justify-center p-1'>
           <div className="comment flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2 cursor-pointer" onClick={() => setOpenComments((open) => !open)}>
@@ -314,6 +325,7 @@ const handleEdit = async (id)=>{
             Comment
           </div>
         </div>
+        
         
         <div className='w-fit flex flex-col items-center justify-center p-1 cursor-pointer'>
           <div className="like flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2"  >

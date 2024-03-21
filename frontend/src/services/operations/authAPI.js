@@ -30,7 +30,7 @@ const {
   
         toast.success("Login Successful")
         dispatch(setToken(response.data.token))
-        localStorage.setItem("tocken", JSON.stringify(response.data.token))
+        localStorage.setItem("token", JSON.stringify(response.data.token))
         localStorage.setItem("user", JSON.stringify(response.data.user))
         navigate("/community")
       } catch (error) {
@@ -89,14 +89,15 @@ const {
           confirmPassword,
           otp,
         })
-  
-        console.log("SIGNUP API RESPONSE............", response)
-        localStorage.setItem("tocken", JSON.stringify(response.data.token))
-        localStorage.setItem("user", JSON.stringify(response.data.user))
-  
         if (!response.data.success) {
+          toast.error("Signup Failed")
           throw new Error(response.data.message)
         }
+  
+        console.log("SIGNUP API RESPONSE............", response)
+        localStorage.setItem("token", JSON.stringify(response.data.token))
+        localStorage.setItem("user", JSON.stringify(response.data))
+  
         toast.success("Signup Successful")
         navigate("/community")
       } catch (error) {

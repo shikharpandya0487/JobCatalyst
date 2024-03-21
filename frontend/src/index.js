@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify'
 import { Provider } from "react-redux";
 import rootReducer from "./reducer";
 import {configureStore} from "@reduxjs/toolkit"
-
+import { ChakraProvider } from '@chakra-ui/react'
 
 const store = configureStore({
   reducer:rootReducer,
@@ -16,9 +16,10 @@ const store = configureStore({
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  
-      <Provider store = {store}>
-      <App />
-      </Provider>
-  );
+     <ChakraProvider>
+        <Provider store = {store}>
+          <App />
+        </Provider>
+      </ChakraProvider>
+  ); 
 
