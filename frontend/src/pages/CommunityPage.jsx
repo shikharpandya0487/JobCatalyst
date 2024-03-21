@@ -19,7 +19,7 @@ const CommunityPage = () => {
           try {
               const response = await axios.get(url);
               if (response.data.post) {
-                  console.log(response.data.post);
+                  console.log(response.data);
                   setData(response.data.post);
               }
           } catch (error) {
