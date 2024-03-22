@@ -1,0 +1,96 @@
+/* Variables */
+:root {
+  --icon-size: 50px;
+  --main-color: #e9f1f4;
+}
+
+/* Style to wrap up the demo */
+.search {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.hello{
+  background-color: #ffca7a;
+}
+/* Search Field */
+.search__wrapper {
+  position: relative;
+}
+
+.search__field {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  color: transparent;
+  font-family: Lato, sans-serif;
+  font-size: 1.35em;
+  padding: 0.35em var(--icon-size) 0.35em 0;
+  border: 1px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.search__field:focus {
+  border-bottom-color: #ccc;
+  width: 50vw;
+  color: #2b2b2b;
+  cursor: default;
+}
+
+.search__field:focus ~ .search__icon {
+  background-color: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.search__icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--main-color);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  font-size: 1.35em;
+  text-align: center;
+  border-color: transparent;
+  border-radius: 50%;
+  pointer-events: none;
+  display: inline-block;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Field Labeling */
+.search__field::-webkit-input-placeholder,
+.search__field:-moz-placeholder,
+.search__field::-moz-placeholder,
+.search__field:-ms-input-placeholder {
+  position: relative;
+  top: 0;
+  left: 0;
+  -webkit-transition-property: top, color;
+  transition-property: top, color;
+  -webkit-transition-duration: 0.1s;
+  transition-duration: 0.1s;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}
+
+.search__field::-webkit-input-placeholder[style*="hidden"],
+.search__field:-moz-placeholder[style*="hidden"],
+.search__field::-moz-placeholder[style*="hidden"],
+.search__field:-ms-input-placeholder[style*="hidden"] {
+  color: darken(var(--main-color), 30%);
+  font-size: 0.65em;
+  font-weight: normal;
+  top: calc(-var(--icon-size) / 2.5);
+  opacity: 1;
+  visibility: visible !important;
+}

@@ -5,21 +5,19 @@ const cors = require("cors");
 const passport = require("passport");
 const path = require('path');
 const OAuth2Strategy = require("passport-google-oauth2").Strategy;
-const testRouter=require('./src/Routes/user.routes.js')
-const ws=require('ws')
-const authrouter=require("../backend/src/Routes/auth.js")
-const postrouter=require("../backend/src/Routes/post.js")
-const resumerouter=require("../backend/src/Routes/resume.js")
-const userRouter=require("./src/Routes/userData.js")
-const fs=require('fs')
+const testRouter=require('./src/Routes/UserRoutes/user.routes.js')
+const authrouter=require("./src/Routes/Auth/auth.js")
+const postrouter=require("./src/Routes/PostRoutes/post.js")
+const resumerouter=require("./src/Routes/ResumeRoutes/resume.js")
+const userRouter=require("./src/Routes/UserRoutes/userData.js")
+const chatRouter=require('./src/Routes/chatRoutes/chatRoutes.js')
+const messageRoutes=require('./src/Routes/messageRoutes/messageRoutes.js')
 //Importing the routers  
 const connectDb = require("./src/database/Connection.js")
-const googleUser = require("./src/models/GoogleUser")
-const cookieParser = require("cookie-parser");
-const User=require("./src/models/User.js")
-const jwt=require('jsonwebtoken')
-const jwtSecret=process.env.JWT_SECRET_KEY 
-const Message=require('./src/models/message.models.js')
+const googleUser = require("./src/models/user/GoogleUser.js")
+const cookieParser = require("cookie-parser"); 
+
+
 app.use(cookieParser()) 
 app.use(cors({
     origin: "http://localhost:3000",
@@ -28,14 +26,15 @@ app.use(cors({
 app.use(express.json()); 
 
 //google login client id and secret 
-const clientid = "183771193647-f0ba9rv1tmtld2jmcite1cpjccr2sqrc.apps.googleusercontent.com"
+const clientid = "183771193647-f0ba9rvtmtld2jmcite1cpjccr2sqrc.apps.googleusercontent.com"
 const clientsecret = "GOCS PX-zyHLvrKTJsyQGjkiy2Mb_Eq401e3"
 
-app.use("/api/auth",authrouter);   
+app.use("/api/auth",authrouter);    
 app.use("/api/post",postrouter);  
 app.use("/api/resume",resumerouter);
-app.use("/api/user",userRouter) 
-
+app.use("/api/user",userRouter)   
+app.use("/api/chat",chatRouter)
+app.use("/api/message",messageRoutes)
 
 app.use(cors({  
     origin:"http://localhost:3000", 
@@ -44,6 +43,7 @@ app.use(cors({
 }))
  
 
+ 
 // setuppassport
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -95,7 +95,6 @@ app.get("/auth/google/callback",passport.authenticate("google",{
 }))
 
 
-app.use("/msg",testRouter);  
 
 
 const PORT=5000;
@@ -103,7 +102,7 @@ connectDb()
 
 
 
-const server=app.listen(5000, () => {
+const server=app.listen(PORT, () => {
     console.log("Listening on port ", PORT);
   });
   
@@ -248,3 +247,70 @@ app.get('/people',async (req,res)=>{
 
  
 })
+  const io=require('socket.io')(
+    server,
+    {
+        pingTimeout:50000,
+        cors:{
+            origin:`http://localhost:3000`
+        }
+    }
+)
+
+io.on("connection",(socket)=>{
+  console.log("Connected to the client (socket.io) ");
+
+  socket.on("setup",(userData)=>{
+      socket.join(userData._id)
+      console.log("This is the user id ",userData._id);
+      socket.emit("connected")
+  })
+
+  socket.on("join-chat",(room)=>{
+      console.log("User joined the room ",room)
+  })
+
+  //event listner for sending the message
+  //required things
+  //To whom msg is sent 
+  //the message which should be sent 
+  socket.on("new-msg",(newMsg)=>{
+      var chat =newMsg.chat;
+
+      if(!chat.users)
+      {
+         return console.log("Chat users not defined");
+      }
+
+      chat.users.forEach((user)=>{
+          if(user._id===newMsg.sender._id)
+          {
+              return;
+          }
+          //socket.in means msg sent to all in the room
+
+          socket.in(user._id).emit("Msg-recieved",newMsg)
+      })
+
+
+
+  })
+
+
+  // socket for indicating user typing or not typing 
+  socket.on("typing",(user)=>socket.in(user).emit("Typing"))
+
+  socket.on("stop typing",(room)=>socket.in(room).emit("Stop typing"))
+
+  socket.off("setup",()=>{
+      console.log("USER DISCONNECTED");
+      socket.leave(userData._id);
+  })
+})
+ 
+
+
+
+
+
+     
