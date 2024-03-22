@@ -44,7 +44,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword/>}></Route>
             <Route path="/display-data/:id" element={<DisplayData/>}></Route>
             <Route path="update-password/:id" element={<UpdatePassword/>}></Route>
-            <Route path='/connections' element={<Chats/>} />
+            <Route path='/chats' element={<Chats/>} />
             <Route path='/post' element={<displayPost/>} />
             </Routes>
         
