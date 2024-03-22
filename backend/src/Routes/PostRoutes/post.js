@@ -48,14 +48,13 @@ router.delete('/delete-post',requireLogin,postcontroller.deletePost);
 router.get("/search",postcontroller.search);
 
 //GET MYPOST 
-router.get("/my-post/:userId",postcontroller.myPost);
+router.get("/my-post/:userId",requireLogin,postcontroller.myPost); 
 
 //GET A POST FROM ID
-router.get("/get-post/:postId", postcontroller.getPost);
+router.get("/get-post/:postId",postcontroller.getPost);
 
 //EDIT THE POST
 router.put('/edit-post/:postId',requireLogin,upload.single("file"),postcontroller.editPost);
-
 
 
 module.exports = router;

@@ -11,6 +11,8 @@ const CommunityPage = () => {
 
   const [data, setData] = useState([]);
   const [search,setSearch] = useState('');
+  const [stories,setStories] = useState([]);
+
    
 
   //DISPLAYING DATA ON COMMUNITY PAGE 
@@ -22,6 +24,7 @@ const CommunityPage = () => {
               if (response.data.post) {
                   console.log(response.data);
                   setData(response.data.post);
+                  setStories(response.data.post);
               }
           } catch (error) {
               console.error(error);
@@ -53,15 +56,6 @@ const handleSearch = async () => {
     }
 };
 
-
-
-  const stories = [
-    {
-      p1: '!! Person Bagged 1.5Cr job in Visa',
-      p2: '!! Person Bagged 1.45Cr job in Business',
-      p3: '!! Person Bagged 55.5LPA in Microsoft',
-    },
-  ];
   const spotlight = [
     {
       s1: '!! Google Claim to have best Job Experience',
@@ -97,12 +91,22 @@ const handleSearch = async () => {
               <h2 className="text-3xl text-center font-semibold mb-3 text-slate-900">Success Stories</h2>
             </div>
             <div className="flex flex-col ">
-              {stories.map((item, index) => (
+            {stories.sort((a, b) => b.salary - a.salary).slice(0, 3).map((item, index) => (
                 <Stories
                   key={index}
-                  p1={item.p1}
-                  p2={item.p2}
-                  p3={item.p3}
+                  title={item.title}
+                  company={item.company}
+                  position={item.position}
+                  location={item.location}
+                  jobType={item.jobtype}
+                  salary={item.salary}
+                  description={item.description}
+                  tags={item.tag}
+                  image={item.imgPath}
+                  posted={moment(item.createdAt).fromNow()}
+                  postedBy={item.postedBy?.username}
+                  id={item._id}
+                  post={item}
                 />
               ))}
             </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from '../Navbar';
+import Navbar from '../Navbar/Navbar';
 import { useParams } from 'react-router-dom';
 const EditPost = () => {
     const { id } = useParams();
@@ -23,8 +23,8 @@ const EditPost = () => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
           };
-          
-          const url = `http://localhost:5000/api/post/get-post?${id}`;
+           
+          const url = `http://localhost:5000/api/post/get-post/${id}`;
           const response = await axios.get(url, { headers });
           console.log(response.data);
           const postData = response.data;
@@ -75,53 +75,72 @@ const EditPost = () => {
     };
 
     return (
-      <div>
-        <Navbar/>
-        <div className="flex justify-center">
-            <div className="w-full max-w-md p-6 bg-white rounded-md md:rounded-lg">
-                <h2 className="pt-2 pb-10 text-3xl md:text-5xl text-black text-center">Edit Post</h2>
-                <form onSubmit={handleApi} className="flex flex-col space-y-6">
-                    <div className="mb-2 ">
-                        <label htmlFor="companyName" className="text-black font-medium text-xl">Company Name:</label>
-                        <input type="text" id="companyName" className="input-field bg-gray-300 p-2 rounded-2xl px-4 ml-2" value={company} onChange={(e) => setCompany(e.target.value)} />
-                    </div>
-                    <div className="mb-2">
-                        <label htmlFor="jobTitle" className="text-black font-medium text-xl">Title:</label>
-                        <input type="text" id="jobTitle" className="input-field bg-gray-300 p-2 rounded-2xl px-4 ml-6" value={title} onChange={(e) => setTitle(e.target.value)} />
-                    </div>
-                    <div className="mb-2">
-                        <label htmlFor="jobPosition" className="text-black font-medium text-xl">Position:</label>
-                        <input type="text" id="jobPosition" className="input-field bg-gray-300 p-2 rounded-2xl px-4 ml-2" value={position} onChange={(e) => setPosition(e.target.value)} />
-                    </div>
-                    <div className="mb-2">
-                        <label htmlFor="jobLocation" className="text-black font-medium text-xl">Location:</label>
-                        <input type="text" id="jobLocation" className="input-field bg-gray-300 p-2 rounded-2xl px-4 ml-2" value={location} onChange={(e) => setLocation(e.target.value)} />
-                    </div>
-                    <div className="mb-2">
-                        <label htmlFor="jobType" className="text-black font-medium text-xl">Job Type:</label>
-                        <input type="text" id="jobType" className="input-field bg-gray-300 p-2 rounded-2xl px-4 ml-2" value={jobtype} onChange={(e) => setJobtype(e.target.value)} />
-                    </div>
-                    <div className="mb-2">
-                        <label htmlFor="jobSalary" className="text-black font-medium text-xl">Salary:</label>
-                        <input type="text" id="jobSalary" className="input-field bg-gray-300 p-2 rounded-2xl px-4 ml-2" value={salary} onChange={(e) => setSalary(e.target.value)} />
-                    </div>
-                    <div className="mb-2">
-                        <label htmlFor="jobDescription" className="text-black font-medium text-xl">Description:</label>
-                        <input type="text" id="jobDescription" className="input-field bg-gray-300 p-2 rounded-2xl ml-2" value={description} onChange={(e) => setDescription(e.target.value)} />
-                    </div>
-                    <div className="mb-2">
-                        <label htmlFor="jobTag" className="text-black font-medium text-xl">Tag:</label>
-                        <input type="text" id="jobTag" className="input-field bg-gray-300 p-2 rounded-2xl ml-2" value={tag} onChange={(e) => setTag(e.target.value)} />
-                    </div>
-                    <div className="mb-2">
-                        <label htmlFor="jobFile" className="text-black font-medium text-xl">File:</label>
-                        <input type="file" id="jobFile" className="input-field bg-gray-300 p-2 rounded-2xl ml-2" onChange={(e) => setVideo(e.target.files[0])} />
-                    </div>
-                    <button className="px-6 py-2 w-200px mt-4 text-lg text-white bg-blue-500 rounded-lg" onClick={handleApi}>Edit</button>
-                </form>
-            </div>
-        </div>
-        </div>
+      <div className='max-w-screen mx-auto min-h-screen'>
+      <Navbar/>
+      <div className="flex justify-center w-[100%] gap-2 p-4 min-h-fit">
+          <div className="w-1/2 p-2 bg-slate-200 rounded-ms md:rounded-lg">
+              <h2 className="pt-2 pb-10 text-3xl md:text-5xl text-black text-center">Edit Post</h2>
+              {/* styling of input tags is still left  */}
+              <form onSubmit={handleApi} className="flex flex-col justify-center">
+                  <div className="w-full p-1">
+                      <label htmlFor="companyName" className="text-black text-xl text-center font-light font-serif w-1/4" >Name:</label>
+                      <input type="text" id="companyName" className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer" placeholder='Enter your Name' value={company} onChange={(e) => setCompany(e.target.value)} required/>
+                  </div>
+                  <div className="w-full p-1">
+                      <label htmlFor="jobTitle" className="text-black text-xl text-center font-light font-serif w-1/4">Title:</label>
+                      <input type="text" id="jobTitle" className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer" placeholder='Enter the title for your Post' value={title} onChange={(e) => setTitle(e.target.value)} required/>
+                  </div>
+                  <div className="w-full p-1">
+                      <label htmlFor="jobPosition" className="text-black text-xl text-center font-light font-serif w-1/4">Profession:</label>
+                      <input type="text" id="jobPosition" className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer" placeholder='Enter the position' value={position} onChange={(e) => setPosition(e.target.value)} />
+                  </div>
+                  <div className="w-full p-1">
+                      <label htmlFor="jobLocation" className="text-black text-xl text-center font-light font-serif w-1/4">Location:</label>
+                      <input type="text" id="jobLocation" className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer" placeholder='Enter your location' value={location} onChange={(e) => setLocation(e.target.value)} />
+                  </div>
+                   {/* providing limited options to user to select the job type 
+                  <div className="w-full p-1">
+                      <label htmlFor="jobType" className="text-black text-xl text-center font-light font-serif w-1/4">Job Type:</label>
+                      <input type="text" id="jobType" className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer" value={jobtype} onChange={(e) => setJobtype(e.target.value)} />
+                  </div> */}
+
+
+                  <div className="w-full p-1">
+                      <label htmlFor="jobSalary" className="text-black text-xl text-center font-light font-serif w-1/4">Salary:</label>
+                      <input type="text" id="jobSalary" className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer" placeholder='Enter your salary' value={salary} onChange={(e) => setSalary(e.target.value)} />
+                  </div>
+
+                  {/* This description should have an editor  */}
+
+                  <div className="w-full p-1 flex justify-evenly items-center">
+                      <label htmlFor="jobDescription" className="text-black text-xl text-center font-light font-serif w-1/4">Description:</label>
+                      <textarea id="jobDescription" className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer" value={description} onChange={(e) => setDescription(e.target.value)} />
+                  </div>
+
+                  <div className="w-full p-1">
+                      <label htmlFor="jobTag" className="text-black text-xl text-center font-light font-serif w-1/4">Tag:</label>
+                      <input type="text" id="jobTag" className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer" placeholder='Use #' value={tag} onChange={(e) => setTag(e.target.value)} />
+                  </div>
+                  <div className="w-full p-1">
+                      <label htmlFor="jobFile" className="text-black text-xl text-center font-light font-serif w-1/4">File:</label>
+                      <input type="file" id="jobFile" className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer" onChange={(e) => setVideo(e.target.files[0])} />
+                  </div>
+                  <button className="px-6 py-2 w-200px mt-4 text-lg text-white bg-blue-500 rounded-lg" onClick={handleApi}>Edit</button>
+              </form>
+          </div>
+          {/* <div className='w-1/2 p-2 bg-slate-400 rounded-lg md:rounded-md'>
+              <h1>
+                  Preview your Post
+              </h1>
+
+              <div className="wrapper">
+                  <h1>{company}</h1>
+
+
+              </div>
+          </div> */}
+      </div>
+      </div>
     );
 };
 

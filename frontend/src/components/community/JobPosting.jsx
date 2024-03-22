@@ -249,8 +249,8 @@ const handleEdit = (id) => {
       </div>
       <div className="mb-4">
         <h4 className="text-lg font-medium">Description: </h4>
-        <p className="text-gray-700">
-          {/*  {expanded ? description : description.slice(0, 250) + '...'} */}
+        {/* <p className="text-gray-700">
+           {expanded ? description : description.slice(0, 250) + '...'}
           {expanded && description.length > 250 && (
             <span>
               {' '}
@@ -260,12 +260,14 @@ const handleEdit = (id) => {
               </a>
             </span>
           )}
-        </p>
+        </p> 
         {!expanded && description.length > 250 && (
           <a className="text-blue-500" onClick={toggle}>
             Read more
           </a>
-        )}
+        )} */}
+        {description}
+        <br/>
           <span className="bg-gray-200 px-2 py-1 mr-6 rounded-xl w-20 text-2xl cursor-pointer text-center text-blue-600 ">
             #{tags}
           </span>
@@ -278,7 +280,7 @@ const handleEdit = (id) => {
        
         {/* reaction icons */}
         
-        <div className='flex flex-col space-y-[20px] '>
+        {/* <div className='flex flex-col space-y-[20px] '>
           {
             post.likes.find((id)=> id == userId)
             ?
@@ -304,8 +306,7 @@ const handleEdit = (id) => {
             <PiHandsClapping onClick={() => congratsPost(id)} />
           }
           <h5>{post.congrats.length} Congratulation</h5>
-
-        </div>         
+        </div>          */}
 
       <div className='flex justify-evenly gap-2 items-center p-1 w-full'>
 
@@ -340,8 +341,6 @@ const handleEdit = (id) => {
 
       </div>
       < MdDelete onClick={()=> handleDelete(id)}/>
-      <br/>
-      <br/>
       <br/>
      
       <FaEdit onClick={()=>handleEdit(id)}/>

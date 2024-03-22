@@ -42,12 +42,12 @@ const PasswordAndSecurity = () => {
   //function which enable to change the users password
   const handleChangePassword = async () => {
     try {
-      const data = { currentPassword: password, newPassword };
+      const data = {password,newPassword,confirmPassword};
       const headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '+ localStorage.getItem('token'),
       };
-      const url='http://localhost:5000/api/auth/change-password';
+      const url='http://localhost:5000/api/auth/changepassword';
       const response = await axios({
         method: 'POST', 
         url: url,

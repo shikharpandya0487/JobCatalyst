@@ -4,12 +4,13 @@ import moment from 'moment';
 import { useParams } from 'react-router-dom';
 import JobPosting from './JobPosting';
 
+  
 
 const DisplayData = () => {
 
   const { id } = useParams();
   const [data,setData] = useState([]);
-
+  console.log(data);
   useEffect(() => {
     const fetchData = async () => {
         try {
@@ -26,8 +27,10 @@ const DisplayData = () => {
 
   return (
     <div>
-        <div>
-            <JobPosting title={data.title}
+      <div className="container p-1 ">
+        <div lassName="flex flex-col items-center justify-evenly gap-2 p-1 rounded-xl">
+        <JobPosting
+                title={data.title}
                 company={data.company}
                 position={data.position}
                 location={data.location}
@@ -39,11 +42,12 @@ const DisplayData = () => {
                 posted={moment(data.createdAt).fromNow()}
                 postedBy={data.postedBy?.username}
                 id={data._id}
-                post={data} />
+                post={data}
+              />
         </div>
-        
+      </div> 
     </div>
   )
 }
 
-export default DisplayData
+export default DisplayData;

@@ -3,38 +3,35 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema({
     title:{
         type: String,
-        required: true
     },
     company:{
         type: String,
-        required: true
     },
     description: {
         type: String,
-        required: true
     },
     tag:{
         type :String
     },
     position:{
         type:String ,
-        require:true
+        // require:true
     },
     salary:{
         type:String ,
-        require:true        
+        // require:true        
     },
     location:{
         type:String ,
-        require:true
+        // require:true
     },
     jobtype:{
         type:String ,
-        require:true
+        // require:true
     },
     imgPath:{
         type:String,
-        require:true
+        // require:true
     },
     likes:[{
         type: Schema.Types.ObjectId,
