@@ -17,7 +17,7 @@ router.post("/create-pdf", (req, res) => {
 });
 
 router.get("/fetch-pdf", (req, res) => {
-  const filePath = path.join(__dirname, '../../Resume.pdf');
+  const filePath = path.join(__dirname, '../../../Resume.pdf');
   res.sendFile(filePath, (err) => {
     if (err) {
       console.error(err);

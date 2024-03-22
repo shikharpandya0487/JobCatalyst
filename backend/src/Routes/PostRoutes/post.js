@@ -44,7 +44,17 @@ router.put('/update-comments/:commentId', postcontroller.updateComment);
 //DELETE POST 
 router.delete('/delete-post',requireLogin,postcontroller.deletePost);
 
-//SEARCH THE POST ON THE BASIS OF TITLE
-router.get("/search",postcontroller.search)
+//SEARCH THE POST ON THE BASIS OF TITLE 
+router.get("/search",postcontroller.search);
+
+//GET MYPOST 
+router.get("/my-post/:userId",requireLogin,postcontroller.myPost); 
+
+//GET A POST FROM ID
+router.get("/get-post/:postId",postcontroller.getPost);
+
+//EDIT THE POST
+router.put('/edit-post/:postId',requireLogin,upload.single("file"),postcontroller.editPost);
+
 
 module.exports = router;

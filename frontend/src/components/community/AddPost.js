@@ -28,7 +28,7 @@ const AddPost = () => {
         formData.append("salary", salary);
         formData.append("description", description);
         formData.append("tag", tag);
-
+        console.log(formData);
         const headers = {
             'Content-Type': 'multipart/form-data',
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
