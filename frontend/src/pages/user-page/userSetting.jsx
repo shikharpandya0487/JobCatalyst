@@ -191,7 +191,7 @@ const UserSettings = () => {
                   <div className="flex gap-1 items-center">
                     <div
                       style={{ width: "3px" ,height:'50px',backgroundColor:'grey' }}
-                      className= {`mr-3 mb-2 bg-gray-700 h-full ${showmyPostMethod? 'border-green-700' : ''}`}
+                      className= {`mr-3 mb-2 bg-gray-700 h-full ${showmyPost? 'border-green-700' : ''}`}
                       ></div>                   
                     <p className="text-lg font-normal hover:text-green-700 transition-all" onClick={showmyPostMethod}>
                      My Post
@@ -300,8 +300,8 @@ const UserSettings = () => {
             </div>
           )}
         </div>
-        <div className={`w-full ml-20 md:ml-4 ${showRecord ? "border-2 border-green-600 rounded-2xl" : ""}`}>
-          {showRecord && (
+        <div className={`w-full ml-20 md:ml-4 ${showmyPost ? "border-2 border-green-600 rounded-2xl" : ""}`}>
+          {showmyPost && (
             <div className="bg-gray-100 p-4 rounded-2xl w-full">
               <MyPost />
             </div>

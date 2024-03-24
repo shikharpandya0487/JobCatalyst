@@ -25,7 +25,7 @@ function Navbar() {
       <div className='mx-auto px-4 sm:px-6 lg:px-8 w-full'>
 
         <div className='w-full flex items-center justify-between gap-2 h-16 sm:justify-evenly md:justify-between'>
-            <div className='flex items-center text-white font-serif text-sm'>
+            <div className='flex items-center text-white font-serif text-xl'>
             
                 JobCatalyst
               

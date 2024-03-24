@@ -28,53 +28,53 @@ const JobRecord = () => {
       {jobRecords.map((record, index) => (
         <div key={index} className="bg-gray-100 p-4 rounded shadow mb-4">
           <h5 className="mb-2 font-semibold pb-4 italic">Work Experience {index + 1}</h5>
-          <div className="  mt-2">
-            <label className="font-medium ">Company:</label>
+          <div className=" w-full p-1 ">
+            <label className="font-light font-serif w-1/4 text-xl text-center text-black  ">Company:</label>
             <input
               type="text"
               name="company"
               value={record.company}
               onChange={(e) => handleChange(index, e)}
-              className="rounded-xl px-2 ml-2"
+              className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer"
             />
           </div>
-          <div className=" mt-2">
-            <label className="font-medium">Position:</label>
+          <div className=" w-full p-1">
+            <label className="font-light font-serif w-1/4 text-xl text-center text-black">Position:</label>
             <input
               type="text"
               name="position"
               value={record.position}
               onChange={(e) => handleChange(index, e)}
-              className="rounded-xl px-2 ml-4"
+              className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer"
             />
           </div>
-          <div className=" mt-2">
-            <label className="font-medium">Start Date:</label>
+          <div className=" w-full p-1">
+          <label className="font-light font-serif w-1/4 text-xl text-center text-black">Start Date:</label>
             <input
               type="text"
               name="startDate"
               value={record.startDate}
               onChange={(e) => handleChange(index, e)}
-              className="rounded-xl px-2 ml-1"
+              className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer"
             />
           </div>
-          <div className=" mt-2">
-            <label className="font-medium">End Date:</label>
+          <div className=" w-full p-1">
+          <label className="font-light font-serif w-1/4 text-xl text-center text-black">End Date:</label>
             <input
               type="text"
               name="endDate"
               value={record.endDate}
               onChange={(e) => handleChange(index, e)}
-              className="rounded-xl px-2 ml-3"
+              className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer"
             />
           </div>
-          <div className=" mt-2">
-            <label className="font-medium">Description:</label>
+          <div className=" w-full p-1">
+          <label className="font-light font-serif w-1/4 text-xl text-center text-black">Description:</label>
             <textarea
               name="description"
               value={record.description}
               onChange={(e) => handleChange(index, e)}
-              className="rounded-xl px-3 py-2 ml-1"
+              className="input-field bg-white rounded-md p-1 w-3/4 hover:cursor-pointer"
             />
           </div>
           <button onClick={() => saveRecord(index)} className="bg-green-500 text-white py-2 px-4 mt-2 rounded">Save Record</button>
