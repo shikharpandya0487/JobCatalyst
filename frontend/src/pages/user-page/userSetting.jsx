@@ -6,6 +6,7 @@ import PasswordAndSecurity from "../../components/settings/Password&Security";
 import NotificationandSetting from "../../components/settings/NotificationandSetting";
 import ResumeSetting from "../../components/resume/Form"
 import JobRecord from "../../components/settings/JobRecord";
+import MyPost from "../../components/settings/myPost";
 const UserSettings = () => {
     const [showUserProfile,setShowUserProfile] = useState(true);
     const [showContactInfo,setShowContactInfo] = useState(false);  
@@ -14,6 +15,7 @@ const UserSettings = () => {
     const [showNotification,setShowNotification] = useState(false);
     const [showResume,setShowResume] = useState(false);
     const [showRecord,setShowRecord] = useState(false);
+    const [showmyPost,setshowMyPost] = useState(false);
     const showMyProfile = () => {
         setShowUserProfile(true);
         setShowContactInfo(false);
@@ -22,6 +24,7 @@ const UserSettings = () => {
         setShowNotification(false);
         setShowResume(false);
         setShowRecord(false);
+        setshowMyPost(false);
     }
     const showContactInformation = () => {
         setShowUserProfile(false);
@@ -31,6 +34,7 @@ const UserSettings = () => {
         setShowNotification(false);
         setShowResume(false);
         setShowRecord(false);
+        setshowMyPost(false);
     }
     const showMyTeamInfo = () => {
         setShowUserProfile(false);
@@ -40,6 +44,8 @@ const UserSettings = () => {
         setShowNotification(false);
         setShowResume(false);
         setShowRecord(false);
+        setshowMyPost(false);
+
     }
     const showMyTeamSetting = () => {
         setShowUserProfile(false);
@@ -49,6 +55,8 @@ const UserSettings = () => {
         setShowNotification(false);
         setShowResume(false);
         setShowRecord(false);
+        setshowMyPost(false);
+
     }
     const showNotificationmethod = () => {
         setShowUserProfile(false);
@@ -58,6 +66,8 @@ const UserSettings = () => {
         setShowNotification(true);
         setShowResume(false);
         setShowRecord(false);
+        setshowMyPost(false);
+
     }
     const showResumemethod = () => {
       setShowUserProfile(false);
@@ -67,6 +77,8 @@ const UserSettings = () => {
       setShowNotification(false);
       setShowResume(true);
       setShowRecord(false);
+      setshowMyPost(false);
+
   }
     const showRecordMethod = () => {
     setShowUserProfile(false);
@@ -76,12 +88,26 @@ const UserSettings = () => {
     setShowNotification(false);
     setShowResume(false);
     setShowRecord(true);
+    setshowMyPost(false);
+
+  }
+  const showmyPostMethod = () => {
+    setShowUserProfile(false);
+    setShowContactInfo(false);
+    setShowMyTeams(false);
+    setShowSetting(false);
+    setShowNotification(false);
+    setShowResume(false);
+    setShowRecord(false);
+    setshowMyPost(true);
+
   }
 
 
 
+
   return (
-    <section className="flex flex-col items-start justify-start py-4 px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-32">
+    <section className="flex flex-col items-start justify-start py-4 px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-32 ">
       <h1 className="text-4xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold mb-6 pl-4">
         Settings
       </h1>
@@ -159,6 +185,16 @@ const UserSettings = () => {
                       ></div>                   
                     <p className="text-lg font-normal hover:text-green-700 transition-all" onClick={showNotificationmethod}>
                       Notification Settings
+                    </p>
+                  </div>
+
+                  <div className="flex gap-1 items-center">
+                    <div
+                      style={{ width: "3px" ,height:'50px',backgroundColor:'grey' }}
+                      className= {`mr-3 mb-2 bg-gray-700 h-full ${showmyPostMethod? 'border-green-700' : ''}`}
+                      ></div>                   
+                    <p className="text-lg font-normal hover:text-green-700 transition-all" onClick={showmyPostMethod}>
+                     My Post
                     </p>
                   </div>
                 </div>
@@ -261,6 +297,13 @@ const UserSettings = () => {
           {showRecord && (
             <div className="bg-gray-100 p-4 rounded-2xl w-full">
               <JobRecord />
+            </div>
+          )}
+        </div>
+        <div className={`w-full ml-20 md:ml-4 ${showRecord ? "border-2 border-green-600 rounded-2xl" : ""}`}>
+          {showRecord && (
+            <div className="bg-gray-100 p-4 rounded-2xl w-full">
+              <MyPost />
             </div>
           )}
         </div>
