@@ -4,42 +4,54 @@ const Education = ({ formData, setFormData }) => {
   return (
     <div>
       <form>
-        <div className="mb-2">
-          <label for="name" className="font-semibold">
-           First Institute name:
+      <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="name"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
+            First Institite Name:
           </label>
           <input
             type="text"
             id="name"
-            className="rounded-2xl ml-2"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="Enter your first institute name"
             value={formData.edu1_school}
             onChange={(e) => {
               setFormData({ ...formData, edu1_school: e.target.value });
             }}
           />
         </div>
-        <div className="mb-2">
-          <label for="Email" className="font-semibold">
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="name"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
             Year you graduated:
           </label>
           <input
-            type="email"
-            id="Email"
-            className="rounded-2xl ml-2"
+            type="text"
+            id="name"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="Enter your graduation year"
             value={formData.edu1_year}
             onChange={(e) => {
               setFormData({ ...formData, edu1_year: e.target.value });
             }}
           />
         </div>
-        <div className="mb-2">
-          <label for="phone" className="font-semibold">
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="name"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
             Degree you pursued:
           </label>
           <input
             type="text"
-            id="phone"
-            className="rounded-2xl ml-2"
+            id="name"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="Enter your degree"
             value={formData.edu1_qualificatin}
             onChange={(e) => {
               setFormData({ ...formData, edu1_qualificatin: e.target.value });
@@ -47,14 +59,18 @@ const Education = ({ formData, setFormData }) => {
           />
         </div>
 
-        <div className="col-12 mb-2">
-          <label for="edu1_desc" className="font-semibold">
+        <div className="  col-12 w-full p-1 flex items-center">
+          <label
+            htmlFor="edu1_desc"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
             Enter a short description:
           </label>
           <input
             type="text"
-            id="github"
-            className="rounded-2xl ml-2"
+            id="name"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="XYZ "
             value={formData.edu1_desc}
             onChange={(e) => {
               setFormData({ ...formData, edu1_desc: e.target.value });
@@ -62,42 +78,54 @@ const Education = ({ formData, setFormData }) => {
           />
         </div>
         <hr />
-        <div className="mb-2">
-          <label for="name" className="font-semibold">
-            Enter your Second Institute name:
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="name"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
+           Second Institute name:
           </label>
           <input
             type="text"
             id="name"
-            className="rounded-2xl ml-2"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="Enter your second institute name"
             value={formData.edu2_school}
             onChange={(e) => {
               setFormData({ ...formData, edu2_school: e.target.value });
             }}
           />
         </div>
-        <div className="mb-2">
-          <label for="Email" className="font-semibold">
-            Year you graduated from your second institute:
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="name"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
+            Year you graduated:
           </label>
           <input
-            type="email"
-            id="Email"
-            className="rounded-2xl ml-2"
+            type="text"
+            id="name"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="Enter your year you graduated from your second institute name"
             value={formData.edu2_year}
             onChange={(e) => {
               setFormData({ ...formData, edu2_year: e.target.value });
             }}
           />
         </div>
-        <div className="mb-2">
-          <label for="phone" className="font-semibold">
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="name"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
             Degree you pursued:
           </label>
           <input
             type="text"
-            id="phone"
-            className="rounded-2xl ml-2"
+            id="name"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="Enter your degree from second institution"
             value={formData.edu2_qualificatin}
             onChange={(e) => {
               setFormData({ ...formData, edu2_qualificatin: e.target.value });
@@ -105,14 +133,18 @@ const Education = ({ formData, setFormData }) => {
           />
         </div>
 
-        <div className="col-12 mb-2">
-          <label for="edu1_desc" className="font-semibold">
+        <div className="  col-12 w-full p-1 flex items-center">
+          <label
+            htmlFor="edu2_desc"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
             Enter a short description:
           </label>
           <input
             type="text"
-            id="github"
-            className="rounded-2xl ml-2"
+            id="name"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="XYZ"
             value={formData.edu2_desc}
             onChange={(e) => {
               setFormData({ ...formData, edu2_desc: e.target.value });

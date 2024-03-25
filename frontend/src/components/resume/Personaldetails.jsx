@@ -1,60 +1,76 @@
-import React from 'react'
+import React from "react";
 
 const PersonalDetails = ({ formData, setFormData }) => {
   return (
     <div>
       <form>
-        <div className="mb-2">
-          <label for="name" className="font-semibold">
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="name"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
             Name:
           </label>
           <input
             type="text"
             id="name"
-            className="rounded-2xl ml-2"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="Enter your name"
             value={formData.name}
             onChange={(e) => {
               setFormData({ ...formData, name: e.target.value });
             }}
           />
         </div>
-        <div className="mb-2">
-          <label for="Email" className="font-semibold">
+
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="email"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
             Email:
           </label>
           <input
             type="email"
             id="Email"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="Enter your email"
             value={formData.email}
-            className="rounded-2xl ml-2"
             onChange={(e) => {
               setFormData({ ...formData, email: e.target.value });
             }}
           />
         </div>
-        <div className="mb-2">
-          <label for="phone" className="font-semibold">
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="phone"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
             Phone:
           </label>
           <input
             type="text"
             id="phone"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="Enter your Contact no"
             value={formData.phone}
-            className="rounded-2xl ml-2"
             onChange={(e) => {
               setFormData({ ...formData, phone: e.target.value });
             }}
           />
         </div>
 
-        <div className="col-12 mb-2">
-          <label for="github" className="font-semibold">
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="github"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
             Github:
           </label>
           <input
             type="text"
             id="github"
-            className="rounded-2xl ml-2"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
             placeholder="https://github/YOURUSERNAME"
             value={formData.github}
             onChange={(e) => {
@@ -62,14 +78,17 @@ const PersonalDetails = ({ formData, setFormData }) => {
             }}
           />
         </div>
-        <div className="col-12 mb-2">
-          <label for="LinkedIn" className="font-semibold">
-            LinkedIn:
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="Linkedln"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
+            Linkedln:
           </label>
           <input
             type="text"
-            id="LinkedIn"
-            className="rounded-2xl ml-2"
+            id="Linkedln"
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
             placeholder="https://linkedIn/YOURUSERNAME"
             value={formData.linkedin}
             onChange={(e) => {
@@ -77,15 +96,18 @@ const PersonalDetails = ({ formData, setFormData }) => {
             }}
           />
         </div>
-        <div className="col-12 mb-2">
-          <label for="Skills" className="font-semibold">
+        <div className=" w-full p-1 flex items-center">
+          <label
+            htmlFor="Skills"
+            className="font-light text-center text-black text-xl font-serif w-1/4 px-2"
+          >
             Skills:
           </label>
           <input
             type="text"
             id="Skills"
-            className="rounded-2xl ml-2 px-3"
-            placeholder="Enter skills and separate each of them with a comma "
+            className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
+            placeholder="Enter your skills here "
             value={formData.skills}
             onChange={(e) => {
               setFormData({ ...formData, skills: e.target.value });
@@ -94,7 +116,7 @@ const PersonalDetails = ({ formData, setFormData }) => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default PersonalDetails
+export default PersonalDetails;
