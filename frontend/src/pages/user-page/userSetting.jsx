@@ -102,6 +102,9 @@ const UserSettings = () => {
     setshowMyPost(true);
 
   }
+  const onCloseJobRecord = () => {
+    setShowRecord(false);
+  }
 
 
 
@@ -296,7 +299,7 @@ const UserSettings = () => {
         <div className={`w-full ml-20 md:ml-4 ${showRecord ? "border-2 border-green-600 rounded-2xl" : ""}`}>
           {showRecord && (
             <div className="bg-gray-100 p-4 rounded-2xl w-full">
-              <JobRecord />
+              <JobRecord onClose = {onCloseJobRecord} />
             </div>
           )}
         </div>

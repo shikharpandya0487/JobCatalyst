@@ -17,9 +17,12 @@ function Job() {
     setSearchText(e.target.value);
   };
 
-  const Search = (item) => {
-    setSearchText(item);
-    console.log("search", item);
+  const Search = (item, type) => {
+    if (type === "location") {
+      setSearchLocation(item);
+    } else if (type === "jobProfile") {
+      setSearchText(item);
+    }
   };
 
   const goToForCompanies = () => {
@@ -30,16 +33,17 @@ function Job() {
     setDisplayBody(false);
   };
 
-  const filterPeople = () => {
-    return data.people.filter((person) => {
-      const locationMatch = person.location
+  const filterSearch = () => {
+    const filteredData = data2.filter((item) => {
+      const locationMatch = item.location
         .toLowerCase()
         .includes(searchLocation.toLowerCase());
-      const jobProfileMatch = person.jobProfile
+      const jobProfileMatch = item.title
         .toLowerCase()
         .includes(searchText.toLowerCase());
       return locationMatch && jobProfileMatch;
     });
+    return filteredData;
   };
 
   const data2 = [
@@ -96,19 +100,19 @@ function Job() {
               type="text"
               value={searchLocation}
               onChange={onChangeLocationHandler}
-              className="rounded-md border-thin"
+              className="rounded-md border-thin mr-2"
               placeholder="Enter Location"
             />
             <input
               type="text"
               value={searchText}
               onChange={onChangeJobProfileHandler}
-              className="rounded-md border-thin"
+              className="rounded-md border-thin ml-2 mr-3"
               placeholder="Enter Job Profile"
             />
             <button
-              className="w-fit p-1"
-              onClick={() => Search(searchLocation)}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-md transition duration-300 ease-in-out"
+              onClick={() => filterSearch()}
             >
               Search
             </button>
@@ -162,7 +166,7 @@ function Job() {
             For Companies
           </div>
         </div>
-         
+
         {/* Search Tags & Body */}
         <div className="flex justify-between min-h-screen w-full p-2">
           {/* Search Tags */}
@@ -173,25 +177,43 @@ function Job() {
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
                 value={"Delhi"}
+                onClick={() => Search("Delhi", "location")}
               >
                 Delhi
               </button>
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
                 value={"Mumbai"}
+                onClick={() => Search("Mumbai", "location")}
               >
                 Mumbai
               </button>
-              <button className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center">
+              <button
+                className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                value={"Chennai"}
+                onClick={() => Search("Chennai", "location")}
+              >
                 Chennai
               </button>
-              <button className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center">
+              <button
+                className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                value={"Hyderabad"}
+                onClick={() => Search("Hyderabad", "location")}
+              >
                 Hyderabad
               </button>
-              <button className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center">
+              <button
+                className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                value={"Banglore"}
+                onClick={() => Search("Banglore", "location")}
+              >
                 Banglore
               </button>
-              <button className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center">
+              <button
+                className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                value={"Noida"}
+                onClick={() => Search("Noida", "location")}
+              >
                 Noida
               </button>
             </div>
@@ -199,19 +221,34 @@ function Job() {
             <div className="w-full h-1/2 bg-slate-200 rounded-md border-1 border-blue-900 flex flex-wrap items-start justify-start gap-1 p-1">
               <div className="font-bold text-center w-full">Job Profile</div>
               {/* Tags */}
-              <button className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center">
+              <button
+                className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                onClick={() => Search("Data Analyst", "jobProfile")}
+              >
                 Data Analyst
               </button>
-              <button className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center">
-                Web Devloper
+              <button
+                className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                onClick={() => Search("Web Developer", "jobProfile")}
+              >
+                Web Developer
               </button>
-              <button className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center">
-                SEO specialist
+              <button
+                className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                onClick={() => Search("SEO Specialist", "jobProfile")}
+              >
+                SEO Specialist
               </button>
-              <button className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center">
-                Meta Creater
+              <button
+                className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                onClick={() => Search("Meta Creator", "jobProfile")}
+              >
+                Meta Creator
               </button>
-              <button className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center">
+              <button
+                className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                onClick={() => Search("Educator", "jobProfile")}
+              >
                 Educator
               </button>
             </div>
@@ -223,23 +260,24 @@ function Job() {
               {displayBody ? (
                 <>
                   {/* Infinite scroll test   */}
-                  <ForCompanies/>
+                  <ForCompanies />
                 </>
               ) : (
                 data2.map((item, index) => (
-                  <JobPosting
-                    key={index}
-                    title={item.title}
-                    company={item.company}
-                    position={item.position}
-                    location={item.location}
-                    jobType={item.jobType}
-                    salary={item.salary}
-                    description={item.description}
-                    tags={item.tags}
-                    image={item.image}
-                    posted={item.posted}
-                  />
+                  <div key={index} className="mb-4">
+                    <JobPosting
+                      title={item.title}
+                      company={item.company}
+                      position={item.position}
+                      location={item.location}
+                      jobType={item.jobType}
+                      salary={item.salary}
+                      description={item.description}
+                      tags={item.tags}
+                      image={item.image}
+                      posted={item.posted}
+                    />
+                  </div>
                 ))
               )}
             </div>
