@@ -66,7 +66,7 @@ const Experiences = ({ formData, setFormData }) => {
           >
             Job description:
           </label>
-          <input
+          <textarea
             type="text"
             id="name"
             className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
@@ -140,7 +140,7 @@ const Experiences = ({ formData, setFormData }) => {
           >
             Job description:
           </label>
-          <input
+          <textarea
             type="text"
             id="name"
             className="rounded-md  input-field bg-white p-1 w-3/4 hover:cursor-pointer mr-2"
