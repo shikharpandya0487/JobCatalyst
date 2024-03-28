@@ -1,5 +1,3 @@
-const dotenv=require('dotenv')
-dotenv.config()
 const User=require("../../models/user/User");
 const OTP=require("../../models/OTP/OTP");
 const otpGenerator=require("otp-generator");
@@ -23,7 +21,7 @@ exports.signup=async(req,res)=>{
         //date fetch from request ki body
         const{username,
             email,
-            password,confirmpassword,
+            password,confirmPassword,
             otp
         }=req.body
     
@@ -38,7 +36,7 @@ exports.signup=async(req,res)=>{
                 })
         }
         //2 password user dalega usko match karlo
-        if(password!==confirmpassword){
+        if(password!==confirmPassword){
             return res.status(400).json({
                 success:false,
                 message:"Password and ConfirmPassowrd values does not match, Please try again",
