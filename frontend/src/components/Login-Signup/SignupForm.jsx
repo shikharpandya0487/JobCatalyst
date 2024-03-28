@@ -22,7 +22,7 @@ const SignupForm = ( props ) => {
 });
 const toast=useToast()
 const navigate=useNavigate();
-const { name, email, password, confirmpassword} = user
+const { username, email, password, confirmpassword} = user
 
 
 //handling the input value
@@ -36,8 +36,9 @@ const handleInput = (e) => {
 const handleSubmit = (e) => {
   e.preventDefault()
 
-  if(!name||!email||!password||!confirmpassword)
-  {
+  if(!username||!email||!password||!confirmpassword)
+  { 
+      console.log(username,email,password,confirmpassword);
       toast({
           title: 'Fill in the details',
           description: "Lack of info",
@@ -52,19 +53,11 @@ const handleSubmit = (e) => {
   }
  
   if (password !== confirmpassword) {
-    toast({
-      title: 'Fill in the correct password and confirm pass',
-      description: "Lack of info",
-      status: 'warning',
-      duration: 4000,
-      isClosable: true,
-      position:"bottom"
-    })
-
+    toast.error("Passwords Do Not Match")
     return;
   }
 
-  console.log(name,email,password,pic)
+  console.log(username,email,password,pic)
   const signupData = {
     ...user,
   }
@@ -83,13 +76,13 @@ const handleSubmit = (e) => {
     password: "",
     confirmpassword: "",
   })
-  toast({
-    title: "Registration Successful",
-    status: "success",
-    duration: 5000,
-    isClosable: true,
-    position: "bottom",
-})
+//   toast({
+//     title: "Please Check your Email for OTP Verification",
+//     status: "success",
+//     duration: 5000,
+//     isClosable: true,
+//     position: "bottom",
+// })
 
 
 }
@@ -149,7 +142,7 @@ const handleSubmit = (e) => {
             <Button
             variant="dark"
             className="ml-2 w-1/4"
-            onClick={(show)=>setShow(!show)}
+            onClick={(e)=>setShow(!show)}
             >
             {show ? 'Hide' : 'Show'}
           </Button>
@@ -159,8 +152,8 @@ const handleSubmit = (e) => {
             <Form.Control
               type="password"
               placeholder="Confirm your password"
-              name="confirmPassword"
-              value={user.confirmPassword}
+              name="confirmpassword"
+              value={user.confirmpassword}
               onChange={handleInput}
               className='text-center'
               required

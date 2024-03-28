@@ -1,4 +1,4 @@
-
+const bodyParser = require('body-parser');
 require("dotenv").config();
 const express = require("express");
 const app = express();
@@ -18,6 +18,8 @@ const connectDb = require("./src/database/Connection.js")
 const googleUser = require("./src/models/user/GoogleUser.js")
 const cookieParser = require("cookie-parser"); 
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cookieParser()) 
 app.use(cors({
