@@ -110,7 +110,7 @@ const UserSettings = () => {
 
 
   return (
-    <section className="flex flex-col items-start justify-start py-4 px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-32 ">
+    <section className="flex flex-col items-start justify-start py-4 px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-32 min-h-fit ">
       <h1 className="text-4xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold mb-6 pl-4">
         Settings
       </h1>
@@ -123,13 +123,13 @@ const UserSettings = () => {
               <div className="px-3 rounded-md">
                 <h3 className="text-2xl font-medium">User Settings</h3>
                 <div className="flex flex-col">
-                  <div className="flex gap-1 items-center">
+                  <div className="flex gap-1 items-center min-h-fit">
                     <div
                       style={{ width: "3px" ,height: '30px',backgroundColor:'grey' }}
                       className={`mr-3 mb-2 bg-gray-700 h-full ${showUserProfile ? 'border-green-700' : ''}`}
                       ></div>
                    
-                    <p className="text-lg font-normal hover:text-green-600 transition-all" onClick={showMyProfile}>
+                    <p className="text-lg font-normal cursor-pointer hover:text-green-600 transition-all" onClick={showMyProfile}>
                       My Profile
                     </p>
                   </div>
@@ -139,7 +139,7 @@ const UserSettings = () => {
                       className={`mr-3 mb-2 bg-gray-700 h-full ${showContactInfo ? 'border-green-700' : ''}`}
                       ></div>
                     
-                    <p className="text-lg font-normal hover:text-green-600 transition-all" onClick={showContactInformation}>
+                    <p className="text-lg font-normal cursor-pointer hover:text-green-600 transition-all" onClick={showContactInformation}>
                       Contact info
                     </p>
                   </div>
@@ -149,7 +149,7 @@ const UserSettings = () => {
                       className={`mr-3 mb-2 bg-gray-700 h-full ${showMyTeams ? 'border-green-700' : ''}`}
                       ></div>
                     
-                    <p className="text-lg font-normal hover:text-green-600 transition-all" onClick={showMyTeamInfo} >
+                    <p className="text-lg cursor-pointer font-normal hover:text-green-600 transition-all" onClick={showMyTeamInfo} >
                       My Teams
                     </p>
                   </div>
@@ -159,7 +159,7 @@ const UserSettings = () => {
                       className={`mr-3 mb-2 bg-gray-700 h-full ${showSetting ? 'border-green-700' : ''}`}
                       ></div>
                     
-                    <p className="text-lg font-normal hover:text-green-600 transition-all" onClick={showMyTeamSetting}>
+                    <p className="text-lg cursor-pointer font-normal hover:text-green-600 transition-all" onClick={showMyTeamSetting}>
                       Password & Security
                     </p>
                   </div>
@@ -168,7 +168,7 @@ const UserSettings = () => {
                       style={{ width: "3px",height: '30px' ,backgroundColor:'grey' }}
                       className={`mr-3 mb-2 bg-gray-700 h-full ${showRecord ? 'border-green-700' : ''}`}
                       ></div>
-                    <p className="text-lg font-normal hover:text-green-600 transition-all text-center" onClick={showRecordMethod}>
+                    <p className="text-lg cursor-pointer font-normal hover:text-green-600 transition-all text-center" onClick={showRecordMethod}>
                       Job Record
                     </p>
                   </div>
@@ -177,7 +177,7 @@ const UserSettings = () => {
                       style={{ width: "3px" ,height:'30px',backgroundColor:'grey'}}
                       className="mr-3 mb-2 bg-gray-700 h-full"
                     ></div>
-                    <p className="text-lg font-normal hover:text-green-600 transition-all"  onClick={showResumemethod}>
+                    <p className="text-lg cursor-pointer font-normal hover:text-green-600 transition-all"  onClick={showResumemethod}>
                       Resume
                     </p>
                   </div>
@@ -186,7 +186,7 @@ const UserSettings = () => {
                       style={{ width: "3px" ,height:'50px',backgroundColor:'grey' }}
                       className= {`mr-3 mb-2 bg-gray-700 h-full ${showNotificationmethod? 'border-green-700' : ''}`}
                       ></div>                   
-                    <p className="text-lg font-normal hover:text-green-700 transition-all" onClick={showNotificationmethod}>
+                    <p className="text-lg font-normal cursor-pointer hover:text-green-700 transition-all" onClick={showNotificationmethod}>
                       Notification Settings
                     </p>
                   </div>
@@ -196,7 +196,7 @@ const UserSettings = () => {
                       style={{ width: "3px" ,height:'50px',backgroundColor:'grey' }}
                       className= {`mr-3 mb-2 bg-gray-700 h-full ${showmyPost? 'border-green-700' : ''}`}
                       ></div>                   
-                    <p className="text-lg font-normal hover:text-green-700 transition-all" onClick={showmyPostMethod}>
+                    <p className="text-lg font-normal cursor-pointer hover:text-green-700 transition-all" onClick={showmyPostMethod}>
                      My Post
                     </p>
                   </div>
@@ -206,14 +206,14 @@ const UserSettings = () => {
             <div className="w-full md:w-2/3">
               {/* Payment Settings */}
               <div className="px-3 rounded-md">
-                <h3 className="text-2xl font-medium">Payment Settings</h3>
+                <h3 className="text-2xl cursor-pointer font-medium">Payment Settings</h3>
                 <div className="flex flex-col mb-4">
                 <div className="flex gap-1 items-center">
                     <div
                       style={{ width: "3px" ,height:'50px',backgroundColor:'grey' }}
                       className="mr-3 mb-2 bg-gray-900 h-full"
                     ></div>
-                    <p className="text-lg font-normal hover:text-green-700 transition-all">
+                    <p className="text-lg cursor-pointer font-normal hover:text-green-700 transition-all">
                       Billing and payments
                     </p>
                   </div>
@@ -222,7 +222,7 @@ const UserSettings = () => {
                       style={{ width: "3px" ,height:'30px',backgroundColor:'grey' }}
                       className="mr-3 mb-2 bg-gray-900 h-full"
                     ></div>
-                    <p className="text-lg font-normal hover:text-green-700 transition-all">
+                    <p className="text-lg cursor-pointer font-normal hover:text-green-700 transition-all">
                       Get Paid
                     </p>
                   </div>
@@ -232,16 +232,16 @@ const UserSettings = () => {
             <div className="w-full md:w-2/3">
               {/* Accounting Settings */}
               <div className="px-3 rounded-md">
-                <h3 className="text-2xl font-medium">Accounting Settings</h3>
+                <h3 className="text-2xl cursor-pointer font-medium">Accounting Settings</h3>
                 <div className="flex flex-col mb-4">
                 <div className="flex gap-1">
-                    <p className="text-lg font-normal">Log Out</p>
+                    <p className="text-lg cursor-pointer font-normal">Log Out</p>
                   </div>
                   <div className="flex gap-1">
-                    <p className="text-lg font-normal">Delete Account</p>
+                    <p className="text-lg cursor-pointer font-normal">Delete Account</p>
                   </div>
                   <div className="flex gap-1">
-                    <p className="text-lg font-normal">About</p>
+                    <p className="text-lg cursor-pointer font-normal">About</p>
                   </div>
                 </div>
               </div>
@@ -249,7 +249,7 @@ const UserSettings = () => {
           </div>
         </div>
         {/* Right section with user details */}
-        <div className="flex flex-col gap-2 ">
+        <div className="flex flex-col gap-2 min-h-fit ">
           <div className={`w-full ml-20 md:ml-4 ${showUserProfile ? "border-2 border-green-600 rounded-2xl"  : ""}`}>
             {showUserProfile && (
               <div className="bg-gray-100 p-4 rounded-2xl w-full">
@@ -257,7 +257,7 @@ const UserSettings = () => {
               </div>
             )}
           </div>
-          <div className={`w-full ml-20 md:ml-4 ${showContactInfo ? "border-2 border-green-600 rounded-2xl" : ""}`}>
+          <div className={`w-[700px] ml-20 md:ml-4 ${showContactInfo ? "border-2 border-green-600 rounded-2xl" : ""}`}>
             {showContactInfo && (
               <div className="bg-gray-100 p-4 rounded-2xl w-full">
                 <ContactInfo />

@@ -19,6 +19,7 @@
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "file-saver": "^2.0.5",
+    "firebase": "^10.9.0",
     "framer-motion": "^11.0.20",
     "jodit-react": "^4.0.9",
     "lodash": "^4.17.21",

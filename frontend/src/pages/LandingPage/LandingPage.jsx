@@ -5,6 +5,10 @@ import axios from 'axios';
 // import './GoggleLogin.css'
 import "./LandingPage.css"
 
+import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
+import {auth} from '../../firebase/firebaseConfig'
+
+
 
 function LandingPage() {
 
@@ -53,11 +57,15 @@ function LandingPage() {
 };
 
     
+ const handleGoogle=(e)=>{
+    const provider = new GoogleAuthProvider();
+   signInWithPopup(auth,provider)
+   .then((result)=>{
+    console.log(result)
+   })
+ }
 
-  //LOGIN WITH GOOGLE
-  const loginwithgoogle = () => {
-    window.open("http://localhost:5000/auth/google/callback", "_self")
-  }
+
 
 
 
@@ -121,7 +129,7 @@ function LandingPage() {
                 </button>
               </div>
               <div className="w-7/12 p-2 border-1 flex justify-evenly rounded-xl border-black">
-                 <button type="button" className="login-with-google-btn w-[49%]" >
+                 <button type="button" className="login-with-google-btn w-[49%]" onClick={handleGoogle}>
                   Sign in with Google
                 </button>
 

@@ -62,9 +62,6 @@ const handleSearch = async () => {
       s2: '!! Microsoft hire 20 year old intern at 1.51p/m',
       s3: '!! Person Bagged 55.5LPA in Microsoft'
     },
-
-
-
   ];
 
   return (

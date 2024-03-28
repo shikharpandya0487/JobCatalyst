@@ -179,6 +179,20 @@ exports.login=async(req,res)=>{
     }
 }
 
+exports.googleAuth=async (req,res)=>{
+    try {
+        //find the user 
+        //If present then fetch the user details 
+        //If user not found then console error
+
+        
+        
+    } catch (error) {
+        console.log(error);   
+        throw new Error("Google Authentication failed try again after resolvving errors ")
+    }
+}
+
 exports.sendotp = async (req, res) => {
 	try {
 		const { email } = req.body;

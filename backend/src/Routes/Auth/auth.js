@@ -32,4 +32,5 @@ router.post("/reset-password-token", resetPasswordToken)
 
 router.post("/reset-password", resetPassword)
 
+// router.route('/google').post(googleSignin)
 module.exports = router;
