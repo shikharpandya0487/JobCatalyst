@@ -47,6 +47,7 @@ function Navbar() {
                   <button  style={{ '--clr': '#39FF14' }} id="login" className="login" onClick={()=>setModalShowlogin(true)}><span>Login</span><i></i></button>
                   <LoginForm show={modalShowlogin} onHide={()=>setModalShowlogin(false)}/>
                   <button  style={{ '--clr': '#39FF14' }} id="login" className="login" onClick={()=>setModalShowSignup(true)}><span>Sign up</span><i></i></button>
+                  <SignupForm show={modalShowSignup} onHide={()=>setModalShowSignup(false)}/>
                 </div>
               )}
             </div>
