@@ -13,6 +13,7 @@ const MyChat = ({fetchAgain}) => {
     const toast=useToast()
         // console.log(user);
     const [loggedUser,setLoggedUser]=useState()
+    console.log(chats)
   
     console.log(user?._id);
     //fetching chats
@@ -47,7 +48,8 @@ const MyChat = ({fetchAgain}) => {
     }
 //This loads all the chats as soon as the site loads
     useEffect(()=>{
-        setLoggedUser(JSON.parse(localStorage.getItem("userInfo")))
+        setLoggedUser(JSON.parse(localStorage.getItem("user")))
+        console.log(loggedUser)
         fetchChats();
     },[fetchAgain])
   return (
@@ -109,7 +111,13 @@ const MyChat = ({fetchAgain}) => {
                                             (<Text
                                             fontSize="xs"
                                             >
-                                                <b>{chat.latestMessage.sender?.name} :</b>
+                                                <b className='font-semibold'>{
+                                                      chat.latestMessage.sender?.name
+                                                      
+                                                   
+                                                   }
+                                                   
+                                                    :    </b>
                                                 {
                                                     //showing some text send
                                                     chat.latestMessage.content.length>50?chat.latestMessage.content.substring(0,30)+" ....":chat.latestMessage.content
