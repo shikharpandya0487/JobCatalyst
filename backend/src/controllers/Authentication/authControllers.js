@@ -174,7 +174,7 @@ exports.login=async(req,res)=>{
             success:false,
             message:"Login Failer, please try again "
         })
-    }
+    } 
 }
 
 exports.googleAuth=async (req,res)=>{

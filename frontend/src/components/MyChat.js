@@ -109,7 +109,7 @@ const MyChat = ({fetchAgain}) => {
                                             (<Text
                                             fontSize="xs"
                                             >
-                                                <b>{chat.latestMessage.sender.name} :</b>
+                                                <b>{chat.latestMessage.sender?.name} :</b>
                                                 {
                                                     //showing some text send
                                                     chat.latestMessage.content.length>50?chat.latestMessage.content.substring(0,30)+" ....":chat.latestMessage.content

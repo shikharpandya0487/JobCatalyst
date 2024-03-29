@@ -43,6 +43,8 @@ const LoginForm = (props) => {
         localStorage.setItem('LoggedIn',true)
         localStorage.setItem("user", JSON.stringify(response.data.user));
 
+        console.log(response.data)
+
         navigate("/community");
       } else {
         // Handle unsuccessful login
