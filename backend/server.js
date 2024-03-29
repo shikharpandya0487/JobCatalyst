@@ -17,6 +17,7 @@ const messageRoutes=require('./src/Routes/messageRoutes/messageRoutes.js')
 const connectDb = require("./src/database/Connection.js")
 const googleUser = require("./src/models/user/GoogleUser.js")
 const cookieParser = require("cookie-parser"); 
+const jobRoutes=require("../backend/src/Routes/jobRoutes/jobRoute.js");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,6 +39,7 @@ app.use("/api/resume",resumerouter);
 app.use("/api/user",userRouter)   
 app.use("/api/chat",chatRouter)
 app.use("/api/message",messageRoutes)
+app.use("/api/jobs",jobRoutes);
 
 app.use(cors({  
     origin:"http://localhost:3000", 
