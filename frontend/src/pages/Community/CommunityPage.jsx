@@ -5,7 +5,7 @@ import moment from 'moment';
 import Stories from '../../components/community/Stories';
 import JobPosting from '../../components/community/JobPosting';
 import EmployerSpotlight from '../../components/community/EmployerSpotlight';
- 
+
 
 const CommunityPage = () => {
 

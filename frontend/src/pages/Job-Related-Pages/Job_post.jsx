@@ -1,8 +1,10 @@
 import React,{useRef,useState} from 'react'
 import JoditEditor from 'jodit-react';
 import Navbar from '../../components/Navbar/Navbar';
+import {useTheme} from '../../Context/ThemeContext';
 
 const Job_post = () => {
+    const {theme} = useTheme();
 
     // useRef is used to prevent rerendering of components  and make reference to the element
     const editor = useRef(null);
@@ -31,14 +33,19 @@ const Job_post = () => {
         setpost({...post,[event.target.name]:event.target.value})
     }
   return (
-    <div className='w-screen h-screen'>
+    <div className='w-screen h-screen'
+    style={{
+        backgroundColor: theme === "dark" ? "#333" : "#fff",
+        color: theme === "dark" ? "#fff" : "#333",
+      }}
+    >
        
        <Navbar/>
 
       <div className='mx-auto w-8/12 h-full flex flex-col items-center justify-start gap-3 p-2'>
 
          {/* employee number and salary range  */}
-         <div className='flex text-4xl justify-center items-center p-4 w-full font-bold border-blue-300 border-1'>
+         <div className='flex text-4xl justify-center items-center p-4 w-full font-bold'>
             Details of the Job
          </div>
 
@@ -52,6 +59,10 @@ const Job_post = () => {
                     value={post.experience} 
                     onChange={fieldChanged}
                     className='text-center border-2 border-blue-500 rounded-md'
+                    style={{
+                        backgroundColor: theme === "dark" ? "#333" : "#fff",
+                        color: theme === "dark" ? "#fff" : "#333",
+                      }}
                 >
                     <option value="" id='exp1'>Select Experience</option>
                     <option value="0-1" id='exp2'>0-1 years</option>
@@ -69,6 +80,10 @@ const Job_post = () => {
                     value={post.salary} 
                     onChange={fieldChanged}
                     className='text-center border-2 border-blue-500 rounded-md'
+                    style={{
+                        backgroundColor: theme === "dark" ? "#333" : "#fff",
+                        color: theme === "dark" ? "#fff" : "#333",
+                      }}
                 >
                     <option value="" id='s1'>Select Salary Range</option>
                     <option value="10-20k" id='s2'>10-20k</option>
@@ -81,7 +96,12 @@ const Job_post = () => {
 
 
         {/* job description   */}
-        <div className='flex justify-center items-center p-1'>
+        <div className='flex justify-center items-center p-1'
+        style={{
+            backgroundColor: theme === "dark" ? "#333" : "#fff",
+            color: theme === "dark" ? "#fff" : "#333",
+          }}
+        >
             <h3>
                 Job Description
             </h3>
@@ -103,6 +123,10 @@ const Job_post = () => {
                     value={post.numberOfEmployees} 
                     onChange={fieldChanged}
                     className='text-left w-full font-semibold border-2 border-blue-500 rounded-md'
+                    style={{
+                        backgroundColor: theme === "dark" ? "#333" : "#fff",
+                        color: theme === "dark" ? "#fff" : "#333",
+                      }}
                 >
                     <option value="" id='emp1'>Select Number of Employees</option>
                     <option value="0-20" id='emp1'>0-20 Employees</option>

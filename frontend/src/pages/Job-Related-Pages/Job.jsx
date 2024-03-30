@@ -3,8 +3,10 @@ import Navbar from "../../components/Navbar/Navbar.jsx";
 import data from "../../components/DummyData/Data.json";
 import JobPosting from "../../components/community/JobPosting.jsx";
 import ForCompanies from "../../components/Company-components/ForCompanies.jsx";
+import {useTheme} from "../../Context/ThemeContext";
 
 function Job() {
+  const {theme} = useTheme();
   const [searchLocation, setSearchLocation] = useState("");
   const [searchText, setSearchText] = useState("");
   const [displayBody, setDisplayBody] = useState(false);
@@ -89,7 +91,13 @@ function Job() {
   ];
 
   return (
-    <div className="min-h-screen max-w-screen">
+    <div className="min-h-screen max-w-screen"
+    style={{
+      backgroundColor: theme === "dark" ? "#333" : "#fff",
+      color: theme === "dark" ? "#fff" : "#333",
+    }}
+    
+    >
       <Navbar />
       <div className="w-screen min-h-screen ">
         {/* Search Bars */}
@@ -168,14 +176,17 @@ function Job() {
         </div>
 
         {/* Search Tags & Body */}
-        <div className="flex justify-between min-h-screen w-full p-2">
+        <div className="flex justify-between  min-h-screen w-full p-2">
           {/* Search Tags */}
           <div className="w-2/12 h-fit flex flex-col gap-3">
-            <div className="w-full h-1/2 bg-slate-200 rounded-md border-1 border-blue-900 flex flex-wrap items-start justify-start gap-1 p-3">
+            <div className="w-full h-1/2 bg-gray-400 rounded-md border-1 flex flex-wrap items-start justify-start gap-1 p-3">
               <div className="font-bold text-center w-full">Job Location</div>
               {/* Tags */}
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 value={"Delhi"}
                 onClick={() => Search("Delhi", "location")}
               >
@@ -183,6 +194,9 @@ function Job() {
               </button>
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 value={"Mumbai"}
                 onClick={() => Search("Mumbai", "location")}
               >
@@ -190,6 +204,9 @@ function Job() {
               </button>
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 value={"Chennai"}
                 onClick={() => Search("Chennai", "location")}
               >
@@ -197,6 +214,9 @@ function Job() {
               </button>
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 value={"Hyderabad"}
                 onClick={() => Search("Hyderabad", "location")}
               >
@@ -204,6 +224,9 @@ function Job() {
               </button>
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 value={"Banglore"}
                 onClick={() => Search("Banglore", "location")}
               >
@@ -211,6 +234,9 @@ function Job() {
               </button>
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 value={"Noida"}
                 onClick={() => Search("Noida", "location")}
               >
@@ -218,35 +244,50 @@ function Job() {
               </button>
             </div>
 
-            <div className="w-full h-1/2 bg-slate-200 rounded-md border-1 border-blue-900 flex flex-wrap items-start justify-start gap-1 p-1">
+            <div className="w-full h-1/2 bg-gray-400 rounded-md border-1 flex flex-wrap items-start justify-start gap-1 p-1">
               <div className="font-bold text-center w-full">Job Profile</div>
               {/* Tags */}
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 onClick={() => Search("Data Analyst", "jobProfile")}
               >
                 Data Analyst
               </button>
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 onClick={() => Search("Web Developer", "jobProfile")}
               >
                 Web Developer
               </button>
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 onClick={() => Search("SEO Specialist", "jobProfile")}
               >
                 SEO Specialist
               </button>
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 onClick={() => Search("Meta Creator", "jobProfile")}
               >
                 Meta Creator
               </button>
               <button
                 className="w-fit h-[35px] bg-zinc-300 rounded-[21px] p-2 text-center"
+                style={{
+                  color: theme === "dark" ? "#333" : "#333",
+                }}
                 onClick={() => Search("Educator", "jobProfile")}
               >
                 Educator
@@ -255,8 +296,18 @@ function Job() {
           </div>
 
           {/* Main Body of Content */}
-          <div className="w-10/12 h-screen bg-white flex flex-col p-2 ">
-            <div className="grid-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="w-10/12 h-screen  flex flex-col p-2 "
+           style={{
+            backgroundColor: theme === "dark" ? "#333" : "#fff",
+            color: theme === "dark" ? "#fff" : "#333",
+          }}
+          >
+            <div className="grid-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+             style={{
+              backgroundColor: theme === "dark" ? "#333" : "#fff",
+              color: theme === "dark" ? "#fff" : "#333",
+            }}
+            >
               {displayBody ? (
                 <>
                   {/* Infinite scroll test   */}
@@ -264,8 +315,14 @@ function Job() {
                 </>
               ) : (
                 data2.map((item, index) => (
-                  <div key={index} className="mb-4">
+                  <div key={index} className="mb-4"
+                  style={{
+                    backgroundColor: theme === "dark" ? "#333" : "#fff",
+                    color: theme === "dark" ? "#fff" : "#333",
+                  }}
+                  >
                     <JobPosting
+                    
                       title={item.title}
                       company={item.company}
                       position={item.position}
