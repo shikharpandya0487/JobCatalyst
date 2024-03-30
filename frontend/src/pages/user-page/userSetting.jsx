@@ -260,10 +260,7 @@ const UserSettings = () => {
            
         >
           <div className={`w-full ml-20 md:ml-4 ${showUserProfile ? "border-2 border-green-600 rounded-2xl"  : ""}`}
-          style={{
-            backgroundColor: theme === "dark" ? "#333" : "#fff",
-            color: theme === "dark" ? "#fff" : "#333",
-          }}
+          
           >
             {showUserProfile && (
               <div className="bg-gray-100 p-4 rounded-2xl w-full">
