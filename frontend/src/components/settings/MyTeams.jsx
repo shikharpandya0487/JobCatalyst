@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useTheme } from '../../Context/ThemeContext'; 
 
 const MyTeams = () => {
+  const {theme} = useTheme();
   const [teamData, setTeamData] = useState([]);
 
   useEffect(() => {
@@ -18,7 +20,15 @@ const MyTeams = () => {
   }, []);
 
   return (
-    <div style={{ width: "900px", margin: "auto", padding: "20px" }}>
+    <div
+      style={{
+        width: "900px",
+        margin: "auto",
+        padding: "20px",
+        backgroundColor: theme === "dark" ? "#333" : "#fff",
+        color: theme === "dark" ? "#fff" : "#333",
+      }}
+    >
       <h2 style={{ marginBottom: "20px" }}>My Teams</h2>
       <ul className="list-disc pl-6">
         {teamData.map((team) => (

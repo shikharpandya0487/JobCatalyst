@@ -7,7 +7,9 @@ import NotificationandSetting from "../../components/settings/NotificationandSet
 import ResumeSetting from "../../components/resume/Form"
 import JobRecord from "../../components/settings/JobRecord";
 import MyPost from "../../components/settings/myPost";
+import {useTheme} from '../../Context/ThemeContext'
 const UserSettings = () => {
+    const {theme} = useTheme();
     const [showUserProfile,setShowUserProfile] = useState(true);
     const [showContactInfo,setShowContactInfo] = useState(false);  
     const [showMyTeams,setShowMyTeams] = useState(false);
@@ -110,8 +112,13 @@ const UserSettings = () => {
 
 
   return (
-    <section className="flex flex-col items-start justify-start py-4 px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-32 min-h-fit ">
-      <h1 className="text-4xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold mb-6 pl-4">
+    <section className="flex flex-col items-start justify-start py-4 px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-32 min-h-fit"
+    style={{
+      backgroundColor: theme === "dark" ? "#333" : "#fff",
+      color: theme === "dark" ? "#fff" : "#333",
+    }}
+    >
+      <h1 className={`text-4xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold mb-6 pl-4 ${theme === 'dark' ? 'text-white':'text-black'}`}>
         Settings
       </h1>
       <div className="flex flex-col md:flex-row gap-2">
@@ -249,8 +256,12 @@ const UserSettings = () => {
           </div>
         </div>
         {/* Right section with user details */}
-        <div className="flex flex-col gap-2 min-h-fit ">
-          <div className={`w-full ml-20 md:ml-4 ${showUserProfile ? "border-2 border-green-600 rounded-2xl"  : ""}`}>
+        <div className="flex flex-col gap-2 min-h-fit "
+           
+        >
+          <div className={`w-full ml-20 md:ml-4 ${showUserProfile ? "border-2 border-green-600 rounded-2xl"  : ""}`}
+          
+          >
             {showUserProfile && (
               <div className="bg-gray-100 p-4 rounded-2xl w-full">
                 <UserProfileInfo />

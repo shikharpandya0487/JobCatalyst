@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate} from 'react-router-dom';
 import Navbar from "../../components/Navbar/Navbar";
+import {useTheme} from '../../Context/ThemeContext';
 import axios from 'axios';
 // import './GoggleLogin.css'
 import "./LandingPage.css"
@@ -11,6 +12,7 @@ import {auth} from '../../firebase/firebaseConfig'
 
 
 function LandingPage() {
+  const {theme} = useTheme();
 
   const navigate = useNavigate();
   
@@ -74,20 +76,39 @@ function LandingPage() {
     <>
       <Navbar />
 
-      <div className="w-screen h-screen overflow-x-hidden flex flex-col  bg-white">
+      <div className="w-screen h-screen overflow-x-hidden flex flex-col"
+      style={{
+        backgroundColor: theme === "dark" ? "#333" : "#fff",
+        color: theme === "dark" ? "#fff" : "#333",
+      }}
+      >
         {/* hero section 1  */}
         <div className="w-screen min-h-1/2 flex flex-row ">
           <div className="w-8/12 h-full text-black text-[36px] font-normal font-['Inter'] p-3">
-            <div className="w-8/12 flex justify-center items-center text-center">Unlock Your Career Potential: Connecting Ambitions with Opportunities.</div>
+            <div className="w-8/12 flex justify-center items-center text-center"
+            style={{
+              color: theme === "dark" ? "#fff" : "#333",
+            }}
+
+            >Unlock Your Career Potential: Connecting Ambitions with Opportunities.</div>
              <div className="rounded-md"> <img src="LandingPage.jpg" alt="" /></div>
            
           </div>
 
-          <div className="w-5/12 h-[400px] bg-white rounded-md flex flex-col justify-center items-start p-1  bg-blue-100">
+          <div className="w-5/12 h-[400px]  rounded-md flex flex-col justify-center items-start p-1  bg-blue-100"
+          style={{
+            backgroundColor: theme === "dark" ? "#333" : "#fff",
+            color: theme === "dark" ? "#fff" : "#333",
+          }}
+          >
            
 
 
-            <div className="min-h-1/2 w-full flex flex-col justify-center items-center gap-3 p-1">
+            <div className="min-h-1/2 w-full flex flex-col justify-center items-center gap-3 p-1"
+            style={{
+              color: theme === "dark" ? "#333" : "#fff",
+            }}
+            >
               {/* email  */}
                 <label
                   htmlFor=""
@@ -146,7 +167,12 @@ function LandingPage() {
         </div>
 
       </div>
-      <div className="flex flex-col justify-evenly items-start gap-4 p-3 h-[500px]">
+      <div className="flex flex-col justify-evenly items-start gap-4 p-3 h-[500px]"
+      style={{
+        backgroundColor: theme === "dark" ? "#333" : "#fff",
+        color: theme === "dark" ? "#fff" : "#333",
+      }}
+      >
 
         <div className="flex justify-evenly items-center h-full w-full">
            <div className="w-[200px] flex flex-col justify-center items-center">

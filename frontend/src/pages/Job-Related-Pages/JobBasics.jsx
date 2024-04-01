@@ -1,23 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
+import {useTheme} from '../../Context/ThemeContext';
 
 const JobBasics = () => {
+  const {theme} = useTheme();
   const handleCreate = () => {
     console.log("Create button clicked");
   };
 
   return (
-    <form className="flex flex-col bg-white rounded-md md:rounded-[78px]">
+    <form className="flex flex-col rounded-md md:rounded-[78px]"
+    style={{
+      backgroundColor: theme === "dark" ? "#333" : "#fff",
+      color: theme === "dark" ? "#fff" : "#333",
+    }}
+    >
       <Navbar />
       <section className="flex flex-col self-center mt-10 md:mt-5 w-full max-w-[1559px] md:max-w-full">
         <div className="md:flex-1 flex flex-col px-5 max-w-full justify-center items-center">
-          <h2 className="justify-center items-center pt-2 pb-10 text-3xl md:text-5xl text-black">
+          <h2 className="justify-center items-center pt-2 pb-10 text-3xl md:text-5xl"
+          style={{
+            color: theme === "dark" ? "#fff" : "#333",
+          }}
+          >
             Job Basics
           </h2>
         </div>
         <div className="flex flex-col flex-1 px-5 max-w-full">
-          <label htmlFor="JobTitle" className="text-black font-medium text-2xl">Job Title:</label>
+          <label htmlFor="JobTitle" className="font-medium text-2xl"
+          style={{
+            color: theme === "dark" ? "#fff" : "#333",
+          }}
+          >Job Title:</label>
           <select
             id="jobTitle"
             className="mt-3 md:mt-3 bg-gray-100 h-[40px] rounded-3xl border-black border-2 max-w-full"
@@ -29,7 +44,11 @@ const JobBasics = () => {
         </div>
         <hr className="border-t-2 border-gray-700 w-full ml-2 mr-4 mt-4" />
         <div className="flex flex-col flex-1 px-5 max-w-full">
-          <h2 className="justify-center items-start pt-2 pb-6 text-xl md:text-2xl text-black">
+          <h2 className="justify-center items-start pt-2 pb-6 text-xl md:text-2xl"
+          style={{
+            color: theme === "dark" ? "#fff" : "#333",
+          }}
+          >
             Job Location
           </h2>
           <label htmlFor="companyName" className="text-black-800 font-medium text-lg">Job location type (remote / working-on-premise):</label>
