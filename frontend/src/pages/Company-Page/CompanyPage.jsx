@@ -1,18 +1,29 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
+import {useTheme} from "../../Context/ThemeContext"
 
 function CompanyPage() {
+  const {theme} = useTheme();
   const handleCreate = () => {
     console.log("Create button clicked");
   };
 
   return (
-    <form className="flex flex-col bg-white rounded-md md:rounded-[78px]">
+    <form className="flex flex-col rounded-md md:rounded-[78px]"
+    style={{
+      backgroundColor: theme === "dark" ? "#333" : "#fff",
+      color: theme === "dark" ? "#fff" : "#333",
+    }}
+    >
       <Navbar />
       <section className="flex flex-col self-center mt-10 md:mt-5 w-full max-w-[1559px] md:max-w-full">
         <div className="md:flex-1 flex justify-between px-5 max-w-full ">
-          <h2 className="justify-center items-start pt-5 pb-10 text-3xl md:text-5xl text-black md:px-20">
+          <h2 className="justify-center items-start pt-5 pb-10 text-3xl md:text-5xl md:px-20"
+          style={{
+            color: theme === "dark" ? "#fff" : "#333",
+          }}
+          >
             Create an Employer Account
           </h2>
           <img
@@ -23,13 +34,21 @@ function CompanyPage() {
         </div>
         <div className="flex flex-col md:flex-row gap-5 justify-between text-lg md:text-lg text-black md:flex-wrap mt-5">
           <div className="flex flex-col flex-1 px-5 max-w-full">
-            <label htmlFor="companyName">Your Company Name:</label>
+            <label htmlFor="companyName"
+            style={{
+              color: theme === "dark" ? "#fff" : "#333",
+            }}
+            >Your Company Name:</label>
             <input
               type="text"
               id="companyName"
               className="shrink-0 mt-2 md:mt-3 bg-zinc-300 h-[40px] rounded-xl max-w-full"
             />
-            <label htmlFor="numEmployees" className="mt-3">
+            <label htmlFor="numEmployees" className="mt-3"
+            style={{
+              color: theme === "dark" ? "#fff" : "#333",
+            }}
+            >
               Your Company’s number of employees:
             </label>
             <input
@@ -37,7 +56,11 @@ function CompanyPage() {
               id="numEmployees"
               className="shrink-0 mt-2 md:mt-3 bg-zinc-300 h-[40px] rounded-xl max-w-full"
             />
-            <label htmlFor="PhoneNumber" className="mt-3">
+            <label htmlFor="PhoneNumber" className="mt-3"
+            style={{
+              color: theme === "dark" ? "#fff" : "#333",
+            }}
+            >
               Contact Number:
             </label>
             <input
@@ -47,13 +70,22 @@ function CompanyPage() {
             />
           </div>
           <div className="flex flex-col flex-1 px-5 max-w-full">
-            <label htmlFor="fullName">Your First And Last Name:</label>
+            <label htmlFor="fullName"
+            style={{
+              color: theme === "dark" ? "#fff" : "#333",
+            }}
+            >Your First And Last Name:</label>
             <input
               type="text"
               id="fullName"
               className="shrink-0 mt-2 md:mt-3 bg-zinc-300 h-[40px] rounded-xl max-w-full"
+              
             />
-            <label htmlFor="howYouKnow" className="mt-3">
+            <label htmlFor="howYouKnow" className="mt-3"
+            style={{
+              color: theme === "dark" ? "#fff" : "#333",
+            }}
+            >
               How you came to know about us?
             </label>
             <input
@@ -61,7 +93,11 @@ function CompanyPage() {
               id="howYouKnow"
               className="shrink-0 mt-2 md:mt-3 bg-zinc-300 h-[40px] rounded-xl max-w-full"
             />
-            <label htmlFor="companyEmail" className="mt-3">
+            <label htmlFor="companyEmail" className="mt-3"
+            style={{
+              color: theme === "dark" ? "#fff" : "#333",
+            }}
+            >
               Company Email:
             </label>
             <input

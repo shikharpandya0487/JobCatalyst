@@ -1,5 +1,6 @@
 import React from 'react';
 import './Success.css'; // Import CSS file for additional styling
+import {useTheme} from '../../Context/ThemeContext'
 
 const Success = ({
   name,
@@ -33,8 +34,9 @@ const Success = ({
   extra_1,
   extra_2,
 }) => {
+  const {theme} = useTheme();
   return (
-    <div className="success-card animated bounceIn">
+    <div className={`success-card animated bounceIn ${theme=== 'dark' ? '#333': '#fff'}`}>
       <div className="card-body text-center pt-5 pb-5">
         <h2>Hang Tight while your Resume Downloads!</h2>
         <div className="container">

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { useTheme } from '../../Context/ThemeContext'; 
 
 const PasswordAndSecurity = () => {
+  const {theme} = useTheme();
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -92,7 +94,15 @@ const PasswordAndSecurity = () => {
   };
   const isPasswordMatch = newPassword === confirmPassword
   return (
-    <div style={{ width: "900px", maxWidth: "1000px", margin: "auto", padding: "20px" }}>
+    <div style={{ 
+      width: "900px",
+       maxWidth: "1000px",
+        margin: "auto",
+         padding: "20px",
+         backgroundColor: theme === "dark" ? "#333" : "#fff",
+         color: theme === "dark" ? "#fff" : "#333",
+ 
+    }}>
       <h4>Password And Security</h4>
       <div style={{ marginBottom: "15px" }}>
         <label htmlFor="password" style={{ display: "block", marginBottom: "5px", }}>Current Password:</label>
