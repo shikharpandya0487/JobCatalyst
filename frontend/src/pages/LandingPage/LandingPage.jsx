@@ -49,6 +49,7 @@ function LandingPage() {
     try {
         const response = await axios.post(url, data);
         navigate('/community');
+        console.log(response.data)
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.user);
     } catch (error) {
@@ -64,6 +65,25 @@ function LandingPage() {
    signInWithPopup(auth,provider)
    .then((result)=>{
     console.log(result)
+    console.log(result?._tokenResponse?.email)
+    const name=result.user.displayName.split(" ")
+    const username=name[0].toLowerCase()
+
+    axios.post("http://localhost:5000/api/auth/google",{
+      username:username,
+      email:result?.user?.email
+    })
+    .then((res)=>{
+      const user=res.data
+      console.log("User logged in",user)
+
+      localStorage.setItem("userId",user._id)
+      localStorage.setItem("LoggedIn",true)
+      localStorage.setItem("token",user.token)
+      localStorage.setItem("user",JSON.stringify(user))
+      navigate("/community")
+    })
+    .catch((err)=>console.log(err))
    })
  }
 

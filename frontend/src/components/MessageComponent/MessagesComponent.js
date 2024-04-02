@@ -9,24 +9,24 @@ const MessagesComponent = ({messages}) => {
   return (
     <ScrollableFeed>
         {messages && messages.map((m,idx)=>(
-            <div key={m._id} style={{display:"flex"}}>
+            <div key={m?._id} style={{display:"flex"}}>
                 {
-                    (isSameSender(messages,m,idx,user._id)
+                    (isSameSender(messages,m,idx,user?._id)
                     ||
-                    isLastMessage(messages,idx,user._id)
+                    isLastMessage(messages,idx,user?._id)
                     )
                     &&
                     (
                         <Tooltip
-                        label={m.sender.username} placement="bottom-start" hasArrow
+                        label={m.sender?.username} placement="bottom-start" hasArrow
                         >
                             <Avatar
                             mt="7px"
                             mr={1}
                             size="sm"
                             cursor="pointer"
-                            name={m.sender.username}
-                            src={m.sender.pic}
+                            name={m.sender?.username}
+                            src={m.sender?.pic}
                             />
                         </Tooltip>
                     )
@@ -35,9 +35,9 @@ const MessagesComponent = ({messages}) => {
                 <span
                 style={{
                     backgroundColor: `${
-                      m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
+                      m.sender?._id === user?._id ? "#BEE3F8" : "#B9F5D0"
                     }`,
-                    marginLeft: isSameSenderMargin(messages, m, idx, user._id),
+                    marginLeft: isSameSenderMargin(messages, m, idx, user?._id),
                     marginTop: isSameUser(messages, m, idx, user._id) ? 3 : 10,
                     borderRadius: "20px",
                     padding: "5px 15px",

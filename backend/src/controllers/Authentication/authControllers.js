@@ -182,12 +182,64 @@ exports.googleAuth=async (req,res)=>{
         //find the user 
         //If present then fetch the user details 
         //If user not found then console error
+        console.log(req.body)
+        const selectedUser=await User.findOne({email:req.body.email})
 
+        if(selectedUser)
+        {
+            console.log("User found") 
+            //now get user details
+            const password=selectedUser?.password 
+            // console.log(password)
+
+            const token=jwt.sign({id:selectedUser._id},process.env.JWT_SECRET_KEY)
+            const finalUser={
+                ...selectedUser._doc,
+                token
+            }
+            delete finalUser?.password
+            console.log(finalUser)
+
+            res.status(201).json(finalUser) 
+        }
+        else
+        {
+
+            // form a new account for the user
+           
+
+            const newUser=new User({
+               ...req.body,
+            })
+
+            const savedUser=await newUser.save()
+            const token=jwt.sign({id:savedUser._id},process.env.JWT_SECRET_KEY)
+
+            if(newUser)
+            {
+                console.log(savedUser)
+                res.status(201).json({
+                    ...savedUser._doc,
+                    token
+                })
+
+            }
+            else
+            {
+                res.status(502).json({
+                    message:"Error while creating account"
+                })
+            }
+            
+            console.log(savedUser)
+            //if the user doesn't exist generate the user details which are necessary and save it 
+
+        }
         
         
-    } catch (error) {
+    } catch (error) { 
         console.log(error);   
-        throw new Error("Google Authentication failed try again after resolvving errors ")
+        
     }
 }
 

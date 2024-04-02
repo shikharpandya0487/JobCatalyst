@@ -31,7 +31,7 @@ function App() {
   return (
     <BrowserRouter>
       <ChatProvider>
-      <div className={`App ${theme === 'dark' ? 'dark-theme' : ''}`}>
+          <div className="App">
             <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/community" element={<CommunityPage/>}/>

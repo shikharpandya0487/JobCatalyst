@@ -15,11 +15,12 @@ const MyChat = ({fetchAgain}) => {
     const [loggedUser,setLoggedUser]=useState()
     console.log(chats)
   
-    console.log(user?._id);
+   
     //fetching chats
     const fetchChats=async (req,res)=>{
         //get all chats 
         //pass the required headers before get req
+        // console.log(user.token);
         try {
             const config={
                 headers:{
@@ -28,6 +29,7 @@ const MyChat = ({fetchAgain}) => {
             }
 
             const {data}=await axios.get("http://localhost:5000/api/chat",config)
+            console.log(data)
             if(!data)
             {
                 res.status(404).json("error while fetching chats")
@@ -112,7 +114,7 @@ const MyChat = ({fetchAgain}) => {
                                             fontSize="xs"
                                             >
                                                 <b className='font-semibold'>{
-                                                      chat.latestMessage.sender?.name
+                                                      chat.latestMessage.sender?.username
                                                       
                                                    
                                                    }
