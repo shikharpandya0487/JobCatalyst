@@ -76,6 +76,7 @@ const Form = () => {
       try {
         //Create PDF
         await axios.post('http://localhost:5000/api/resume/create-pdf', formData);
+        await axios.post('http://localhost:5000/api/resume/create-resume', formData);
         //Fetch the PDF
         const response = await axios.get('http://localhost:5000/api/resume/fetch-pdf', {
           responseType: 'blob',
@@ -96,32 +97,32 @@ const Form = () => {
 
   return (
     <div className="container mx-auto mt-10 mb-8 " style={{width:"900px"}}>
-      <h1 className="text-3xl font-semibold mb-5">Resume Builder</h1>
-      <div className="bg-gray-100 p-8 rounded-lg shadow-md">
-        <h1 className="text-2xl font-semibold mb-5">{FormTitle[page]}</h1>
-        <div>{PageDisplay()}</div>
-        <div className="flex justify-between mt-8">
-          <button
-            className={`px-4 py-2 rounded-lg font-semibold ${
-              page === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-            }`}
-            disabled={page === 0}
-            onClick={() => setPage(currPage => currPage - 1)}
-          >
-            Prev
-          </button>
-          <button
-            className={`px-4 py-2 rounded-lg font-semibold ${
-              page === FormTitle.length - 1 ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'
-            }`}
-            onClick={() => createPdf(page)}
-          >
-            {page === FormTitle.length - 1 ? 'Download Pdf' : 'Next'}
-          </button>
-        </div>
+    <h1 className="text-3xl font-semibold mb-5">Resume Builder</h1>
+    <div className="bg-gray-100 p-8 rounded-lg shadow-md">
+      <h1 className="text-2xl font-semibold mb-5">{FormTitle[page]}</h1>
+      <div>{PageDisplay()}</div>
+      <div className="flex justify-between mt-8">
+        <button
+          className={`px-4 py-2 rounded-lg font-semibold ${
+            page === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+          }`}
+          disabled={page === 0}
+          onClick={() => setPage(currPage => currPage - 1)}
+        >
+          Prev
+        </button>
+        <button
+          className={`px-4 py-2 rounded-lg font-semibold ${
+            page === FormTitle.length - 1 ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'
+          }`}
+          onClick={() => createPdf(page)}
+        >
+          {page === FormTitle.length - 1 ? 'Create Pdf' : 'Next'}
+        </button>
       </div>
-      {success && <Success />}
     </div>
+    {success && <Success />}
+  </div>
   );
 };
 

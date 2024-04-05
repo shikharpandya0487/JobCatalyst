@@ -33,13 +33,13 @@ router.put("/discong-post",requireLogin,postcontroller.discongrats)
 router.post('/comments',requireLogin, postcontroller.createComment)
 
 //GET COMMENT FROM THE POST ID OF SPECIFIC POST
-router.get('/:postId/get-comment', postcontroller.getComments);
+router.get('/get-comment/:postId', postcontroller.getComments);
 
 //DELETE COMMENT
-router.delete('/delete-comments/:commentId',postcontroller.deleteComment);
+router.delete('/delete-comments/:commentId',requireLogin,postcontroller.deleteComment);
 
 //UPDATE COMMENT
-router.put('/update-comments/:commentId', postcontroller.updateComment);
+router.put('/update-comments/:commentId',requireLogin, postcontroller.updateComment);
 
 //DELETE POST 
 router.delete('/delete-post',requireLogin,postcontroller.deletePost);
