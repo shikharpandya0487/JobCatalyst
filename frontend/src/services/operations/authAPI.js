@@ -96,14 +96,14 @@ const {
   
         console.log("SIGNUP API RESPONSE............", response)
         localStorage.setItem("token", JSON.stringify(response.data.token))
-        localStorage.setItem("user", JSON.stringify(response.data))
+        localStorage.setItem("user", JSON.stringify(response.data.user))
   
         toast.success("Signup Successful")
         navigate("/community")
       } catch (error) {
         console.log("SIGNUP API ERROR............", error)
-        toast.error("Signup Failed")
-        navigate("/community")
+        toast.error("Wrong OTP Please Try Again!")
+        navigate("/verify-email")
       }
       dispatch(setLoading(false))
       toast.dismiss(toastId)

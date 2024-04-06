@@ -7,8 +7,10 @@ import Extras from './Extras';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import Success from './Success';
+import {useTheme} from '../../Context/ThemeContext'
 
 const Form = () => {
+  const {theme} = useTheme();
   const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: '',

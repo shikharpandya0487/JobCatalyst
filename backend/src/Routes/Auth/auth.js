@@ -6,7 +6,8 @@ const {
     login,
     signup,
     sendotp,
-    changePassword
+    changePassword,
+    googleAuth
   } = require("../../controllers/Authentication/authControllers.js")
  
   const {
@@ -22,7 +23,7 @@ const { auth } = require("../../middlewares/auth-middleware.js");
 router.post("/login", login)
 
 // Route for user signup
-router.post("/signup", signup)
+router.post("/signup", signup) 
 
 router.post("/sendotp", sendotp)
 
@@ -31,5 +32,6 @@ router.post("/changepassword", auth, changePassword)
 router.post("/reset-password-token", resetPasswordToken)
 
 router.post("/reset-password", resetPassword)
-
+ 
+router.route('/google').post(googleAuth)
 module.exports = router;

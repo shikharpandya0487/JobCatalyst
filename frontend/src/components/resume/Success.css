@@ -1,0 +1,62 @@
+.success-card {
+    margin: auto;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .success-card h2 {
+    color: #333;
+  }
+  
+  .success-card .name {
+    color: #007bff;
+  }
+  
+  .success-card .lead {
+    color: #555;
+  }
+  
+  .success-card hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #ddd;
+  }
+  
+  .skills-section,
+  .experience-section,
+  .projects-section,
+  .education-section,
+  .extra-section {
+    margin-top: 20px;
+  }
+  
+  .skills-section h3,
+  .experience-section h3,
+  .projects-section h3,
+  .education-section h3,
+
+  
+  .skills-section p,
+  .experience-section p,
+  .projects-section p,
+  .education-section p,
+  .extra-section p {
+    color: #555;
+  }
+  
+  .experience-details,
+  .project-details,
+  .education-details {
+    margin-top: 10px;
+  }
+  
+  .exp-description,
+  .proj-description,
+  .edu-description {
+    color: #777;
+  }
+  

@@ -18,11 +18,11 @@ const SignupForm = ( props ) => {
     username:"",
     email:"",
     password:"",
-    confirmpassword:"",
+    confirmPassword:"",
 });
 const toast=useToast()
 const navigate=useNavigate();
-const { name, email, password, confirmpassword} = user
+const { username, email, password, confirmPassword} = user
 
 
 //handling the input value
@@ -36,35 +36,28 @@ const handleInput = (e) => {
 const handleSubmit = (e) => {
   e.preventDefault()
 
-  if(!name||!email||!password||!confirmpassword)
-  {
-      toast({
-          title: 'Fill in the details',
-          description: "Lack of info",
-          status: 'warning',
-          duration: 4000,
-          isClosable: true,
-          position:"bottom"
-        })
-       console.log("Error");
-        // setPicloading(false)
-        return;
-  }
+  // if(!username||!email||!password||!confirmPassword)
+  // { 
+  //     console.log(username,email,password,confirmPassword);
+  //     toast({
+  //         title: 'Fill in the details',
+  //         description: "Lack of info",
+  //         status: 'warning',
+  //         duration: 4000,
+  //         isClosable: true,
+  //         position:"bottom"
+  //       })
+  //      console.log("Error");
+  //       // setPicloading(false)
+  //       return;
+  // }
  
-  if (password !== confirmpassword) {
-    toast({
-      title: 'Fill in the correct password and confirm pass',
-      description: "Lack of info",
-      status: 'warning',
-      duration: 4000,
-      isClosable: true,
-      position:"bottom"
-    })
-
+  if (password !== confirmPassword) {
+    toast.error("Passwords Do Not Match")
     return;
   }
 
-  console.log(name,email,password,pic)
+  // console.log(username,email,password,pic)
   const signupData = {
     ...user,
   }
@@ -81,15 +74,15 @@ const handleSubmit = (e) => {
     username: "",
     email: "",
     password: "",
-    confirmpassword: "",
+    confirmPassword: "",
   })
-  toast({
-    title: "Registration Successful",
-    status: "success",
-    duration: 5000,
-    isClosable: true,
-    position: "bottom",
-})
+//   toast({
+//     title: "Please Check your Email for OTP Verification",
+//     status: "success",
+//     duration: 5000,
+//     isClosable: true,
+//     position: "bottom",
+// })
 
 
 }
@@ -136,7 +129,7 @@ const handleSubmit = (e) => {
           <Form.Group controlId="formPassword" className='w-full flex flex-col items-end'>
             <Form.Label className='ml-3'>Password</Form.Label>
             <Form.Control
-              type={show?"text":"password"}
+              type="password"
               placeholder="Enter your password"
               name="password"
               value={user.password}
@@ -149,12 +142,12 @@ const handleSubmit = (e) => {
             <Button
             variant="dark"
             className="ml-2 w-1/4"
-            onClick={(show)=>setShow(!show)}
+            onClick={(e)=>setShow(!show)}
             >
             {show ? 'Hide' : 'Show'}
           </Button>
           </Form.Group>
-          <Form.Group controlId="formConfirmPassword">
+          <Form.Group controlId="formconfirmPassword">
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
               type="password"

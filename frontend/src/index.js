@@ -9,6 +9,8 @@ import { Provider } from "react-redux";
 import rootReducer from "./reducer";
 import {configureStore} from "@reduxjs/toolkit"
 import { ChakraProvider } from '@chakra-ui/react'
+import { Toaster } from "react-hot-toast";
+import {ThemeProvider} from './Context/ThemeContext';
 
 const store = configureStore({
   reducer:rootReducer,
@@ -17,9 +19,12 @@ const store = configureStore({
 
 ReactDOM.createRoot(document.getElementById('root')).render(
      <ChakraProvider>
+      <ThemeProvider>
         <Provider store = {store}>
           <App />
+          <Toaster/>
         </Provider>
+        </ThemeProvider>
       </ChakraProvider>
   ); 
 

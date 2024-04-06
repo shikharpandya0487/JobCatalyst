@@ -21,7 +21,7 @@ const SideBar = () => {
     const navigate=useNavigate()
 
     const logoutHandler = () => {
-        localStorage.removeItem("userInfo");
+        localStorage.clear();
         navigate('/')
       };
 

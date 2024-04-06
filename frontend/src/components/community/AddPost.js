@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar';
+import {useTheme} from '../../Context/ThemeContext'
 const AddPost = () => {
+    const {theme} = useTheme();
     const navigate = useNavigate();
 
     const [company, setCompany] = useState("");
@@ -57,7 +59,12 @@ const AddPost = () => {
     // ]
 
     return (
-      <div className='max-w-screen mx-auto min-h-screen'>
+      <div className='max-w-screen mx-auto min-h-screen'
+      style={{
+        backgroundColor: theme === "dark" ? "#333" : "#fff",
+        color: theme === "dark" ? "#fff" : "#333",
+      }}
+      >
         <Navbar/>
         <div className="flex justify-center w-[100%] gap-2 p-4 min-h-fit">
             <div className="w-1/2 p-2 bg-slate-200 rounded-ms md:rounded-lg">

@@ -1,5 +1,3 @@
-const dotenv=require('dotenv')
-dotenv.config()
 const User=require("../../models/user/User");
 const OTP=require("../../models/OTP/OTP");
 const otpGenerator=require("otp-generator");
@@ -23,7 +21,7 @@ exports.signup=async(req,res)=>{
         //date fetch from request ki body
         const{username,
             email,
-            password,confirmpassword,
+            password,confirmPassword,
             otp
         }=req.body
     
@@ -38,7 +36,7 @@ exports.signup=async(req,res)=>{
                 })
         }
         //2 password user dalega usko match karlo
-        if(password!==confirmpassword){
+        if(password!==confirmPassword){
             return res.status(400).json({
                 success:false,
                 message:"Password and ConfirmPassowrd values does not match, Please try again",
@@ -176,6 +174,72 @@ exports.login=async(req,res)=>{
             success:false,
             message:"Login Failer, please try again "
         })
+    } 
+}
+
+exports.googleAuth=async (req,res)=>{
+    try {
+        //find the user 
+        //If present then fetch the user details 
+        //If user not found then console error
+        console.log(req.body)
+        const selectedUser=await User.findOne({email:req.body.email})
+
+        if(selectedUser)
+        {
+            console.log("User found") 
+            //now get user details
+            const password=selectedUser?.password 
+            // console.log(password)
+
+            const token=jwt.sign({id:selectedUser._id},process.env.JWT_SECRET_KEY)
+            const finalUser={
+                ...selectedUser._doc,
+                token
+            }
+            delete finalUser?.password
+            console.log(finalUser)
+
+            res.status(201).json(finalUser) 
+        }
+        else
+        {
+
+            // form a new account for the user
+           
+
+            const newUser=new User({
+               ...req.body,
+            })
+
+            const savedUser=await newUser.save()
+            const token=jwt.sign({id:savedUser._id},process.env.JWT_SECRET_KEY)
+
+            if(newUser)
+            {
+                console.log(savedUser)
+                res.status(201).json({
+                    ...savedUser._doc,
+                    token
+                })
+
+            }
+            else
+            {
+                res.status(502).json({
+                    message:"Error while creating account"
+                })
+            }
+            
+            console.log(savedUser)
+            //if the user doesn't exist generate the user details which are necessary and save it 
+
+        }
+        
+        
+    } catch (error) { 
+        console.log(error);   
+        
     }
 }
 
