@@ -100,7 +100,12 @@ const Form = () => {
   return (
     <div className="container mx-auto mt-10 mb-8 " style={{width:"900px"}}>
     <h1 className="text-3xl font-semibold mb-5">Resume Builder</h1>
-    <div className="bg-gray-100 p-8 rounded-lg shadow-md">
+    <div className="bg-gray-100 p-8 rounded-lg shadow-md"
+    style={{
+      backgroundColor: theme === "dark" ? "#333" : "#fff",
+      color: theme === "dark" ? "#fff" : "#333",
+      border:theme== "dark" ? ' 1px solid #fff': '',
+    }}>
       <h1 className="text-2xl font-semibold mb-5">{FormTitle[page]}</h1>
       <div>{PageDisplay()}</div>
       <div className="flex justify-between mt-8">
@@ -108,6 +113,9 @@ const Form = () => {
           className={`px-4 py-2 rounded-lg font-semibold ${
             page === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
           }`}
+          style = {{
+            color: theme=== 'dark' ? "#333" : "#fff"
+          }}
           disabled={page === 0}
           onClick={() => setPage(currPage => currPage - 1)}
         >
@@ -129,3 +137,5 @@ const Form = () => {
 };
 
 export default Form;
+
+

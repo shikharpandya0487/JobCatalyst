@@ -51,7 +51,7 @@ const MyPost = () => {
         }
       } catch (error) {
         console.error(error);
-        setSuccess(!success);
+        // setSuccess(!success);
         alert("No post found");
       }
     };
