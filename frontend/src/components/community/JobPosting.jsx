@@ -2,16 +2,13 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IoPersonCircleSharp } from "react-icons/io5";
-import { MdDelete } from "react-icons/md";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { FaThumbsUp } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { FaHandsClapping } from "react-icons/fa6";
 import { PiHandsClapping } from "react-icons/pi";
-import { FaEdit } from "react-icons/fa";
 import Comments2 from '../Comments/Comments2'
-import AddPost from './AddPost'
 
 const MediaDisplay = ({ url }) => {
   const isVideo = url.endsWith('.mp4');
@@ -42,7 +39,8 @@ const JobPosting = ({
   posted,
   postedBy,
   id,
-  post
+  post,
+  onReaction
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -72,7 +70,7 @@ const likePost = (id) => {
   })
   .then((res) => {
     console.log("liked");
-    setRefresh(!refresh);
+    onReaction();
   }).catch((err) => {
     console.log("server err",err);
   })
@@ -94,7 +92,7 @@ const dislikePost = (id) => {
   })
   .then((res) => {
     console.log("liked");
-    setRefresh(!refresh);
+    onReaction();
   }).catch((err) => {
     console.log("server err",err);
   })
@@ -116,7 +114,7 @@ const dislikePost = (id) => {
     })
     .then((res) => {
       console.log("liked");
-      setRefresh(!refresh);
+      onReaction();
     }).catch((err) => {
       console.log("server err",err);
     })
@@ -138,7 +136,7 @@ const dislikePost = (id) => {
     })
     .then((res) => {
       console.log("liked");
-      setRefresh(!refresh);
+      onReaction();
     }).catch((err) => {
       console.log("server err",err);
     })
@@ -160,7 +158,7 @@ const congratsPost = (id) => {
   })
   .then((res) => {
     console.log("liked");
-    setRefresh(!refresh);
+    onReaction();
   }).catch((err) => {
     console.log("server err",err);
   })
@@ -182,37 +180,11 @@ const disCongratsPost = (id) => {
   })
   .then((res) => {
     console.log("liked");
-    setRefresh(!refresh);
+    onReaction();
   }).catch((err) => {
     console.log("server err",err);
   })
 }
-
-const handleDelete = async (id) => {
-  try {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-  };
-  const url = `http://localhost:5000/api/post/delete-post`;
-  const data = { postId: id };
-      const response = await axios({
-          method: 'delete',
-          url: url,
-          data: data,
-          headers: headers,
-      });
-      alert(response.data.message);
-      setRefresh(!refresh);
-  } catch (err) {
-      console.log("Server error");
-  }
-}
-
-const handleEdit = (id) => {
-  navigate(`/edit-post/${id}`);
-};
-
 
   const userId = localStorage.getItem('userId');
 
@@ -272,94 +244,88 @@ const handleEdit = (id) => {
             #{tags}
           </span>
     
-      </div>
-        
-
-      <div className="w-full flex flex-col justify-between items-center p-2">
-      
-       
-        {/* reaction icons */}
-        
-        {/* <div className='flex flex-col space-y-[20px] '>
-          {
-            post.likes.find((id)=> id == userId)
-            ?
-            <FaThumbsUp onClick={() => dislikePost(id)}  />
-            :
-            <FaRegThumbsUp onClick={() => likePost(id)} />
-          }
-          <h5>{post.likes.length} Likes</h5>
-
-          {
-            post.heart.find((id)=> id == userId)
-            ?
-            <FaHeart onClick={() => disHeartPost(id)}  />
-            :
-            <CiHeart onClick={() => heartPost(id)} />
-          }
-          <h5>{post.heart.length} Heart</h5>
-          {
-            post.congrats.find((id)=> id == userId)
-            ?
-            <FaHandsClapping onClick={() => disCongratsPost(id)}  />
-            :
-            <PiHandsClapping onClick={() => congratsPost(id)} />
-          }
-          <h5>{post.congrats.length} Congratulation</h5>
-        </div>          */}
-
-      <div className='flex justify-evenly gap-2 items-center p-1 w-full'>
-
-        <div className='w-fit flex flex-col items-center justify-center p-1'>
-          <div className="comment flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2 cursor-pointer" onClick={() => setOpenComments((open) => !open)}>
-            <img className='rounded-full' src="Chat.png" alt="Placeholder" />
-          </div>
-          <div className='text-center w-fit'>
-            Comment
-          </div>
         </div>
         
+
+        <div className="w-full flex flex-col justify-between items-center p-2">
         
-        <div className='w-fit flex flex-col items-center justify-center p-1 cursor-pointer'>
-          <div className="like flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2"  >
-            <img className='rounded-full' src="FacebookLike.png" alt="Placeholder" />
+        
+          {/* reaction icons */}
           
+          <div className='flex flex-col space-y-[20px] '>
+            {
+              post.likes.find((id)=> id == userId)
+              ?
+              <FaThumbsUp onClick={() => dislikePost(id)}  />
+              :
+              <FaRegThumbsUp onClick={() => likePost(id)} />
+            }
+            <h5>{post.likes.length} Likes</h5>
+
+            {
+              post.heart.find((id)=> id == userId)
+              ?
+              <FaHeart onClick={() => disHeartPost(id)}  />
+              :
+              <CiHeart onClick={() => heartPost(id)} />
+            }
+            <h5>{post.heart.length} Heart</h5>
+            {
+              post.congrats.find((id)=> id == userId)
+              ?
+              <FaHandsClapping onClick={() => disCongratsPost(id)}  />
+              :
+              <PiHandsClapping onClick={() => congratsPost(id)} />
+            }
+            <h5>{post.congrats.length} Congratulation</h5>
+          </div>         
+
+        <div className='flex justify-evenly gap-2 items-center p-1 w-full'>
+
+          <div className='w-fit flex flex-col items-center justify-center p-1'>
+            <div className="comment flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2 cursor-pointer" onClick={() => setOpenComments((open) => !open)}>
+              <img className='rounded-full' src="Chat.png" alt="Placeholder" />
+            </div>
+            <div className='text-center w-fit'>
+              Comment
+            </div>
           </div>
-          <div className='text-center w-fit'>
-            Like
+          
+          
+          <div className='w-fit flex flex-col items-center justify-center p-1 cursor-pointer'>
+            <div className="like flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2"  >
+              <img className='rounded-full' src="FacebookLike.png" alt="Placeholder" />
+            
+            </div>
+            <div className='text-center w-fit'>
+              Like
+            </div>
           </div>
+
+          <div className='w-fit flex flex-col items-center justify-center p-1 cursor-pointer'>
+            <div className="share flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2">
+              <img className='rounded-full' src="ForwardArrow.png" alt="Placeholder" />
+            </div>
+            <div className='text-center w-fit'>
+              Share
+            </div>
+          </div>
+
+        </div>
+  
+        {/* addcomment */}
+        <div className='flex w-full rounded-md flex-col p-2 justify-start items-start min-h-fit gap-2'>
+
+          {/* button  */}
+          <div className="buttonForComments w-full">
+            <button className=' rounded-md w-fit h-fit p-2 bg-blue-600 text-white font-semibold flex justify-center items-center' onClick={() => setOpenComments((open) => !open)}>
+              {openComments ? 'Close Comments' : 'Open Comments'}
+            </button>
+          </div>
+          {openComments && <Comments2 postId={id} currentUserId={userId}/>}
         </div>
 
-        <div className='w-fit flex flex-col items-center justify-center p-1 cursor-pointer'>
-          <div className="share flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2">
-            <img className='rounded-full' src="ForwardArrow.png" alt="Placeholder" />
-          </div>
-          <div className='text-center w-fit'>
-            Share
-          </div>
         </div>
-
-      </div>
-      < MdDelete onClick={()=> handleDelete(id)}/>
-      <br/>
-     
-      <FaEdit onClick={()=>handleEdit(id)}/>
-      {/* addcomment */}
-      <div className='flex w-full rounded-md flex-col p-2 justify-start items-start min-h-fit gap-2'>
-
-        {/* button  */}
-        <div className="buttonForComments w-full">
-          <button className=' rounded-md w-fit h-fit p-2 bg-blue-600 text-white font-semibold flex justify-center items-center' onClick={() => setOpenComments((open) => !open)}>
-            {openComments ? 'Close Comments' : 'Open Comments'}
-          </button>
-        </div>
-        {openComments && <Comments2 postId={id} currentUserId={userId}/>}
-      </div>
-
-      
-
-
-    </div>
       </div >
     );
   };

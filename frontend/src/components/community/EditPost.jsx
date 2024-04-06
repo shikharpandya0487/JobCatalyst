@@ -68,7 +68,7 @@ const EditPost = () => {
             const url = `http://localhost:5000/api/post/edit-post/${id}`;
             const response = await axios.put(url, formData, { headers });
             console.log(response.data);
-            navigate('/community');
+            navigate('/profile');
           } catch (err) {
             console.log("Server error");
           }

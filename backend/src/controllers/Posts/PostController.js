@@ -43,7 +43,10 @@ const createPost = async (req, res) => {
 
 const getPosts = async (req, res) => {
   try { 
-      const result = await Post.find().populate("postedBy", "_id username");
+      const result = await Post.find().populate({
+        path: 'comments',
+        populate: { path: 'replies' }
+      }).populate("postedBy", "_id username");
       res.json({ msg: "Find success", post: result });
   } catch (err) {
       console.error(err);
@@ -220,10 +223,7 @@ const createComment =  async (req, res) => {
 const getComments = async (req, res) => {  
     try {
         const postId = req.params.postId;
-        if (!postId) {
-            return res.status(400).json({ error: 'postId is required in the request body' });
-          }
-      
+
           const post = await Post.findById(postId).populate({
             path: 'comments',
             populate: {
@@ -249,43 +249,26 @@ const getComments = async (req, res) => {
 };
 
 const deleteComment = async (req, res) => {
-    try {
-      const commentId = req.params.commentId;
-      const comment = await Comment.findById(commentId);
-      console.log(comment)
-      if (!comment) {
-        return res.status(404).json({ error: 'Comment not found' });
-      }
-      console.log(comment.parentComment);
-      // Check if the comment is a parent comment or a reply
-      if (comment.parentComment) {
-        // If it's a reply, remove it from the parent comment's replies array
-        const parentComment = await Comment.findById(comment.parentComment);
-        if (parentComment) {
-          parentComment.replies = parentComment.replies.filter(replyId => replyId.toString() !== commentId);
-          await parentComment.save();
-        }
-      } else {
-        // If it's a parent comment, remove it from the post's comments array
-        console.log(comment.post)
-        const post = await Post.findByIdAndUpdate(
-          comment.post, 
-          { $pull: { comments: commentId } },
-          { new: true }
-        );
-  
-        if (!post) {
-          return res.status(404).json({ error: 'Post not found' });
-        }
-      }
-  
-        await comment.deleteOne();
-  
-      res.status(200).json({ message: 'Comment deleted successfully' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Server error' });
+  try {
+    const { commentId } = req.params;
+
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ msg: "Comment not found" });
     }
+    
+    if (!comment.parent) {
+      await Comment.deleteMany({ $or: [{ _id: commentId }, { parent: commentId }] });
+    } else {
+      await Comment.findByIdAndDelete(commentId);
+    }
+
+    res.json({ msg: "Comment deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Server error" });
+  }
 };
 
 const updateComment = async (req, res) => {
@@ -341,10 +324,7 @@ const deletePost = async (req,res)=>{
   
 const myPost = async (req, res) => {
   const userId = req.params.userId;
-  
   try {
-      // Use findOne instead of find to find posts for a specific user
-      
       const posts = await Post.find({ 'postedBy': userId });
       
       if (!posts || posts.length === 0) {
@@ -362,10 +342,9 @@ const myPost = async (req, res) => {
 
 const getPost = async (req, res) => {
   try {
-    const postId = req.params.postId;  // Accessing postId from route parameters
+    const postId = req.params.postId;  
     console.log(postId);
-    const post = await Post.findOne({ _id: postId }).populate("postedBy", "_id username");;  // Assuming postId corresponds to the _id field of your Post model
-    console.log(post);
+    const post = await Post.findOne({ _id: postId }).populate("postedBy", "_id username");
     if (!post) {
       return res.status(404).json({ error: 'Post not found' });
     }

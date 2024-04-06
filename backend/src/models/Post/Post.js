@@ -15,23 +15,18 @@ const postSchema = new Schema({
     },
     position:{
         type:String ,
-        // require:true
     },
     salary:{
-        type:String ,
-        // require:true        
+        type:String ,        
     },
     location:{
         type:String ,
-        // require:true
     },
     jobtype:{
         type:String ,
-        // require:true
     },
     imgPath:{
         type:String,
-        // require:true
     },
     likes:[{
         type: Schema.Types.ObjectId,

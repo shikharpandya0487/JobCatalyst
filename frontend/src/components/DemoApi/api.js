@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getComments = async (postId) => {
   try {
-    const url = `http://localhost:5000/api/post/${postId}/get-comment`;
+    const url = `http://localhost:5000/api/post/get-comment/${postId}`;
     const response = await axios.get(url);
     console.log(response.data);
     return response.data;

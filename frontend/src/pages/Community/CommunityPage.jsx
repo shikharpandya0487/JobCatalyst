@@ -12,13 +12,13 @@ const CommunityPage = () => {
   const [data, setData] = useState([]);
   const [search,setSearch] = useState('');
   const [stories,setStories] = useState([]);
-
+  const [refresh,setRefresh] = useState(false);
    
 
   //DISPLAYING DATA ON COMMUNITY PAGE 
   useEffect(() => {
       const fetchData = async () => {
-          const url = 'http://localhost:5000/api/post/get-posts';
+          const url = 'http://localhost:5000/api/post/get-posts'
           try {
               const response = await axios.get(url);
               if (response.data.post) {
@@ -32,10 +32,17 @@ const CommunityPage = () => {
           }
       };
       fetchData();
-  }, []);
+  }, [refresh]);
   
   
   
+
+  const handleReaction = () => {
+    setRefresh(!refresh);
+    console.log("Reaction button clicked");
+  };
+
+
   
 //search product on the basis of title 
 const handleSearch = async () => {
@@ -104,6 +111,7 @@ const handleSearch = async () => {
                   postedBy={item.postedBy?.username}
                   id={item._id}
                   post={item}
+                  onReaction={handleReaction} 
                 />
               ))}
             </div>
@@ -145,6 +153,7 @@ const handleSearch = async () => {
                 postedBy={item.postedBy?.username}
                 id={item._id}
                 post={item}
+                onReaction={handleReaction} 
               />
             ))}
 
