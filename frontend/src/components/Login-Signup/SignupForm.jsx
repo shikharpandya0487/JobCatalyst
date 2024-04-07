@@ -1,169 +1,183 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import axios from 'axios';
-import { useNavigate } from "react-router-dom";
-import { sendOtp } from "../../services/operations/authAPI"
-import { setSignupData } from "../../slices/authSlice"
-import { Input, useToast } from '@chakra-ui/react'
-import { useDispatch } from "react-redux"
+import {
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  Input,
+  useToast,
+} from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { sendOtp } from '../../services/operations/authAPI';
+import { setSignupData } from '../../slices/authSlice';
+import { useNavigate } from 'react-router-dom';
 
-const SignupForm = ( props ) => {
-  const dispatch = useDispatch()
-  const [pic,setPic]=useState("")
-  // const [picLoading,setPicloading]=useState(false)
-  const [show,setShow]=useState(false)
-  const [user,setUser]=useState({
-    username:"",
-    email:"",
-    password:"",
-    confirmPassword:"",
-});
-const toast=useToast()
-const navigate=useNavigate();
-const { username, email, password, confirmPassword} = user
+const SignupForm = (props) => {
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const navigate = useNavigate(); 
+  const [showPassword, setShowPassword] = useState(false);
+  const [user, setUser] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    companyName:'',
+    location:''
+  });
+  const {isAdmin,setIsAdmin}=props
 
+  const handleInput = (e) => {
+    setUser((prevData) => ({
+      ...prevData,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const {companyName,location}=user
 
-//handling the input value
-const handleInput = (e) => {
-  setUser((prevData) => ({
-    ...prevData,
-    [e.target.name]: e.target.value,
-  }))
-}
-// handling the form submission
-const handleSubmit = (e) => {
-  e.preventDefault()
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  // if(!username||!email||!password||!confirmPassword)
-  // { 
-  //     console.log(username,email,password,confirmPassword);
-  //     toast({
-  //         title: 'Fill in the details',
-  //         description: "Lack of info",
-  //         status: 'warning',
-  //         duration: 4000,
-  //         isClosable: true,
-  //         position:"bottom"
-  //       })
-  //      console.log("Error");
-  //       // setPicloading(false)
-  //       return;
-  // }
- 
-  if (password !== confirmPassword) {
-    toast.error("Passwords Do Not Match")
-    return;
+    const { username, email, password, confirmPassword,companyName } = user;
+
+    if (!username || !email || !password || !confirmPassword) {
+      toast({
+        title: 'Fill in the details',
+        description: 'Lack of info',
+        status: 'warning',
+        duration: 4000,
+        isClosable: true,
+        position: 'bottom',
+      });
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast({
+        title: 'Passwords Do Not Match',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+        position: 'bottom',
+      });
+      return;
+    }
+
+    const signupData = {
+      ...user,
+    };
+    console.log(signupData)
+    // Setting signup data to state
+    // To be used after otp verification
+    dispatch(setSignupData(signupData));
+
+    // Send OTP to user for verification
+    dispatch(sendOtp(user.email, navigate));
+
+    // Reset
+    setUser({
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      companyName:'',
+      location:""
+    });
   }
-
-  // console.log(username,email,password,pic)
-  const signupData = {
-    ...user,
-  }
-
-  // Setting signup data to state
-  // To be used after otp verification
-  dispatch(setSignupData(signupData))
-  // Send OTP to user for verification
-  dispatch(sendOtp(user.email, navigate))
-
-
-  // Reset
-  setUser({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  })
-//   toast({
-//     title: "Please Check your Email for OTP Verification",
-//     status: "success",
-//     duration: 5000,
-//     isClosable: true,
-//     position: "bottom",
-// })
-
-
-}
 
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter" className='text-center'>
-          Sign Up
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body className='flex flex-col gap-2 items-start'>
-        <Form onSubmit={handleSubmit} className='w-full'>
-
-        <Form.Group controlId="formUser" className='w-full'>
-            <Form.Label>UserName</Form.Label>
-            <Form.Control
-              type="input"
-              placeholder="Enter your UserName"
-              name="username"
-              value={user.username}
-              onChange={handleInput}
-              className='text-center'
-              required
-            />
-            </Form.Group>
-          <Form.Group controlId="formEmail" className='w-full'>
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter your email"
-              name="email"
-              value={user.email}
-              onChange={handleInput}
-              className='text-center'
-              required
+    <Modal isOpen={props.show} onClose={props.onHide} size="lg">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Sign Up</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <form onSubmit={handleSubmit}>
+            <FormControl id="formUser" isRequired>
+              <FormLabel>UserName</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter your UserName"
+                name="username"
+                value={user.username}
+                onChange={handleInput}
               />
-          </Form.Group>
-          <Form.Group controlId="formPassword" className='w-full flex flex-col items-end'>
-            <Form.Label className='ml-3'>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter your password"
-              name="password"
-              value={user.password}
+            </FormControl>
+            <FormControl id="formEmail" isRequired mt={4}>
+              <FormLabel>{isAdmin?"Company Email":"Email"}</FormLabel>
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                name="email"
+                value={user.email}
+                onChange={handleInput}
+              />
+            </FormControl>
+            <FormControl id="formPassword" isRequired mt={4}>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter your password"
+                name="password"
+                value={user.password}
+                onChange={handleInput}
+              />
+              <Button
+                size="sm"
+                onClick={() => setShowPassword(!showPassword)}
+                mt={2}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </Button>
+            </FormControl>
+            <FormControl id="formconfirmPassword" isRequired mt={4}>
+              <FormLabel>Confirm Password</FormLabel>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Confirm your password"
+                name="confirmPassword"
+                value={user.confirmPassword}
+                onChange={handleInput}
+              />
+            </FormControl>
+            {
+            isAdmin?<FormControl id="formCompanyName" isRequired mt={4}>
+            <FormLabel>Company Name</FormLabel>
+            <Input
+              type="text"
+              placeholder="Enter your company name"
+              name="companyName"
+              value={companyName}
               onChange={handleInput}
-             className='text-center w-full'
-              required
-            >
-          
-          </Form.Control>
-            <Button
-            variant="dark"
-            className="ml-2 w-1/4"
-            onClick={(e)=>setShow(!show)}
-            >
-            {show ? 'Hide' : 'Show'}
-          </Button>
-          </Form.Group>
-          <Form.Group controlId="formconfirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirm your password"
-              name="confirmPassword"
-              value={user.confirmPassword}
-              onChange={handleInput}
-              className='text-center'
-              required
             />
-          </Form.Group>
-          <Button type="submit">Sign Up</Button>
-        </Form>
-      </Modal.Body>
+          </FormControl>:null
+          }
+          {
+            isAdmin?<FormControl id="formCompanyName" isRequired mt={4}>
+            <FormLabel>Company Location</FormLabel>
+            <Input
+              type="text"
+              placeholder="Enter your company Location"
+              name="location" 
+              value={location}
+              onChange={handleInput}
+            />
+          </FormControl>
+          :null
+          }
+            <Button type="submit" mt={4} colorScheme="blue">
+              Sign Up
+            </Button>
+          </form>
+        </ModalBody>
+      </ModalContent>
     </Modal>
   );
-}
+};
 
 export default SignupForm;

@@ -1,108 +1,122 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  Input,
+  FormErrorMessage,
+} from '@chakra-ui/react';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 import { ChatState } from '../../UserContext';
 
 const LoginForm = (props) => {
   const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
+    companyName: '',
   });
+  const {isAdmin,setIsAdmin}=props
 
-  const {setUser}=ChatState()
+
+  const { setUser } = ChatState();
 
   const navigate = useNavigate();
-  const { email, password } = userInfo;
+  const { email, password, companyName } = userInfo;
 
   const handleChange = (e) => {
     setUserInfo({
       ...userInfo,
       [e.target.name]: e.target.value,
-  });
+    });
   };
 
   const handleSubmit = async (e) => {
-    const data=userInfo
-
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login",data);
+      const response = await axios.post('http://localhost:5000/api/auth/login', userInfo);
       console.log(response);
       if (response.data.success) {
         // Handle successful login
         // For example, set token in local storage and navigate to another page
         console.log(response.data);
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.user._id);
-        localStorage.setItem('LoggedIn',true)
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem('LoggedIn', true);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
 
-        console.log(response.data)
+        console.log(response.data);
 
-        navigate("/community");
+        navigate('/community');
       } else {
         // Handle unsuccessful login
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error('Login failed:', error);
       // Handle error
-      toast.error("An error occurred while logging in. Please try again later.");
+      toast.error('An error occurred while logging in. Please try again later.');
     }
-    setUserInfo({})
-    props.onHide()
+    setUserInfo({});
+    props.onHide();
   };
 
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter" className='text-center'>
-          Log In
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
+    <Modal isOpen={props.show} onClose={props.onHide} size="lg" motionPreset="slideInBottom">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Log In</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <FormControl id="formEmail" isRequired>
+            <FormLabel>Email</FormLabel>
+            <Input
               type="email"
               placeholder="Enter your email"
               name="email"
               value={email}
               onChange={handleChange}
-              required
             />
-          </Form.Group>
-          <Form.Group controlId="formPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
+          </FormControl>
+          <FormControl id="formPassword" isRequired mt={4}>
+            <FormLabel>Password</FormLabel>
+            <Input
               type="password"
               placeholder="Enter your password"
               name="password"
               value={password}
               onChange={handleChange}
-              required
             />
-          </Form.Group>
-          <Button type="submit">Log In</Button>
+          </FormControl>
+          {
+            isAdmin?<FormControl id="formCompanyName" isRequired mt={4}>
+            <FormLabel>Company Name</FormLabel>
+            <Input
+              type="text"
+              placeholder="Enter your company name"
+              name="companyName"
+              value={companyName}
+              onChange={handleChange}
+            />
+          </FormControl>:null
+          }
+          <Button type="submit" mt={4} colorScheme="blue" onClick={handleSubmit}>
+            Log In
+          </Button>
           <Link to="/forgot-password">
-            <p className="mt-1 ml-auto max-w-max text-xs text-blue-100">
-              Forgot Password
-            </p>
+            <p className="mt-1 ml-auto max-w-max text-xs text-blue-100">Forgot Password</p>
           </Link>
-        </Form>
-      </Modal.Body>
+        </ModalBody>
+      </ModalContent>
     </Modal>
   );
 };

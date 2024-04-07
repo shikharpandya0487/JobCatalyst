@@ -1,74 +1,102 @@
 const mongoose = require("mongoose");
-// const bcrypt=require("bcryptjs");
-// const jwt=require("jsonwebtoken");
+
 const userSchema = new mongoose.Schema({
-    username: {
+  username: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    unique:true,
+    required: true
+  }, 
+  token:{ 
+    type:String
+  },
+  password: {
+    type: String,
+  },
+  resetPasswordExpires: {
+    type: Date,
+  },
+  skills: {
+    type: [{
+      name: {
         type: String,
-        required: true
-    },
-    email: {
+        unique: true
+      },
+      proficiency: {
         type: String,
-        unique:true,
-        required: true
-    },
-    password: {
-        type: String,
-    },
-    token: {
-        type: String,
-    },
-    resetPasswordExpires: {
-        type: Date,
-    },
-    skills:{
-        type:[{
-            name:{
-                type:String,
-            },
-            proficiency:{
-                type:String,
-                enum:["Beginner","Intermediate","Advanced"],
-                default:'Beginner'
-            }            
-        }]
-    },
-    education:{
-       type:[{
-            name:{
-                type:String,
-            },
+        enum: ["Beginner", "Intermediate", "Advanced"],
+        default: 'Beginner'
+      }
     }]
+  },
+  pic: {
+    type: String,
+    default: "https://icons8.com/icon/20749/male-user"
+  },
+  github: {
+    type: {
+      url: {
+        type: String,
+        required: true
+      }
+    }
+  },
+  linkedIn: {
+    type: {
+      url: {
+        type: String,
+        required: true
+      }
+    }
+  },
+  googleDrive: {
+    type: {
+      url: {
+        type: String,
+        required: true
+      }
+    }
+  },
+  documents: [{
+    name: {
+      type: String
     },
-    pic:{
-        type:String,
-        default:"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-    },
-    links:{
-        type:[{
-                name:{
-                    type:String 
-                },
-                url:{
-                    type:String
-                }
-            }]
-     },
-    documents:[
+    url: {
+      type: String
+    } 
+  }], 
+  isAdmin: {
+    type: Boolean, 
+    required: true,
+    default: false
+  },
+  location: {
+    type: String
+  },
+  companyName: {
+    type: String,
+  },
+  resumerecieved:{
+    type:[
         {
             name:{
-                type:String 
+                type:String
             },
             url:{
-                type:String
+                type:String 
             }
         }
-    ],
-    isAdmin:{
-        type:Boolean,
-        required:true,
-        default:false
-    }
-},
-{ timestamps: true });
+    ]
+  }
+}, { timestamps: true });
 
-module.exports = mongoose.model("User", userSchema);
+
+
+
+const User = mongoose.model("User", userSchema);
+
+
+module.exports = User;

@@ -15,7 +15,6 @@ const chatRouter=require('./src/Routes/chatRoutes/chatRoutes.js')
 const messageRoutes=require('./src/Routes/messageRoutes/messageRoutes.js')
 //Importing the routers  
 const connectDb = require("./src/database/Connection.js")
-const googleUser = require("./src/models/user/GoogleUser.js")
 const cookieParser = require("cookie-parser"); 
 const jobRoutes=require("../backend/src/Routes/jobRoutes/jobRoute.js");
 const jobRecordRoutes=require("../backend/src/Routes/jobRecordRoutes/jobRecordRoute.js")
@@ -29,11 +28,6 @@ app.use(cors({
     credentials: true
 }))
 app.use(express.json()); 
-
-//google login client id and secret 
-const clientid = "183771193647-f0ba9rvtmtld2jmcite1cpjccr2sqrc.apps.googleusercontent.com"
-const clientsecret = "GOCS PX-zyHLvrKTJsyQGjkiy2Mb_Eq401e3"
-
 app.use("/api/auth",authrouter);    
 app.use("/api/post",postrouter);  
 app.use("/api/resume",resumerouter);
