@@ -2,6 +2,7 @@ import React,{useRef,useState} from 'react'
 import JoditEditor from 'jodit-react';
 import Navbar from '../../components/Navbar/Navbar';
 import {useTheme} from '../../Context/ThemeContext';
+import { Link } from 'react-router-dom';
 
 const Job_post = () => {
     const {theme} = useTheme();
@@ -136,19 +137,20 @@ const Job_post = () => {
                 </select>
             </div>
 
-            <div className='flex justify-between items-center p-2 w-full'>
-
+            <div className='flex justify-between items-center p-2 w-full'> 
+                <Link to = "/applyjob">
                 <button
-                 className="text-center order-last  px-6 py-2 mt-4 ml-10 mr-10 md:ml-10 mr-10 w-28 md:w-30 text-lg md:text-lg text-black whitespace-nowrap bg-blue-500 rounded-xl md:rounded-3xl"
+                 className="text-center order-last  p-2 py-2 mt-4 ml-10 mr-10 md:ml-10 mr-10 w-28 md:w-30 text-lg md:text-lg text-black whitespace-nowrap bg-green-500 rounded-xl md:rounded-3xl"
                  >
-                  Continue
-                </button>      
+                  Apply Now
+                </button> 
+                </Link>  
 
                 <button
                  className="text-center order-last  px-6 py-2 mt-4 ml-10 mr-10 md:ml-10 mr-10 w-28 md:w-30 text-lg md:text-lg text-black whitespace-nowrap bg-blue-500 rounded-xl md:rounded-3xl"
                  >
                   Create
-                </button>          
+                </button>    
             </div>
 
       </div>

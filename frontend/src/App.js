@@ -13,6 +13,7 @@ import EditPost from './components/community/EditPost.jsx';
 import CompanyPage from './pages/Company-Page/CompanyPage.jsx';
 import JobBasics from './pages/Job-Related-Pages/JobBasics.jsx';
 import JobPost from './pages/Job-Related-Pages/Job_post.jsx';
+import ApplyJob from './pages/Job-Related-Pages/ApplyJob.jsx';
 import SalaryPage from './pages/Salary/SalaryPage.jsx';
 import VerifyEmail from './pages/PasswordChanges/VerifyEmail.jsx';
 import ForgotPassword from './pages/PasswordChanges/ForgotPassword.jsx';
@@ -42,6 +43,7 @@ function App() {
             <Route path="/companies" element={<CompanyPage/>}/>
             <Route path="/job-basics" element={<JobBasics/>}/>
             <Route path="/job-post" element={<JobPost/>}/>
+            <Route path="/applyjob" element={<ApplyJob/>}/>
             <Route path="/salaries" element={<SalaryPage/>}></Route>
             <Route path="/verify-email" element={<VerifyEmail/>}></Route>
             <Route path="/forgot-password" element={<ForgotPassword/>}></Route>
