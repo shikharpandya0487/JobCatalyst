@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar';
 import {useTheme} from '../../Context/ThemeContext'
+import { ImCross } from "react-icons/im";
+
 const AddPost = () => {
     const {theme} = useTheme();
     const navigate = useNavigate();
@@ -20,9 +22,15 @@ const AddPost = () => {
     const handleApi = (e) => {
         e.preventDefault();
 
+        if(!company && !title && !position && !location && !salary && !description && !tag)
+        {
+            alert("please fill the details of post");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("file", video);
-        formData.append("company", company);
+        formData.append("company", company)
         formData.append("title", title);
         formData.append("position", position);
         formData.append("location", location);
@@ -57,6 +65,9 @@ const AddPost = () => {
     //     }
 
     // ]
+    const handleCross=()=>{
+        navigate("/community");
+      }
 
     return (
       <div className='max-w-screen mx-auto min-h-screen'
@@ -68,6 +79,7 @@ const AddPost = () => {
         <Navbar/>
         <div className="flex justify-center w-[100%] gap-2 p-4 min-h-fit">
             <div className="w-1/2 p-2 bg-slate-200 rounded-ms md:rounded-lg">
+                <ImCross onClick={handleCross} />
                 <h2 className="pt-2 pb-10 text-3xl md:text-5xl text-black text-center">Add Post</h2>
                 {/* styling of input tags is still left  */}
                 <form onSubmit={handleApi} className="flex flex-col justify-center">

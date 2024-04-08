@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar';
 import { useParams } from 'react-router-dom';
+import { ImCross } from "react-icons/im";
 const EditPost = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -73,12 +74,16 @@ const EditPost = () => {
             console.log("Server error");
           }
     };
+    const handleCross=()=>{
+      navigate("/profile");
+    }
 
     return (
       <div className='max-w-screen mx-auto min-h-screen'>
       <Navbar/>
       <div className="flex justify-center w-[100%] gap-2 p-4 min-h-fit">
           <div className="w-1/2 p-2 bg-slate-200 rounded-ms md:rounded-lg">
+          <ImCross onClick={handleCross} />
               <h2 className="pt-2 pb-10 text-3xl md:text-5xl text-black text-center">Edit Post</h2>
               {/* styling of input tags is still left  */}
               <form onSubmit={handleApi} className="flex flex-col justify-center">
@@ -128,17 +133,6 @@ const EditPost = () => {
                   <button className="px-6 py-2 w-200px mt-4 text-lg text-white bg-blue-500 rounded-lg" onClick={handleApi}>Edit</button>
               </form>
           </div>
-          {/* <div className='w-1/2 p-2 bg-slate-400 rounded-lg md:rounded-md'>
-              <h1>
-                  Preview your Post
-              </h1>
-
-              <div className="wrapper">
-                  <h1>{company}</h1>
-
-
-              </div>
-          </div> */}
       </div>
       </div>
     );
