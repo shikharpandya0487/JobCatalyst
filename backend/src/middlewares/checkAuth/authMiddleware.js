@@ -11,10 +11,11 @@ const authmiddleware = async (req, res, next) => {
             token = req.headers.authorization.split(" ")[1];
             try {
                 // Verify the token
-                console.log(process.env.JWT_SECRET_KEY);
+                // console.log(process.env.JWT_SECRET_KEY);
                 const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
                 // Find the user based on decoded token's ID
                 req.user = await User.findById(decode.id).select('-password');
+                console.log(req.user);
                 // Proceed to the next middleware
                 next();
             } catch (error) {

@@ -17,17 +17,28 @@ exports.home=async(req,res)=>{
     }
 }    
 exports.signup=async(req,res)=>{
-    try{
+    try{ 
         //date fetch from request ki body
         const{username,
             email,
-            password,confirmPassword,
+            password,
+            confirmPassword,
+            companyName,
+            location,
+            isAdmin,
             otp
         }=req.body
     
     
         //validate data 
-        console.log("hello",res.body);
+        console.log("hello",req.body);
+        if(isAdmin===true && (!companyName || !location))
+        {
+            res.status(403).json({
+                success:false,
+                message:"Enter all credentials"
+            })
+        }
         if(!username || !email || !password ||!otp
             ){
                 return res.status(403).json({
@@ -74,12 +85,20 @@ exports.signup=async(req,res)=>{
         //hash password
         const hashedPassword=await bcrypt.hash(password,10);
         //entry create in db
-    
+        console.log("Industry / company name ",companyName)
+        console.log("Location of the Company ",location)
+         const k=(companyName&&location)?true:false
         const user=await User.create({
             username,
             email,
             password:hashedPassword,
+            isAdmin:k, 
+            companyName:(k==true)?companyName:null,
+            location:(k==true)?location:null
         })
+        const token=jwt.sign({userId:user._id,username},jwtSecret)
+
+
         console.log("Data saved",user);
        
         //return res
@@ -97,7 +116,8 @@ exports.signup=async(req,res)=>{
         return res.status(200).json({
             success:true,
             user,
-            message:"USER IS REGISTERED SUCCESSFULLY"
+            message:"USER IS REGISTERED SUCCESSFULLY",
+            token:token
         });
         
     }
@@ -188,7 +208,7 @@ exports.googleAuth=async (req,res)=>{
         if(selectedUser)
         {
             console.log("User found") 
-            //now get user details
+            
             const password=selectedUser?.password 
             // console.log(password)
 
@@ -231,7 +251,7 @@ exports.googleAuth=async (req,res)=>{
                 })
             }
             
-            console.log(savedUser)
+            console.log("Google auth ",savedUser)
             //if the user doesn't exist generate the user details which are necessary and save it 
 
         }
@@ -267,8 +287,8 @@ exports.sendotp = async (req, res) => {
 			specialChars: false,
 		});
 		const result = await OTP.findOne({ otp: otp });
-		console.log("Result is Generate OTP Func");
-		console.log("OTP", otp);
+		// console.log("Result is Generate OTP Func");
+		// console.log("OTP", otp);
 		console.log("Result", result);
 		while (result) {
 			otp = otpGenerator.generate(6, {

@@ -80,7 +80,7 @@ const fetchingChats=async (req,res)=>{
     } catch (error) {
         console.log(error.message);
         res.status(400)
-        throw new Error("Error in fetching the chats")
+        // throw new Error("Error in fetching the chats")
     }
 }
 

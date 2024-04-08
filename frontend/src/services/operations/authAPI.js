@@ -75,11 +75,14 @@ const {
     email,
     password,
     confirmPassword,
+    companyName,
+    location,
     otp,
     navigate
   ) {
     return async (dispatch) => {
       const toastId = toast.loading("Loading...")
+      
       dispatch(setLoading(true))
       try {
         const response = await apiConnector("POST", "http://localhost:5000/api/auth/signup", {
@@ -87,24 +90,31 @@ const {
           email,
           password,
           confirmPassword,
+          companyName,
+          location, 
           otp,
-        })
-        if (!response.data.success) {
+        }) 
+        console.log(companyName,location)
+        if (!response){
           toast.error("Signup Failed")
           throw new Error(response.data.message)
         }
   
         console.log("SIGNUP API RESPONSE............", response)
         localStorage.setItem("token", JSON.stringify(response.data.token))
-        localStorage.setItem("user", JSON.stringify(response.data.user))
+        localStorage.setItem("user", JSON.stringify({...response.data.user,token:response.data.token}))
+        localStorage.setItem("userId",JSON.stringify(response.data.user._id))
+        localStorage.setItem("LoggedIn",JSON.stringify("True"))
   
         toast.success("Signup Successful")
         navigate("/community")
       } catch (error) {
         console.log("SIGNUP API ERROR............", error)
         toast.error("Wrong OTP Please Try Again!")
-        navigate("/verify-email")
+        navigate("/")
+        dispatch(setLoading(false))
       }
+     
       dispatch(setLoading(false))
       toast.dismiss(toastId)
     }

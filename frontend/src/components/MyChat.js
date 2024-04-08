@@ -48,7 +48,7 @@ const MyChat = ({fetchAgain}) => {
             
         }
     }
-//This loads all the chats as soon as the site loads
+
     useEffect(()=>{
         setLoggedUser(JSON.parse(localStorage.getItem("user")))
         console.log(loggedUser)

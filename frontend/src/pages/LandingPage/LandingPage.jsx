@@ -5,9 +5,9 @@ import {useTheme} from '../../Context/ThemeContext';
 import axios from 'axios';
 // import './GoggleLogin.css'
 import "./LandingPage.css"
-
 import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
 import {auth} from '../../firebase/firebaseConfig'
+import {Button} from '@chakra-ui/react'
 
 
 
@@ -19,7 +19,7 @@ function LandingPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isEmailValid, setIsEmailValid] = useState(false)
-
+  const [isAdmin,setIsAdmin]=useState(false)
 
   const SubmitHandler = (e) => {
     e.preventDefault();
@@ -94,7 +94,7 @@ function LandingPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
 
       <div className="w-screen h-screen overflow-x-hidden flex flex-col"
       style={{
@@ -126,7 +126,7 @@ function LandingPage() {
 
             <div className="min-h-1/2 w-full flex flex-col justify-center items-center gap-3 p-1"
             style={{
-              color: theme === "dark" ? "#333" : "#fff",
+              color: theme === "dark" ? "#333" : "black",
             }}
             >
               {/* email  */}
@@ -150,14 +150,6 @@ function LandingPage() {
 
               </label>
 
-              {/* {!isEmailValid && (
-                 <div className="text-red-500 text-sm w-full p-1">
-                 Invalid Email
-                       </div>
-                     )} */}
-
-              {/* password  */}
-
               <label htmlFor="password" className="flex w-7/12 p-4 h-[50px] bg-zinc-100 rounded-[40px] justify-between items-center gap-4" >
                 {/* <div className=" p-2 w-5/12 text-black text-xl font-normal font-['Inter']">Enter Password</div> */}
                  Password
@@ -168,17 +160,16 @@ function LandingPage() {
                 <button className="w-full p-2 bg-zinc-600 rounded-[40px] justify-center items-center text-white font-bold" onClick={handleSubmit}>
                   Login
                 </button>
+                
               </div>
               <div className="w-7/12 p-2 border-1 flex justify-evenly rounded-xl border-black">
-                 <button type="button" className="login-with-google-btn w-[49%]" onClick={handleGoogle}>
-                  Sign in with Google
-                </button>
-
-                <button type="button" className="login-with-facebook-btn w-[49%]" >
+                 <button type="button" className="login-with-google-btn w-full text-black" onClick={handleGoogle}>
                   Sign in with Google
                 </button>
               </div>
-
+              <Button className="p-3 w-7/12 text-red-700" onClick={()=>setIsAdmin((prev)=>!prev)}>
+                {isAdmin ?<p > Click Here If you are not an Employer</p>:<p> Click here if you are Employer</p>}
+              </Button>
              
 
             </div>

@@ -6,12 +6,15 @@ import SignupForm from '../Login-Signup/SignupForm';
 import LoginForm from '../Login-Signup/LoginForm';
 import './Navbar.css';
 
-function Navbar() {
+function Navbar({isAdmin,setIsAdmin}) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [modalShowlogin, setModalShowlogin] = useState(false);
   const [modalShowSignup, setModalShowSignup] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
+  const user=localStorage.getItem("user")
+  console.log(user);
+  const admin=(user)?user?.isAdmin:false;
 
   const handleLogout = () => {
     localStorage.clear();
@@ -35,7 +38,7 @@ function Navbar() {
                   <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 px-3 py-2 rounded-md text-md'><Link className='text-gray-200 w-full h-full hover:text-gray-800 hover:font-semibold' style={{ textDecoration: 'none' }}  to="/community">Community</Link></div>
                   <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 px-3 py-2 rounded-md text-md'><Link className='text-gray-200 w-full h-full hover:text-gray-800 hover:font-semibold' style={{ textDecoration: 'none'}}  to="/jobs">Jobs</Link></div>
                   <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 px-3 py-2 rounded-md text-md'><Link className='text-gray-200 w-full h-full hover:text-gray-800 hover:font-semibold'style={{ textDecoration: 'none' }}  to="/salaries">Salaries</Link></div>
-                  <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 px-3 py-2 rounded-md text-md'><Link className='text-gray-200 w-full h-full hover:text-gray-800 hover:font-semibold' style={{ textDecoration: 'none'}}  to="/companies">Companies</Link></div>
+                 { admin?<div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 px-3 py-2 rounded-md text-md'><Link className='text-gray-200 w-full h-full hover:text-gray-800 hover:font-semibold' style={{ textDecoration: 'none'}}  to="/companies">Companies</Link></div>:null}
                   <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 px-3 py-2 rounded-md text-md'><Link className='text-gray-200 w-full h-full hover:text-gray-800 hover:font-semibold'  style={{ textDecoration: 'none'}}  to="/chats">Connections</Link></div>
                   <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/profile">Profile</Link></div>
                   <div className='text-white cursor-pointer transition-all duration-200 hover:bg-gray-300 hover:text-green-700 px-3 py-2 rounded-md text-md'><Link style={{ textDecoration: 'none', color: 'inherit' }}  to="/add-post">Add Post</Link></div>
@@ -45,9 +48,9 @@ function Navbar() {
               {!isAuthenticated && (
                 <div className='flex flex-row justify-evenly items-center gap-4 p-2 w-fit '>
                   <button  style={{ '--clr': '#39FF14' }} id="login" className="login" onClick={()=>setModalShowlogin(true)}><span>Login</span><i></i></button>
-                  <LoginForm show={modalShowlogin} onHide={()=>setModalShowlogin(false)}/>
+                  <LoginForm show={modalShowlogin} onHide={()=>setModalShowlogin(false)} isAdmin={isAdmin} setIsAdmin={setIsAdmin}/>
                   <button  style={{ '--clr': '#39FF14' }} id="login" className="login" onClick={()=>setModalShowSignup(true)}><span>Sign up</span><i></i></button>
-                  <SignupForm show={modalShowSignup} onHide={()=>setModalShowSignup(false)}/>
+                  <SignupForm show={modalShowSignup} onHide={()=>setModalShowSignup(false)} isAdmin={isAdmin} setIsAdmin={setIsAdmin}/>
                 </div>
               )}
             </div>

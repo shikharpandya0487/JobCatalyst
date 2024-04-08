@@ -150,16 +150,7 @@ const UserSettings = () => {
                       Contact info
                     </p>
                   </div>
-                  <div className="flex gap-1 items-center">
-                    <div
-                      style={{ width: "3px",height: '30px',backgroundColor:'grey' }}
-                      className={`mr-3 mb-2 bg-gray-700 h-full ${showMyTeams ? 'border-green-700' : ''}`}
-                      ></div>
-                    
-                    <p className="text-lg cursor-pointer font-normal hover:text-green-600 transition-all" onClick={showMyTeamInfo} >
-                      My Teams
-                    </p>
-                  </div>
+                 
                   <div className="flex gap-1 items-center">
                     <div
                       style={{ width: "3px" ,height: '50px',backgroundColor:'grey'}}
@@ -210,32 +201,7 @@ const UserSettings = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full md:w-2/3">
-              {/* Payment Settings */}
-              <div className="px-3 rounded-md">
-                <h3 className="text-2xl cursor-pointer font-medium">Payment Settings</h3>
-                <div className="flex flex-col mb-4">
-                <div className="flex gap-1 items-center">
-                    <div
-                      style={{ width: "3px" ,height:'50px',backgroundColor:'grey' }}
-                      className="mr-3 mb-2 bg-gray-900 h-full"
-                    ></div>
-                    <p className="text-lg cursor-pointer font-normal hover:text-green-700 transition-all">
-                      Billing and payments
-                    </p>
-                  </div>
-                  <div className="flex gap-1 items-center">
-                    <div
-                      style={{ width: "3px" ,height:'30px',backgroundColor:'grey' }}
-                      className="mr-3 mb-2 bg-gray-900 h-full"
-                    ></div>
-                    <p className="text-lg cursor-pointer font-normal hover:text-green-700 transition-all">
-                      Get Paid
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
             <div className="w-full md:w-2/3">
               {/* Accounting Settings */}
               <div className="px-3 rounded-md">
@@ -275,13 +241,7 @@ const UserSettings = () => {
               </div>
             )}
           </div>
-          <div className={`w-full ml-20 md:ml-4 ${showMyTeams ? "border-2 border-green-600 rounded-2xl" : ""}`}>
-          {showMyTeams && (
-            <div className="bg-gray-100 p-4 rounded-2xl w-full">
-              <MyTeams />
-            </div>
-          )}
-        </div>
+        
 
         <div className={`w-full ml-20 md:ml-4 ${showSetting ? "border-2 border-green-600 rounded-2xl" : ""}`}>
           {showSetting && (

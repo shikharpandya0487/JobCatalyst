@@ -5,16 +5,17 @@ import axios from 'axios'
 import { Button, Container, Input } from "@chakra-ui/react";
 import InputDetails from './Helper-Modals/InputDetails.js'
 import SkillItem from "./Helper-Modals/SkillItem.js";
-import EducationItem from "./Helper-Modals/EducationItem.js";
+import { ChatState } from "../../UserContext.js";
+
 
 const UserProfileInfo = () => {
   const {theme} = useTheme();
   
   const userId=localStorage.getItem('userId')
-  console.log(userId)
+  // console.log(userId)
   const profileDataApi = `http://localhost:5000/api/user/profile/${userId}`;
 
- 
+  const {user}=ChatState()
 
 
 
@@ -30,55 +31,127 @@ const UserProfileInfo = () => {
     contact:"",
   });
 
-  
-  const[userData,setUserData]=useState(true);
 
   const [UserInformation,setUserInformation]=useState({
-    education:[],
     skills:[]
   })
 
-  const handleDeleteSkill = (index) => {
+  const handleDeleteSkill =async (id,index) => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+     const response=await axios.delete(`http://localhost:5000/api/user/delete-skill/${id}`,config)
+     console.log(response.data.skills)
+
+     const skills=response.data.skills.map(skill=>({
+      ...skill,
+      skillId:skill._id
+     }))
+     console.log(skills)
+     user.skills=skills
+
       setUserInformation((prevInfo) => {
-          const updatedSkills = [...prevInfo.skills];
-          updatedSkills.splice(index, 1);
-          return { ...prevInfo, skills: updatedSkills };
+          
+          return { ...prevInfo, skills: skills };
       });
+      console.log("Accessing skills after deleting ",user.skills)
+    } catch (error) {
+      console.log(error)
+    }
+      
+  };
+  
+
+  const handleEditSkill = async(id,index, newName, newProficiency) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const editSkill={
+        name:newName,
+        proficiency:newProficiency
+      }
+     const response=await axios.put(`http://localhost:5000/api/user/edit-skill/${id}`,{
+      skill:editSkill
+     },config)
+
+     if(!response)
+     {
+      console.log("resolve the editing of skill")
+     }
+
+     const skills=response.data.skills 
+     
+    console.log("Data from backend ",skills)
+
+     setUserInformation(() => ({
+          skills:[...skills]
+     }));
+     console.log("Accessing skills after editing ",user.skills);
+
+    } 
+    catch(error)
+    {
+      console.log("Error in the editing of skill",error)
+    }
+      
   };
 
-  const handleEditSkill = (index, newName, newProficiency) => {
-      setUserInformation((prevInfo) => {
-          const updatedSkills = [...prevInfo.skills];
-          updatedSkills[index] = { name: newName, proficiency: newProficiency };
-          return { ...prevInfo, skills: updatedSkills };
-      });
-  };
 
-  const handleDeleteEducationItem = (index) => {
-    setUserInformation((prevInfo) => {
-      const updatedEducation = [...prevInfo.education];
-      updatedEducation.splice(index, 1);
-      return { ...prevInfo, education: updatedEducation };
-    });
-  };
-
-  const handleEditEducationItem = (index, newData) => {
-    setUserInformation((prevInfo) => {
-      const updatedEducation = [...prevInfo.education];
-      updatedEducation[index] = newData;
-      return { ...prevInfo, education: updatedEducation };
-    });
-  };
 
   
 
-  useEffect(()=>{
+  useEffect(() => {
     axios.get(profileDataApi)
-    .then((response)=>{
-      const {username,email,contact}=response.data 
-      setprofile({username,email,contact})
-    })
-  },[userId,profileDataApi])
+        .then((response) => {
+            const { username, email, contact, skills } = response.data;
+            // const updatedSkills = skills.map(skill => ({
+            //     name: skill.name,
+            //     proficiency: skill.proficiency,
+            //     skillId: skill.skillId
+            // }));
+            setprofile({ username, email, contact });
+          
+        })
+}, [userId, profileDataApi]);
+console.log(user);
+
+useEffect(() => {
+  const accessSkills=async()=>{
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+     const response=await axios.get(`http://localhost:5000/api/user/get-skills`,config)
+     console.log(response.data)
+     const skills = response.data.skills.map(skill => ({
+      ...skill,
+      skillId: skill._id
+    }));
+    console.log(skills);
+     user.skills=skills
+     setUserInformation(() => ({
+      skills: [...user.skills]
+    }));
+    console.log("Accessing skills ",user.skills)
+    
+    } catch (error) {
+      console.log("Error while accessing the skills",error)
+    }
+  }
+
+  accessSkills()
+     
+}, [user]);
+
 
 
   return (
@@ -101,13 +174,13 @@ const UserProfileInfo = () => {
         >
           <h5 className="mb-2 font-semibold pb-4 italic md:not-italic">User Information</h5>
           <p>
-            <span className="font-light">Name:</span> {profile.username}
+            <span className="font-light">Name:</span> {  profile.username}
           </p>
           <p>
-            <span className="font-light ">Email:</span> {profile.email}
+            <span className="font-light ">Email:</span> {  profile.email}
           </p>
           <p>
-            <span className="font-light ">Contact info:</span> {profile.contact}
+            <span className="font-light ">Contact info:</span> {  profile.contact}
           </p>
         </div>
 
@@ -122,10 +195,11 @@ const UserProfileInfo = () => {
           <div className="w-full min-h-fit p-2 flex flex-col justify-center items-start gap-2">
            {  UserInformation.skills.length>0 && UserInformation.skills.map((skill, index) => (
               <SkillItem
-              className="w-full p-1"
+                  className="w-full p-1"
                    key={index} 
                    skill={skill}
                   index={index}
+                   id={skill.skillId}
                    deleteSkill={handleDeleteSkill}
                  editSkill={handleEditSkill}
                />
@@ -146,38 +220,6 @@ const UserProfileInfo = () => {
           </div>
         </div>
 
-        <div className="bg-gray-100 p-4 rounded shadow flex flex-col w-full gap-4"
-        style={{
-          backgroundColor: theme === "dark" ? "#333" : "#fff",
-          color: theme === "dark" ? "#fff" : "#333",
-          border:theme== "dark" ? ' 1px solid #fff': '',
-        }}
-        >
-        <div className="w-full"><h5 className="font-semibold mt-1 italic md:not-italic">Education</h5></div>
-        <div className="w-full min-h-fit p-2 flex flex-col justify-center items-start gap-2">
-        { UserInformation.education.length>0 && UserInformation.education.map((education, index) => (
-              <EducationItem
-                key={index}
-                data={education}
-                index={index}
-                deleteEducationItem={handleDeleteEducationItem}
-                editEducationItem={handleEditEducationItem}
-              />
-            ))}
-          </div>
-          <div className="w-full">
-              <InputDetails
-              title="Add Your Educational Details"
-              btnAdd="Add Doc"
-              PlaceHolder="Enter your educational Info"
-              label="Information could Be School / College / etc"
-              purpose="education"
-              UserInformation={UserInformation}
-              setUserInformation={setUserInformation}
-              />
-          </div>
-          
-        </div>
 
         <div className="rounded-lg flex flex-col justify-center items-center bg-orange-200 p-2 w-full">
           <h3 className="font-semibold">

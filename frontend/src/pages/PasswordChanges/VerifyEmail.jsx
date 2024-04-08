@@ -28,14 +28,18 @@ function VerifyEmail() {
       email,
       password,
       confirmPassword,
+      companyName,
+      location
     } = signupData;
-
+    
     dispatch(
       signUp(
         username,
         email,
         password,
         confirmPassword,
+        companyName,
+        location,
         otp,
         navigate
       )
@@ -84,7 +88,7 @@ function VerifyEmail() {
             </button>
           </form>
           <div className="mt-6 flex items-center justify-between">
-            <Link to="/signup">
+            <Link to="/">
               <p className="text-richblack-5 flex items-center gap-x-2">
                 <BiArrowBack /> Back To Signup
               </p>
