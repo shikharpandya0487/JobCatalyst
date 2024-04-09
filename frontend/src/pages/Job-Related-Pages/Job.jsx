@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import data from "../../components/DummyData/Data.json";
-import JobPosting from "../../components/community/JobPosting.jsx";
+import CompanyPost from "../../components/Company-components/CompanyPost.jsx";
 import ForCompanies from "../../components/Company-components/ForCompanies.jsx";
 import {useTheme} from "../../Context/ThemeContext";
 
@@ -321,8 +321,7 @@ function Job() {
                     color: theme === "dark" ? "#fff" : "#333",
                   }}
                   >
-                    <JobPosting
-                    
+                    <CompanyPost
                       title={item.title}
                       company={item.company}
                       position={item.position}

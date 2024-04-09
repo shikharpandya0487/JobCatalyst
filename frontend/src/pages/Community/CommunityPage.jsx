@@ -13,6 +13,7 @@ const CommunityPage = () => {
   const [search,setSearch] = useState('');
   const [stories,setStories] = useState([]);
   const [refresh,setRefresh] = useState(false);
+  const [isSearch,setIsearch] = useState(false);
    
 
   //DISPLAYING DATA ON COMMUNITY PAGE 
@@ -57,11 +58,17 @@ const handleSearch = async () => {
             alert("No result found");
         }
         setSearch('');
+        setIsearch(true);
     } catch (error) {
         console.error(error);
         alert("Server error");
     }
 };
+
+const closeSearch=()=>{
+  setIsearch(false);
+  setRefresh(!refresh);
+}
 
   const spotlight = [
     {
@@ -79,10 +86,8 @@ const handleSearch = async () => {
         <input placeholder='search' className=" bg-slate-100 border-1 border-black p-2 rounded-l-xl opacity-85" value={search} onChange={(e)=>setSearch(e.target.value)}/>
         <button  className=" flex items-center justify-center bg-blue-400 p-2 rounded-r-xl border-1 border-r-black border-t-black border-b-black hover:bg-blue-100 transition-shadow" onClick={handleSearch}> <img src="Search.png" className='w-1/2' alt="" /></button>
       </div>
-      {/* <SearchBar/> */}
-      
+      {isSearch &&<div> <div>Search results</div> <button onClick={closeSearch}>CLose Search results</button></div>}
 
-     
       
         {/* <img className="w-[20px] h-[20px] left-[20px] top-[50%] -translate-y-1/2 absolute" src="https://via.placeholder.com/33x35" /> */}
         {/* <div className="w-[600px] h-[30px] left-[10%] top-[50%] -translate-y-1/2 absolute bg-zinc-100 rounded-xl" /> */}

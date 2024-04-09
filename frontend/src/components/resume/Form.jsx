@@ -121,6 +121,7 @@ const Form = () => {
     }
   };
 
+ 
   const downloadPdf=async()=>{
     try {
       //Create PDF
@@ -141,7 +142,6 @@ const Form = () => {
       console.error('Error creating or downloading PDF:', error);
     }
   }
-
 
   return (
     <div className="container mx-auto mt-10 mb-8 " style={{ width: "900px" }}>
@@ -181,10 +181,8 @@ const Form = () => {
         <Success />
         <button className="px-4 py-2 rounded-lg font-semibold bg-blue-500 hover:bg-blue-600" onClick={() => downloadPdf()}>Create Pdf</button>
       </div>
-
-
       }
-    </div>
+    </div> 
   );
 };
 

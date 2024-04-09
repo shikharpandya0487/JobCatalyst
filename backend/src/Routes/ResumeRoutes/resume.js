@@ -6,12 +6,10 @@ const router = express.Router();
 const Resume = require("../../models/Resume/resume.js");
 const requireLogin = require("../../middlewares/requireLogin.js");
 
-router.post('/create-resume', async (req, res) => {
+router.post('/create-resume', async (req,res) => {
   try { 
-    const { resumeData, userId } = req.body; // Extract userId and resumeData from req.body
-    // console.log(resumeData);
-    // console.log(userId);
-    const newResume = new Resume({ userId, ...resumeData }); // Include userId in the new resume
+    const { resumeData, userId } = req.body; 
+    const newResume = new Resume({ userId, ...resumeData }); 
     const savedResume = await newResume.save();
 
     res.status(201).json({ message: 'Resume created successfully', data: savedResume });
@@ -24,7 +22,7 @@ router.post('/create-resume', async (req, res) => {
 
 router.get('/get-resume/:userId', async (req, res) => {
   try {
-    const userId = req.params.userId; // Extract userId from request parameters
+    const userId = req.params.userId; 
     const resume = await Resume.findOne({ userId });
 
     if (!resume) {
