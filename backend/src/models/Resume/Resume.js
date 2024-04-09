@@ -91,9 +91,8 @@ const resumeSchema = new Schema({
     extra_2: {
         type: String
     },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: "User"
+    userId: {
+        type:String
     }
 });
 
