@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useTheme } from "../../Context/ThemeContext";
+import {
+  Box,
+  Button,
+  Input,
+  Text,
+  Textarea,
+  CircularProgress,
+} from "@chakra-ui/react";
+
 const JobRecord = () => {
   const { theme } = useTheme();
   const [jobRecords, setJobRecords] = useState([]);
@@ -25,6 +34,7 @@ const JobRecord = () => {
       setIsLoading(false);
     }
   };
+
   const addJobRecord = () => {
     setJobRecords([
       ...jobRecords,
@@ -33,6 +43,7 @@ const JobRecord = () => {
         position: "",
         startDate: "",
         endDate: "",
+        description: "",
       },
     ]);
   };
@@ -44,19 +55,16 @@ const JobRecord = () => {
     setJobRecords(updatedRecords);
   };
 
-  // const saveRecord = (index) => {
-  //   const recordToSave = jobRecords[index];
-  //   setSavedRecords([...savedRecords, recordToSave]);
-  //   setJobRecords(jobRecords.filter((_, i) => i !== index));
-  // };
   const saveRecord = async (index) => {
     const recordToSave = jobRecords[index];
+    console.log(recordToSave)
     try {
       setIsLoading(true);
       const response = await axios.post(
         "/api/profile/jobrecords/createJobRecord",
         recordToSave
       );
+      console.log(response)
       setSavedRecords([...savedRecords, response.data.data]);
       setJobRecords(jobRecords.filter((_, i) => i !== index));
       setIsLoading(false);
@@ -79,140 +87,146 @@ const JobRecord = () => {
   };
 
   return (
-    <div
-      style={{
-        width: "900px",
-        margin: "auto",
-        padding: "20px",
-        backgroundColor: theme === "dark" ? "#333" : "#fff",
-        color: theme === "dark" ? "#fff" : "#333",
-      }}
+    <Box
+      w="900px"
+      m="auto"
+      p="20px"
+      bg={theme === "dark" ? "#333" : "#fff"}
+      color={theme === "dark" ? "#fff" : "#333"}
     >
-      <h2 style={{ marginBottom: "20px" }}>Job Record</h2>
-      <button
+      <Text mb="20px" fontSize="xl" fontWeight="bold">
+        Job Record
+      </Text>
+      <Button
+        mb="20px"
+        fontSize="lg"
+        fontWeight="medium"
+        colorScheme="blue"
         onClick={addJobRecord}
-        style={{ marginBottom: "20px" }}
-        className="font-medium text-gray-900 text-lg bg-blue-500 p-2 rounded-xl"
       >
         Add Record
-      </button>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
+      </Button>
+      {isLoading && <CircularProgress isIndeterminate color="blue.500" />}
+      {error && <Text>Error: {error}</Text>}
       {jobRecords.map((record, index) => (
-        <div
+        <Box
           key={index}
-          className="bg-gray-100 p-4 rounded shadow mb-4"
-          style={{
-            backgroundColor: theme === "dark" ? "#333" : "#fff",
-            color: theme === "dark" ? "#fff" : "#333",
-            border: theme == "dark" ? " 1px solid #fff" : "",
-          }}
+          bg={theme === "dark" ? "#333" : "#fff"}
+          color={theme === "dark" ? "#fff" : "#333"}
+          border={theme === "dark" ? "1px solid #fff" : ""}
+          rounded="md"
+          p="4"
+          mb="4"
         >
-          <h5 className="mb-2 font-semibold pb-4 italic">
+          <Text mb="4" fontStyle="italic">
             Work Experience {index + 1}
-          </h5>
-          <div className=" w-full p-1 ">
-            <label className="font-light font-serif w-1/4 text-xl text-center text-black  ">
+          </Text>
+          <Box w="full" p="1">
+            <Text as="strong" fontWeight="bold">
               Company:
-            </label>
-            <input
+            </Text>
+            <Input
               type="text"
               name="company"
               value={record.company}
               onChange={(e) => handleChange(index, e)}
               className="input-field bg-white text-black rounded-md p-1 w-3/4 hover:cursor-pointer"
             />
-          </div>
-          <div className=" w-full p-1">
-            <label className="font-light font-serif w-1/4 text-xl text-center text-black">
+          </Box>
+          <Box w="full" p="1">
+            <Text as="strong" fontWeight="bold">
               Position:
-            </label>
-            <input
+            </Text>
+            <Input
               type="text"
               name="position"
               value={record.position}
               onChange={(e) => handleChange(index, e)}
               className="input-field bg-white text-black rounded-md p-1 w-3/4 hover:cursor-pointer"
             />
-          </div>
-          <div className=" w-full p-1">
-            <label className="font-light font-serif w-1/4 text-xl text-center text-black">
+          </Box>
+          <Box w="full" p="1">
+            <Text as="strong" fontWeight="bold">
               Start Date:
-            </label>
-            <input
+            </Text>
+            <Input
               type="text"
               name="startDate"
               value={record.startDate}
               onChange={(e) => handleChange(index, e)}
               className="input-field bg-white text-black rounded-md p-1 w-3/4 hover:cursor-pointer"
             />
-          </div>
-          <div className=" w-full p-1">
-            <label className="font-light font-serif w-1/4 text-xl text-center text-black">
+          </Box>
+          <Box w="full" p="1">
+            <Text as="strong" fontWeight="bold">
               End Date:
-            </label>
-            <input
+            </Text>
+            <Input
               type="text"
               name="endDate"
               value={record.endDate}
               onChange={(e) => handleChange(index, e)}
               className="input-field bg-white text-black rounded-md p-1 w-3/4 hover:cursor-pointer"
             />
-          </div>
-          {/* <div className=" w-full p-1">
-            <label className="font-light font-serif w-1/4 text-xl text-center text-black">
+          </Box>
+          <Box w="full" p="1">
+            <Text as="strong" fontWeight="bold">
               Description:
-            </label>
-            <textarea
+            </Text>
+            <Textarea
               name="description"
               value={record.description}
               onChange={(e) => handleChange(index, e)}
               className="input-field bg-white  text-black rounded-md p-1 w-3/4 hover:cursor-pointer"
             />
-          </div> */}
-          <button
+          </Box>
+          <Button
             onClick={() => saveRecord(index)}
-            className="bg-green-500 text-white py-2 px-4 mt-2 rounded"
+            colorScheme="green"
+            mt="2"
           >
             Save Record
-          </button>
-        </div>
+          </Button>
+        </Box>
       ))}
       {savedRecords.map((record, index) => (
-        <div key={index} className=" p-4 rounded shadow mb-4"
-        style={{
-          backgroundColor: theme === "dark" ? "#333" : "#fff",
-          color: theme === "dark" ? "#fff" : "#333",
-          border: theme == "dark" ? " 1px solid #fff" : "",
-        }}
-          >
-          <h5 className="mb-2 font-semibold pb-4 italic">
+        <Box
+          key={index}
+          bg={theme === "dark" ? "#333" : "#fff"}
+          color={theme === "dark" ? "#fff" : "#333"}
+          border={theme === "dark" ? "1px solid #fff" : ""}
+          rounded="md"
+          p="4"
+          mb="4"
+        >
+          <Text mb="2" fontStyle="italic">
             Work Experience {index + 1}
-          </h5>
-          <p>
+          </Text>
+          <Text>
             <strong>Company:</strong> {record.company}
-          </p>
-          <p>
+          </Text>
+          <Text>
             <strong>Position:</strong> {record.position}
-          </p>
-          <p>
+          </Text>
+          <Text>
             <strong>Start Date:</strong> {record.startDate}
-          </p>
-          <p>
+          </Text>
+          <Text>
             <strong>End Date:</strong> {record.endDate}
-          </p>
-          {/* <p>
+          </Text>
+          <Text>
             <strong>Description:</strong> {record.description}
-          </p> */}
-          <button
+          </Text>
+          <Button
             onClick={() => deleteRecord(record._id)}
-            className="bg-red-500 text-white py-2 px-4 mt-2 rounded"
+            colorScheme="red"
+            mt="2"
           >
             Delete Record
-          </button>
-        </div>
+          </Button>
+        </Box>
       ))}
-    </div>
+    </Box>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 
-const CommentsForm = ({submitLabel,hasCancelButton,initialText='',handleSubmit,handleCancel}) => {
+const CommentsForm = ({submitLabel,postId,hasCancelButton,initialText='',handleSubmit,handleCancel}) => {
     //states to store the text given as input 
     const [text,setText]=useState(initialText)
        
@@ -10,7 +10,7 @@ const CommentsForm = ({submitLabel,hasCancelButton,initialText='',handleSubmit,h
     //To prevent form from getting submitted on it's own
     handleSubmit(text)
     setText("") 
-
+    
   }
   
   return (

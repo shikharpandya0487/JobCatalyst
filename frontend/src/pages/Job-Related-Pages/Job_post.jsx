@@ -3,10 +3,15 @@ import JoditEditor from 'jodit-react';
 import Navbar from '../../components/Navbar/Navbar';
 import {useTheme} from '../../Context/ThemeContext';
 import { Link } from 'react-router-dom';
+import {
+   
+    Button,
+  } from "@chakra-ui/react";
+import ApplyJob from './ApplyJob';
 
 const Job_post = () => {
     const {theme} = useTheme();
-
+    const [isOpen, setIsOpen] = useState(false);
     // useRef is used to prevent rerendering of components  and make reference to the element
     const editor = useRef(null);
 	// const [content, setContent] = useState('');
@@ -138,13 +143,12 @@ const Job_post = () => {
             </div>
 
             <div className='flex justify-between items-center p-2 w-full'> 
-                <Link to = "/applyjob">
-                <button
-                 className="text-center order-last  p-2 py-2 mt-4 ml-10 mr-10 md:ml-10 mr-10 w-28 md:w-30 text-lg md:text-lg text-black whitespace-nowrap bg-green-500 rounded-xl md:rounded-3xl"
-                 >
-                  Apply Now
-                </button> 
-                </Link>  
+                
+                <Button colorScheme="blue" onClick={() => setIsOpen(true)}>Apply For Job</Button>
+               
+                {
+                    isOpen?<ApplyJob isOpen={isOpen} setIsOpen={setIsOpen}/>:null
+                }
 
                 <button
                  className="text-center order-last  px-6 py-2 mt-4 ml-10 mr-10 md:ml-10 mr-10 w-28 md:w-30 text-lg md:text-lg text-black whitespace-nowrap bg-blue-500 rounded-xl md:rounded-3xl"

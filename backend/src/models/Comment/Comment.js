@@ -13,7 +13,7 @@ const commentSchema = new Schema({
         },
         parentComment: {
             type:String,
-            default:""
+            default:null
         },
         post: {
             type:String
