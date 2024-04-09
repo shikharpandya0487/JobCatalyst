@@ -2,28 +2,30 @@ import React from 'react'
 import CommentsForm from './CommentsForm';
 
 
-const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setActiveComment,addComment,parentId=null,updateComment}) => {
+const Comment = ({id,postId,comment,replies,currentUserId,deleteComment,activeComment,setActiveComment,addComment,parentId=null,updateComment}) => {
     // console.log(comment);
     const canReply=Boolean(currentUserId)
-    console.log(comment)
-    
+    // console.log("Comment is  ",comment)
+    // console.log("Curr ID ",currentUserId," userId ",comment.user._id)
     // diabling the edit or delete of comment after 5min of formation 
    // diabling the edit or delete of comment after 5min of formation 
-   const tenMinute = 600000; // 10 minutes in milliseconds
+   const t = 6000; 
    const commentCreationTime = new Date(comment.createdAt);
    const currentTime = new Date();
-   const timePassed = currentTime - commentCreationTime > tenMinute;
+   const timePassed = ((currentTime-commentCreationTime)>t)?true:false
   
-   const canEdit = currentUserId === comment.userId && !timePassed;
-   const canDelete = currentUserId === comment.userId && !timePassed;
-   
-   const isReplying=activeComment && activeComment.type==="replying" && activeComment.id===comment.id 
+   const canEdit = (currentUserId === comment.user._id) && timePassed;
+   const canDelete = (currentUserId === comment.user._id) && timePassed;
 
-   const isEditing=activeComment && activeComment.type==="editing" && activeComment.id===comment.id
+  //  console.log("Time ",timePassed,"Edit ",canEdit,"Delete ",canDelete," IDs ",currentUserId, " User ",comment.user._id,"Comment ",comment);
+   
+   const isReplying=activeComment && activeComment.type==="replying" && activeComment.id===id 
+
+   const isEditing=activeComment && activeComment.type==="editing" && activeComment.id===id
 
     const createdAt=new Date(comment.createdAt).toLocaleDateString()
 
-    const replyId=parentId?parentId:comment.id 
+    const replyId=parentId?parentId:comment._id 
 
     return (
         
@@ -57,18 +59,19 @@ const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setA
                       <CommentsForm
                         submitLabel="Update"
                         hasCancelButton 
-                        initialText={comment.body}
-                        handleSubmit={(text)=>updateComment(text,comment.id)}
+                        initialText={comment.text}
+                        handleSubmit={(text)=>updateComment(text,comment._id,postId)}
                         handleCancel={()=>setActiveComment(null)}
+                        postId={postId}
                       />
                     )
                   }
 
               <div className="comment-actions">
                   { // I Have to make it to && but due to error I have kept it as or ||
-                canReply &&<div className="comment-action" onClick={()=>setActiveComment({id:comment.id,type:"replying"})}>Reply</div>}
-                { canEdit || <div className="comment-action" onClick={()=>setActiveComment({id:comment.id,type:"editing"})}>Edit</div>}
-                { canDelete ||  <div className="comment-action" onClick={()=>deleteComment(comment.id)}>Delete</div>}
+                canReply &&<div className="comment-action" onClick={()=>setActiveComment({id:comment._id,type:"replying"})}>Reply</div>}
+                { canEdit && <div className="comment-action" onClick={()=>setActiveComment({id:comment._id,type:"editing"})}>Edit</div>}
+                { canDelete &&  <div className="comment-action" onClick={()=>deleteComment(comment._id)}>Delete</div>}
              </div>
 
 
@@ -77,6 +80,7 @@ const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setA
               <CommentsForm
                submitLabel="Reply"
                handleSubmit={(text)=>addComment(text,replyId)}
+               postId={postId}
               />
              )}
 
@@ -87,8 +91,10 @@ const Comment = ({comment,replies,currentUserId,deleteComment,activeComment,setA
                         //reply is a comment and we have to render it recursively
                         //empty array is passed as our replies can't have nested comments
                         <Comment 
+                        className={(reply.parentId===null)?'left-2 p-2 bg-red-300':'right-0 p-2 bg-slate-300'}
                         comment={reply} 
                         key={reply.id} 
+                        postId={postId}
                         replies={[]} 
                         currentUserId={currentUserId}
                         deleteComment={deleteComment}

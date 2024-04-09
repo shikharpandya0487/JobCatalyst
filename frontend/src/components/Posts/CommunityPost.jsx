@@ -29,7 +29,7 @@ const MediaDisplay = ({ url }) => {
 };
 
 
-const CommunityPost = ({
+const JobPosting = ({
   title,
   company,
   position,
@@ -101,69 +101,56 @@ const dislikePost = (id) => {
 }
 
 //REACT HEART ON A POST 
-  const heartPost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-    const url = 'http://localhost:5000/api/post/heart-post';
-    const data = { postId: id }
-    axios({
-      method: 'put',
-      url: url,
-      data: data,
-      headers: headers,
-    })
-    .then((res) => {
-      console.log("liked");
-      setRefresh(!refresh);
-    }).catch((err) => {
-      console.log("server err",err);
-    })
+  const heartPost =async (id) => {
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      };
+      const url = 'http://localhost:5000/api/post/heart-post';
+      const data = { postId: id }
+
+      const response=await axios.put(url,data,headers)
+      console.log("response ",response)
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
 
 //DISHEART A POST
-  const disHeartPost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-    const url = 'http://localhost:5000/api/post/unheart-post';
-    const data = { postId: id }
-    axios({
-      method: 'put',
-      url: url,
-      data: data,
-      headers: headers,
-    })
-    .then((res) => {
-      console.log("liked");
-      setRefresh(!refresh);
-    }).catch((err) => {
-      console.log("server err",err);
-    })
+  const disHeartPost = async(id) => {
+   try {
+     const headers = {
+       'Content-Type': 'application/json',
+       'Authorization': 'Bearer ' + localStorage.getItem('token'),
+     };
+     const url = 'http://localhost:5000/api/post/unheart-post';
+     const data = { postId: id }
+    const response=await axios.put(url,data,headers)
+    console.log(response)
+    
+   } catch (error) {
+    console.log(error);
+   }
   }
 
+
 //CONGRATS ON A POST 
-const congratsPost = (id) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-  };
-  const url = 'http://localhost:5000/api/post/cong-post';
-  const data = { postId: id }
-  axios({
-    method: 'put',
-    url: url,
-    data: data,
-    headers: headers,
-  })
-  .then((res) => {
-    console.log("liked");
-    setRefresh(!refresh);
-  }).catch((err) => {
-    console.log("server err",err);
-  })
+const congratsPost = async(id) => {
+ try {
+   const headers = {
+     'Content-Type': 'application/json',
+     'Authorization': 'Bearer ' + localStorage.getItem('token'),
+   };
+   const url = 'http://localhost:5000/api/post/cong-post';
+   const data = { postId: id }
+   const response=await axios.put(url,data,headers)
+   console.log(response)
+   
+ } catch (error) {
+  console.log(error)
+ }
 }
 
 //DISCONGRTAS ON A POST
@@ -288,6 +275,9 @@ const handleEdit = async (id)=>{
         
         {/* <div className='flex flex-col space-y-[20px] '>
           {
+
+
+
             post.likes.find((id)=> id == userId)
             ?
             <FaThumbsUp onClick={() => dislikePost(id)}  />
@@ -373,5 +363,5 @@ const handleEdit = async (id)=>{
     );
   };
 
-export default CommunityPost
+export default JobPosting
 

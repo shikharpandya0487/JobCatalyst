@@ -66,9 +66,9 @@ const userSchema = new mongoose.Schema({
     },
     url: {
       type: String
-    } 
+    }  
   }], 
-  isAdmin: {
+  isAdmin:{
     type: Boolean, 
     required: true,
     default: false

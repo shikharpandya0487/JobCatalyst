@@ -12,9 +12,10 @@ function Navbar({isAdmin,setIsAdmin}) {
   const [modalShowlogin, setModalShowlogin] = useState(false);
   const [modalShowSignup, setModalShowSignup] = useState(false);
   const isAuthenticated = localStorage.getItem('token');
-  const user=localStorage.getItem("user")
-  console.log(user);
-  const admin=(user)?user?.isAdmin:false;
+  const user=JSON.parse(localStorage.getItem("user"))
+  
+  const admin=(user)?user.isAdmin:false;
+
 
   const handleLogout = () => {
     localStorage.clear();

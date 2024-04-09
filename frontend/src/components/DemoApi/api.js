@@ -27,6 +27,7 @@ export const createComment = async (text, parentId ,postId) => {
         data:data,
         headers: headers,
       })
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error('Error creating comment:', error.message);
@@ -35,10 +36,33 @@ export const createComment = async (text, parentId ,postId) => {
   };
 
   
-  export const updateComment = async (text,commendId) => {
-    return { text,commendId };
+  export const updateComment = async (text,commendId,postId) => {
+    try {
+      const data={text:text,postId:postId}
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+ localStorage.getItem('token'),
+      };
+
+      const response=await axios.put(`http://localhost:5000/api/post/update-comments/${commendId}`,data,{headers})
+        // console.log("Updated comment ",response);
+        return response;
+    } catch (error) {
+      console.log("Updated comment error ",error);
+    }
   };
   
-  export const deleteComment = async () => {
-    return {};
+  export const deleteComment = async (commendId) => {
+    try {
+
+      const headers = {
+        'Authorization': 'Bearer '+ localStorage.getItem('token'),
+      };
+      const response=await axios.delete(`http://localhost:5000/api/post/delete-comments/${commendId}`,{headers})
+      
+      console.log("Deleted comment",response);
+      
+    } catch (error) {
+      console.log(error)
+    }
   };

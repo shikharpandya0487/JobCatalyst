@@ -185,40 +185,52 @@ const search = async (req, res) => {
   }
 };
 
-const createComment =  async (req, res) => {
-    try {
-      userId = req.user?._id;
-      const { postId, text, parentCommentId } = req.body; 
+const createComment = async (req, res) => {
+  try {
+    const userId = req.user?._id;
+    const userName = req.user?.username;
+    const { postId, text, parentCommentId } = req.body; 
 
-      const newComment = new Comment({ text, user: userId, parentComment:parentCommentId,post:postId });
-      await newComment.save();
-  
-      if (parentCommentId) {
+    const newComment = new Comment({ text, user: userId, parentComment: parentCommentId, post: postId, username: userName });
+    await newComment.save();
 
-        console.log("yes")
-        const parentComment = await Comment.findById(parentCommentId);
-        if (!parentComment) {
-          return res.status(404).json({ error: 'Parent comment not found' });
-        }
-        console.log(newComment);
-        parentComment.replies.push(newComment);
-        await parentComment.save();
-      } else {
-        const post = await Post.findById(postId);
-        if (!post) {
-          return res.status(404).json({ error: 'Post not found' });
-        }
-        // console.log(newComment);
-        post.comments.push(newComment);
-        await post.save(); 
+    if (parentCommentId) {
+      const parentComment = await Comment.findById(parentCommentId);
+      if (!parentComment) {
+        return res.status(404).json({ error: 'Parent comment not found' });
       }
-  
-      res.status(201).json(newComment);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Server error' });
+      parentComment.replies.push(newComment);
+      await parentComment.save();
+    } else {
+      const post = await Post.findById(postId);
+      if (!post) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+      post.comments.push(newComment);
+      await post.save(); 
     }
+
+    // Include username and userId in the response
+    const responseComment = {
+      _id: newComment._id,
+      text: newComment.text,
+      user: {
+        _id: newComment.user,
+        username: userName
+      },
+      parentComment: newComment.parentComment,
+      post: newComment.post,
+      createdAt: newComment.createdAt,
+      updatedAt: newComment.updatedAt
+    };
+
+    res.status(201).json(responseComment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
 };
+
   
 const getComments = async (req, res) => {  
     try {
@@ -274,7 +286,7 @@ const deleteComment = async (req, res) => {
 const updateComment = async (req, res) => {
     try {
       const commentId = req.params.commentId;
-      const { text } = req.body;
+      const { text,postId } = req.body;
   
       const comment = await Comment.findById(commentId);
       if (!comment) {
@@ -283,16 +295,21 @@ const updateComment = async (req, res) => {
   
       comment.text = text;
       await comment.save();
-  
       
-      await Comment.updateMany({ parentComment: commentId }, { $set: { text } });
+      const post=await Post.findById(postId) 
+      console.log(post)
+
+
+      
+      console.log("Comment saved",comment);
   
-      res.status(200).json({ message: 'Comment updated successfully' });
+      res.status(200).json({ message: 'Comment updated successfully',comment:comment,comments:post?.comments });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Server error' });
     }
 };
+
 
 const deletePost = async (req,res)=>{
 

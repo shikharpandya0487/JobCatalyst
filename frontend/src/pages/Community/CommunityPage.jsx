@@ -7,6 +7,7 @@ import JobPosting from '../../components/community/JobPosting';
 import EmployerSpotlight from '../../components/community/EmployerSpotlight';
 
 
+
 const CommunityPage = () => {
 
   const [data, setData] = useState([]);
@@ -122,21 +123,7 @@ const closeSearch=()=>{
             </div>
           </section>
 
-          <section className="mb-8">
-            <div className="rounded-2xl bg-pink-50 ">
-              <h2 className="text-lg text-center font-normal mb-3">Employers Spotlight</h2>
-            </div>
-            <div className="grid grid-cols-1 gap-4 ">
-              {spotlight.map((item, index) => (
-                <EmployerSpotlight
-                  key={index}
-                  s1={item.s1}
-                  s2={item.s2}
-                  s3={item.s3}
-                />
-              ))}
-            </div>
-          </section>
+          
         </div>
 
 
