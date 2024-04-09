@@ -111,7 +111,7 @@ const handleSearch = async () => {
                   postedBy={item.postedBy?.username}
                   id={item._id}
                   post={item}
-                  onReaction={handleReaction} 
+                  
                 />
               ))}
             </div>

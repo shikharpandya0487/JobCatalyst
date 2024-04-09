@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Education from './Education';
 import Experiences from './Experiences';
 import PersonalDetails from './Personaldetails';
@@ -7,10 +7,10 @@ import Extras from './Extras';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import Success from './Success';
-import {useTheme} from '../../Context/ThemeContext'
+import { useTheme } from '../../Context/ThemeContext'
 
 const Form = () => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -49,6 +49,27 @@ const Form = () => {
     extra_2: '',
   });
 
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let userId = localStorage.getItem("userId");
+      const url = `http://localhost:5000/api/resume/get-resume/${userId}`
+      try {
+        const response = await axios.get(url);
+        if (response.data) {
+          setSuccess(true);
+          setFormData(response.data.data);
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Server error");
+      }
+    };
+    fetchData();
+  }, []);
+
+
   const [page, setPage] = useState(0);
 
   const FormTitle = [
@@ -77,8 +98,11 @@ const Form = () => {
     if (page === FormTitle.length - 1) {
       try {
         //Create PDF
-        await axios.post('http://localhost:5000/api/resume/create-pdf', formData);
-        await axios.post('http://localhost:5000/api/resume/create-resume', formData);
+        let userId = localStorage.getItem("userId");
+        console.log(userId);
+        const resumeDataWithUserId = { ...formData, userId }; // Combine formData with userId
+        await axios.post('http://localhost:5000/api/resume/create-pdf', resumeDataWithUserId);
+        await axios.post('http://localhost:5000/api/resume/create-resume', { resumeData: formData, userId }); // Send userId and resumeData separately
         //Fetch the PDF
         const response = await axios.get('http://localhost:5000/api/resume/fetch-pdf', {
           responseType: 'blob',
@@ -97,42 +121,70 @@ const Form = () => {
     }
   };
 
+  const downloadPdf=async()=>{
+    try {
+      //Create PDF
+      let userId = localStorage.getItem("userId");
+      const resumeDataWithUserId = { ...formData, userId }; // Combine formData with userId
+      await axios.post('http://localhost:5000/api/resume/create-pdf', resumeDataWithUserId);
+      //Fetch the PDF
+      const response = await axios.get('http://localhost:5000/api/resume/fetch-pdf', {
+        responseType: 'blob',
+      });
+      //Process and save the PDF
+      const pdfBlob = new Blob([response.data], {
+        type: 'application/pdf',
+      });
+      setSuccess(response.status === 200);
+      saveAs(pdfBlob, 'Resume.pdf');
+    } catch (error) {
+      console.error('Error creating or downloading PDF:', error);
+    }
+  }
+
+
   return (
-    <div className="container mx-auto mt-10 mb-8 " style={{width:"900px"}}>
-    <h1 className="text-3xl font-semibold mb-5">Resume Builder</h1>
-    <div className="bg-gray-100 p-8 rounded-lg shadow-md"
-    style={{
-      backgroundColor: theme === "dark" ? "#333" : "#fff",
-      color: theme === "dark" ? "#fff" : "#333",
-      border:theme== "dark" ? ' 1px solid #fff': '',
-    }}>
-      <h1 className="text-2xl font-semibold mb-5">{FormTitle[page]}</h1>
-      <div>{PageDisplay()}</div>
-      <div className="flex justify-between mt-8">
-        <button
-          className={`px-4 py-2 rounded-lg font-semibold ${
-            page === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-          }`}
-          style = {{
-            color: theme=== 'dark' ? "#333" : "#fff"
-          }}
-          disabled={page === 0}
-          onClick={() => setPage(currPage => currPage - 1)}
-        >
-          Prev
-        </button>
-        <button
-          className={`px-4 py-2 rounded-lg font-semibold ${
-            page === FormTitle.length - 1 ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'
-          }`}
-          onClick={() => createPdf(page)}
-        >
-          {page === FormTitle.length - 1 ? 'Create Pdf' : 'Next'}
-        </button>
+    <div className="container mx-auto mt-10 mb-8 " style={{ width: "900px" }}>
+      {!success && <div>
+        <h1 className="text-3xl font-semibold mb-5">Resume Builder</h1>
+        <div className="bg-gray-100 p-8 rounded-lg shadow-md"
+          style={{
+            backgroundColor: theme === "dark" ? "#333" : "#fff",
+            color: theme === "dark" ? "#fff" : "#333",
+            border: theme == "dark" ? ' 1px solid #fff' : '',
+          }}>
+          <h1 className="text-2xl font-semibold mb-5">{FormTitle[page]}</h1>
+          <div>{PageDisplay()}</div>
+          <div className="flex justify-between mt-8">
+            <button
+              className={`px-4 py-2 rounded-lg font-semibold ${page === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+                }`}
+              style={{
+                color: theme === 'dark' ? "#333" : "#fff"
+              }}
+              disabled={page === 0}
+              onClick={() => setPage(currPage => currPage - 1)}
+            >
+              Prev
+            </button>
+            <button
+              className={`px-4 py-2 rounded-lg font-semibold ${page === FormTitle.length - 1 ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'
+                }`}
+              onClick={() => createPdf(page)}
+            >
+              {page === FormTitle.length - 1 ? 'Create Pdf' : 'Next'}
+            </button>
+          </div>
+        </div>
+      </div>}
+      {success && <div>
+        <Success />
+        <button className="px-4 py-2 rounded-lg font-semibold bg-blue-500 hover:bg-blue-600" onClick={() => downloadPdf()}>Create Pdf</button>
       </div>
+
+
+      }
     </div>
-    {success && <Success />}
-  </div>
   );
 };
 
