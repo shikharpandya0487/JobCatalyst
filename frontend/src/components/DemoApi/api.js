@@ -15,7 +15,7 @@ export const getComments = async (postId) => {
   
 export const createComment = async (text, parentId ,postId) => {
     try {
-      const data = { text,parentId,postId };
+      const data = { text,parentCommentId:parentId,postId };
       const headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '+ localStorage.getItem('token'),
@@ -27,7 +27,7 @@ export const createComment = async (text, parentId ,postId) => {
         data:data,
         headers: headers,
       })
-      console.log(response.data);
+      console.log("created comment ",response.data);
       return response.data;
     } catch (error) {
       console.error('Error creating comment:', error.message);
@@ -66,3 +66,25 @@ export const createComment = async (text, parentId ,postId) => {
       console.log(error)
     }
   };
+
+  export const replyComment=async (postId,text,parentCommentId)=>{
+    try {
+      const data={
+        text,
+        parentCommentId,
+        postId
+      }
+
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+ localStorage.getItem('token'),
+      };
+      
+      const response=await axios.post(`http://localhost:5000/api/post/comments`,data,headers)
+      console.log("reply ",response)
+
+      return response;
+    } catch (error) {
+      console.log("error while creating a reply ")
+    }
+  }

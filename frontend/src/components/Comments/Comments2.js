@@ -25,25 +25,53 @@ const Comments2 = ({postId, currentUserId }) => {
   const getReplies = (commendId) => {
     //here the time will be in string so we have to convert the string to javascript Date to perform the sorting
     //get time calculates the time in milliseconds
-    return backendComments
-      .filter((backendComment) => backendComment?.parentId === commendId)
-      .sort(
-        (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      );
+    console.log("Backend comments check before replies ",backendComments)
+    const k= backendComments
+      .filter((backendComment) => backendComment.parentComment === commendId)
+      
+
+      
+      console.log("replies ",k);
+      return k;
+
   };
 
-  const addComment = (text, parentId) => {
+  const addComment = (text, parentId, postId) => {
     console.log("Added comment", text, parentId);
-    //creating the comment and adding it to the array of objects
-    console.log("Before adding ",backendComments)
+  
     createCommentApi(text, parentId, postId)
-      .then((comment) => setBackendComments([comment, ...backendComments]))
+      .then((comment) => {
+        console.log(
+          "parent idx ",parentId
+        )
+        if (parentId) {
+          // Find the parent comment in the backendComments array
+          const parentCommentIndex = backendComments.findIndex(
+            (c) => c._id === parentId
+          );
+          
+          console.log("This is the comment ",comment,comment.parentComment,parentId,parentCommentIndex)
+          // If the parent comment is found, update its replies array
+          if (parentCommentIndex !== -1) {
+            const updatedBackendComments = [...backendComments];
+            updatedBackendComments[parentCommentIndex].replies = [
+              ...(updatedBackendComments[parentCommentIndex].replies || []),
+              comment,
+            ];
+            console.log("updated comments",updatedBackendComments)
+            setBackendComments(updatedBackendComments);
+          }
+        } else {
+          // If the comment does not have a parent ID, it's a new comment
+          setBackendComments([comment, ...backendComments]);
+        }
+      })
       .then(setActiveComment(null))
       .catch((e) => {
         console.log("error on adding comments", e);
       });
   };
+  
 
   const deleteComment = (commentId) => {
     console.log(commentId);
@@ -55,7 +83,7 @@ const Comments2 = ({postId, currentUserId }) => {
           const updatedBackendComments = backendComments.filter(
             (backendComment) => backendComment._id !== commentId
           );
-          const sortedComments = updatedBackendComments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          const sortedComments = updatedBackendComments.sort((a, b) => new Date(b?.createdAt) - new Date(a?.createdAt));
           setBackendComments(sortedComments);
           
         })
@@ -74,9 +102,21 @@ const Comments2 = ({postId, currentUserId }) => {
         .then((response) => {
             const updatedComment = response.data.comment;
             
-            const updatedBackendComments = backendComments.map((comment) =>
-                comment._id === updatedComment._id ?{...comment,text:updatedComment.text} : comment
-            );
+            const updatedBackendComments = backendComments.map((comment) => {
+              if (comment._id === updatedComment._id) {
+                // Update the text of the updated comment
+                return { ...comment, text: updatedComment.text };
+              } else if (comment.replies && comment.replies.length > 0) {
+                // If the comment has replies, filter out the deleted comment from the replies array
+                return {
+                  ...comment,
+                  replies: comment.replies.filter((reply) => reply._id !== commendId),
+                };
+              } else {
+                return comment;
+              }
+            });
+            
             console.log("Updated Comments",updatedBackendComments);
             setBackendComments(updatedBackendComments);
         })
@@ -92,7 +132,7 @@ const Comments2 = ({postId, currentUserId }) => {
         .then((data) => {
             console.log("Data backend comment ", data);
           
-            const sortedComments = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            const sortedComments = data.sort((a, b) => new Date(b?.createdAt) - new Date(a?.createdAt));
             setBackendComments(sortedComments);
         })
         .catch((e) => {
@@ -114,7 +154,7 @@ const Comments2 = ({postId, currentUserId }) => {
         3-> To edit the comments / replies  */}
 
       <CommentForm
-        key={rootComments._id}
+        key={rootComments?._id+`${rootComments.parentId}`}
         submitLabel="Write"
         handleSubmit={addComment}
         parentId={null}
@@ -122,21 +162,22 @@ const Comments2 = ({postId, currentUserId }) => {
       />
 
       <div className="comments-container gap-4">
+        {console.log("Backend comments ",backendComments)}
         {
           //  nested comments are basically tree structure so mapping the root to access other commments which could be nested
           backendComments.map((rootComment) => (
             <Comment
-              key={rootComment._id}
-              id={rootComment._id}
-              postId={postId}
+              key={rootComment?._id}
+              id={rootComment?._id}
+              postId={rootComment?.post}
               comment={rootComment}
-              replies={getReplies(rootComment._id)}
+              replies={rootComment?.replies}
               currentUserId={currentUserId}
               deleteComment={deleteComment}
               activeComment={activeComment}
               setActiveComment={setActiveComment}
               addComment={addComment}
-              parentId={null}
+              parentId={rootComment?.parentComment}
               updateComment={updateComment}
             /> 
             // console.log("Root Comment ",rootComment)

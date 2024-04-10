@@ -29,7 +29,7 @@ const MediaDisplay = ({ url }) => {
 };
 
 
-const JobPosting = ({
+const CommunityPost = ({
   title,
   company,
   position,
@@ -363,5 +363,4 @@ const handleEdit = async (id)=>{
     );
   };
 
-export default JobPosting
-
+export default CommunityPost
