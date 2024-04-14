@@ -174,13 +174,13 @@ useEffect(() => {
         >
           <h5 className="mb-2 font-semibold pb-4 italic md:not-italic">User Information</h5>
           <p>
-            <span className="font-light">Name:</span> {  profile.username}
+            <span className=" font-semibold">Name:</span> {  profile.username}
           </p>
           <p>
-            <span className="font-light ">Email:</span> {  profile.email}
+            <span className=" font-semibold">Email:</span> {  profile.email}
           </p>
           <p>
-            <span className="font-light ">Contact info:</span> {  profile.contact}
+            <span className="font-semibold ">Contact info:</span> {  profile.contact}
           </p>
         </div>
 

@@ -156,7 +156,33 @@ const handleEdit = async (id)=>{
       
        
         {/* reaction icons */}
-        
+        <div className='flex flex-col space-y-[20px] '>
+            {
+              post.likes.find((id)=> id == userId)
+              ?
+              <FaThumbsUp onClick={() => dislikePost(id)}  />
+              :
+              <FaRegThumbsUp onClick={() => likePost(id)} />
+            }
+            <h5>{post.likes.length} Likes</h5>
+
+            {
+              post.heart.find((id)=> id == userId)
+              ?
+              <FaHeart onClick={() => disHeartPost(id)}  />
+              :
+              <CiHeart onClick={() => heartPost(id)} />
+            }
+            <h5>{post.heart.length} Heart</h5>
+            {
+              post.congrats.find((id)=> id == userId)
+              ?
+              <FaHandsClapping onClick={() => disCongratsPost(id)}  />
+              :
+              <PiHandsClapping onClick={() => congratsPost(id)} />
+            }
+            <h5>{post.congrats.length} Congratulation</h5>
+          </div>
       
 
       <div className='flex justify-evenly gap-2 items-center p-1 w-full'>

@@ -28,17 +28,17 @@ exports.createJobRecord = async (req, res) => {
 		} = req.body;
 
 		// Check if any of the required fields are missing
-		if (
-			!Company ||
-			!Postion ||
-			!StartDate ||
-			!EndDate
-		) {
-			return res.status(400).json({
-				success: false,
-				message: "All Fields are Mandatory",
-			});
-		}
+		// if (
+		// 	!Company ||
+		// 	!Postion ||
+		// 	!StartDate ||
+		// 	!EndDate
+		// ) {
+		// 	return res.status(400).json({
+		// 		success: false,
+		// 		message: "All Fields are Mandatory",
+		// 	});
+		// }
 
 		// Create a new job Record with the given details
 		const newJobRecord = await JobRecord.create({
