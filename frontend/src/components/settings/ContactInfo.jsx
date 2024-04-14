@@ -203,13 +203,18 @@ const ContactInfo = () => {
               onChange={handleGithubChange}
               placeholder="Enter Github link"
               disabled={!editModeGithub}
+              style={{
+                border: "2px solid gray"
+              }
+
+              }
             />
             {!editModeGithub ? (
-              <Button onClick={handleEditGithub}>Edit</Button>
+              <Button colorScheme="green" onClick={handleEditGithub}>Edit</Button>
             ) : (
-              <Button onClick={handleSave}>Save</Button>
+              <Button colorScheme="blue" onClick={handleSave}>Save</Button>
             )}
-           <Button onClick={() => handleDeleteClick("github")}>Delete</Button>
+           <Button colorScheme="red" onClick={() => handleDeleteClick("github")}>Delete</Button>
 
           </FormControl>
           <FormControl className="flex  justify-between items-center gap-2">
@@ -219,13 +224,17 @@ const ContactInfo = () => {
               onChange={handleLinkedinChange}
               placeholder="Enter LinkedIn link"
               disabled={!editModeLinkedin}
+              style={{
+                border: "2px solid gray"
+              }}
+
             />
             {!editModeLinkedin ? (
-              <Button onClick={handleEditLinkedin}>Edit</Button>
+              <Button colorScheme="green" onClick={handleEditLinkedin}>Edit</Button>
             ) : (
-              <Button onClick={handleSave}>Save</Button>
+              <Button colorScheme="blue" onClick={handleSave}>Save</Button>
             )}
-            <Button onClick={() => handleDeleteClick("linkedIn")}>Delete</Button>
+            <Button colorScheme="red" onClick={() => handleDeleteClick("linkedIn")}>Delete</Button>
           </FormControl>
           <FormControl className="flex  justify-between items-center gap-2">
             <FormLabel>Google Drive:</FormLabel>
@@ -235,13 +244,17 @@ const ContactInfo = () => {
               placeholder="Enter googleDrive link"
               disabled={!editModeDiscord}
               isRequired
+              style={{
+                border: "2px solid gray"
+              }}
+
             />
             {!editModeDiscord ? (
-              <Button onClick={handleEditDiscord}>Edit</Button>
+              <Button colorScheme="green" onClick={handleEditDiscord}>Edit</Button>
             ) : (
-              <Button onClick={handleSave}>Save</Button>
+              <Button colorScheme="blue" onClick={handleSave}>Save</Button>
             )}
-            <Button onClick={(e) => handleDeleteClick("googleDrive")}>Delete</Button>
+            <Button colorScheme="red" onClick={(e) => handleDeleteClick("googleDrive")}>Delete</Button>
           </FormControl>
         </Container>
       </div>

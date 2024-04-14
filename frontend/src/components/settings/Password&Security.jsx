@@ -101,17 +101,18 @@ const PasswordAndSecurity = () => {
          padding: "20px",
          backgroundColor: theme === "dark" ? "#333" : "#fff",
          color: theme === "dark" ? "#fff" : "#333",
+         border:theme== "dark" ? ' 1px solid #fff': '',
  
     }}>
       <h4>Password And Security</h4>
       <div style={{ marginBottom: "15px" }}>
-        <label htmlFor="password" style={{ display: "block", marginBottom: "5px", }}>Current Password:</label>
+        <label htmlFor="password" style={{ display: "block", marginBottom: "5px"}}>Current Password:</label>
         <input
           type="password"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ width: "100%", padding: "8px", borderRadius: "13px" }}
+          style={{ width: "100%", padding: "8px", borderRadius: "13px", borderBlockColor: "gray",border: "1px solid gray" }}
         />
       </div>
       <div style={{ marginBottom: "15px" }}>
@@ -121,7 +122,7 @@ const PasswordAndSecurity = () => {
           id="newpassword"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          style={{ width: "100%", padding: "8px", borderRadius: "13px" }}
+          style={{ width: "100%", padding: "8px", borderRadius: "13px" ,border: "1px solid gray"}}
         />
       </div>
       <div style={{ marginBottom: "15px" }}>
@@ -133,7 +134,7 @@ const PasswordAndSecurity = () => {
           id="confirmPassword"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          style={{ width: "100%", padding: "8px", borderRadius: "13px" }}
+          style={{ width: "100%", padding: "8px", borderRadius: "13px",border: "1px solid gray" }}
         />
         {!isPasswordMatch && (
           <p className="password-match-error" style={{ color: "red", margin: "5px 0" }}>Passwords do not match.</p>

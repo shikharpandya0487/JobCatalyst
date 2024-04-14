@@ -1,144 +1,153 @@
-
-import React, { useEffect, useState } from 'react';
-import './Success.css'; // Import CSS file for additional styling
-import axios from 'axios';
-import {useTheme} from '../../Context/ThemeContext'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useTheme } from "../../Context/ThemeContext";
+import "./Success.css";
+import { Link } from "react-router-dom";
 
 const Success = () => {
-
-  const {theme} = useTheme();
-  const [data,setData]=useState([]);
-
+  const { theme } = useTheme();
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       let userId = localStorage.getItem("userId");
-        const url = `http://localhost:5000/api/resume/get-resume/${userId}`
-        try {
-            const response = await axios.get(url);
-            if (response.data) {
-                setData(response.data.data);
-            }
-        } catch (error) {
-            console.error(error);
-            alert("Server error");
+      const url = `http://localhost:5000/api/resume/get-resume/${userId}`;
+      try {
+        const response = await axios.get(url);
+        if (response.data) {
+          setData(response.data.data);
         }
+      } catch (error) {
+        console.error(error);
+        alert("Server error");
+      }
     };
     fetchData();
   }, []);
 
+  return (
+    <div
+      className={`resume-container ${theme === "dark" ? " dark-theme" : ""}`}
+      style={{ backgroundColor: "rgb(246, 242, 242)" }}
+    >
+      <div className="resume-header">
+        <h1>{data.name}</h1>
+        <p className="mt-2 font-bold">
+          Email:{" "}
+          <span
+            className="blue-color font-normal"
+            style={{ textDecoration: "underline" }}
+          >
+            {data.email}
+          </span>
+        </p>
+        <p className="mb-2 font-bold">
+          Contact: <span className="font-normal">(+91) {data.phone}</span>
+        </p>
 
+        <div>
+          <p className="mb-2 font-bold" style={{ display: "inline-block" }}>
+            LinkedIn:
+          </p>
+          <span>
+            <Link
+              to={data.linkedin}
+              className="blue-color"
+              style={{ textDecoration: "underline" }}
+            >
+              {data.linkedin}
+            </Link>
+          </span>
+        </div>
+        <div className="mt-2">
+          <p className="mb-2 font-bold" style={{ display: "inline-block" }}>
+            GitHub:
+          </p>
+          <span>
+            <Link
+              to={data.github}
+              className="blue-color"
+              style={{ textDecoration: "underline" }}
+            >
+              {data.github}
+            </Link>
+          </span>
+        </div>
+      </div>
+      <hr style={{ border: "1px solid #333", margin: "10px 0" }} />
 
-return (
-  <div className={`success-card animated bounceIn ${theme === 'dark' ? '#333' : '#fff'}`}>
-    <div className="card-body text-center pt-5 pb-5">
       <div className="container">
-        <div className="row text-center">
-          <div className="col-lg-6">
-            <h1 className="name">
-              <b>{data.name}</b>
-            </h1>
-            <p className="lead email">
-              <strong>Email:</strong> {data.email}
-            </p>
-            <p className="lead">
-              <strong>Contact:</strong> (+91) {data.phone}
-            </p>
-            <p className="lead">
-              <strong>LinkedIn:</strong> {data.linkedin}
-            </p>
-            <p className="lead">
-              <strong>Github:</strong> {data.github}
-            </p>
-          </div>
+        <div className="resume-section">
+          <h3>Skills</h3>
+          <p>{data.skills}</p>
         </div>
 
-        <hr />
-        <div className="skills-section">
-          <h3>
-            <b>Skills</b>
-          </h3>
-          <p className="lead">{data.skills}</p>
+        <div className="resume-section">
+          <h3>Experience</h3>
+          <p>
+            <b>
+              {data.exp1_org}, {data.exp1_pos}
+            </b>{" "}
+            ({data.exp1_dur})
+          </p>
+          <p>{data.exp1_desc}</p>
+          <p>
+            <b>
+              {data.exp2_org}, {data.exp2_pos}
+            </b>{" "}
+            ({data.exp2_dur})
+          </p>
+          <p>{data.exp2_desc}</p>
         </div>
 
-        <div className="experience-section">
-          <h3>
-            <b>Experience</b>
-          </h3>
-          <div className="experience-details">
-            <p className="lead">
-              <b>{data.exp1_org}, {data.exp1_pos}</b> ({data.exp1_dur})
-            </p>
-            <p className="exp-description">{data.exp1_desc}</p>
-          </div>
-          <div className="experience-details">
-            <p className="lead">
-              <b>{data.exp2_org}, {data.exp2_pos}</b> ({data.exp2_dur})
-            </p>
-            <p className="exp-description">{data.exp2_desc}</p>
-          </div>
+        <div className="resume-section">
+          <h3>Projects</h3>
+          <p>
+            <b>{data.proj1_title}</b> (
+            <a href={data.proj1_link}>{data.proj1_link}</a>)
+          </p>
+          <p>{data.proj1_desc}</p>
+          <p>
+            <b>{data.proj2_title}</b> (
+            <a href={data.proj2_link}>{data.proj2_link}</a>)
+          </p>
+          <p>{data.proj2_desc}</p>
         </div>
 
-        <div className="projects-section">
-          <h3>
-            <b>Projects</b>
-          </h3>
-          <div className="project-details">
-            <p className="lead">
-              <b>{data.proj1_title}</b> ({data.proj1_link})
-            </p>
-            <p className="proj-description">{data.proj1_desc}</p>
-          </div>
-          <div className="project-details">
-            <p className="lead">
-              <b>{data.proj2_title}</b> ({data.proj2_link})
-            </p>
-            <p className="proj-description">{data.proj2_desc}</p>
-          </div>
+        <div className="resume-section">
+          <h3>Education</h3>
+          <p>
+            <b>{data.edu1_school}</b> ({data.edu1_qualification},{" "}
+            {data.edu1_year})
+          </p>
+          <p>{data.edu1_desc}</p>
+          <p>
+            <b>{data.edu2_school}</b> ({data.edu2_qualification},{" "}
+            {data.edu2_year})
+          </p>
+          <p>{data.edu2_desc}</p>
         </div>
 
-        <div className="education-section">
-          <h3>
-            <b>Education</b>
-          </h3>
-          <div className="education-details">
-            <p className="lead">
-              <b>{data.edu1_school}</b> ({data.edu1_qualification}, {data.edu1_year})
-            </p>
-            <p className="edu-description">{data.edu1_desc}</p>
-          </div>
-          <div className="education-details">
-            <p className="lead">
-              <b>{data.edu2_school}</b> ({data.edu2_qualification}, {data.edu2_year})
-            </p>
-            <p className="edu-description">{data.edu2_desc}</p>
-          </div>
-        </div>
-
-        <div className="extra-section">
-          <h3>
-            <b>Extra-Curriculars/Activities</b>
-          </h3>
-          <ul>
+        <div className="resume-section">
+          <h3>Extra-Curriculars/Activities</h3>
+          <ul style={{ listStyleType: "circle" }}>
             <li>
-              <p className="lead">
-                <b>Languages: </b>
-                {data.extra_1}
-              </p>
+              <b>Languages: </b>
+              {data.extra_1}
             </li>
             <li>
-              <p className="lead">
-                <b>Hobbies: </b>
-                {data.extra_2}
-              </p>
+              <b>Hobbies: </b>
+              {data.extra_2}
             </li>
           </ul>
         </div>
       </div>
-    </div>
-  </div>
-);
 
+      <div className="resume-footer">
+        <p>Generated by Resume Generator</p>
+      </div>
+    </div>
+  );
 };
 
 export default Success;

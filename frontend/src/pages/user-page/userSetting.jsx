@@ -189,10 +189,10 @@ const UserSettings = () => {
                     </p>
                   </div>
 
-                  <div className="flex gap-1 items-center">
+                  <div className="flex gap-1 w-full items-center">
                     <div
                       style={{ width: "3px" ,height:'50px',backgroundColor:'grey' }}
-                      className= {`mr-3 mb-2 bg-gray-700 h-full ${showmyPost? 'border-green-700' : ''}`}
+                      className= {`mr-3 mb-2 bg-gray-700 w-full h-full ${showmyPost? 'border-green-700' : ''}`}
                       ></div>                   
                     <p className="text-lg font-normal cursor-pointer hover:text-green-700 transition-all" onClick={showmyPostMethod}>
                      My Post
