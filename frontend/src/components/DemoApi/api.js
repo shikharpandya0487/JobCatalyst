@@ -80,11 +80,7 @@ export const createComment = async (text, parentId ,postId) => {
         'Authorization': 'Bearer '+ localStorage.getItem('token'),
       };
       
-<<<<<<< Updated upstream
       const response=await axios.post(`https://jobcatalyst.onrender.com/api/post/comments`,data,headers)
-=======
-      const response=await axios.post(`http://localhost:5000/api/post/comments`,data,headers)
->>>>>>> Stashed changes
       console.log("reply ",response)
 
       return response;
