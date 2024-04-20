@@ -66,7 +66,7 @@ const JobRecord = () => {
         recordToSave
       );
       console.log("save Response",response)
-      setSavedRecords([...savedRecords, response.data.data]);
+       setSavedRecords([...savedRecords, response.data.data]);
       setJobRecords(jobRecords.filter((_, i) => i !== index));
       setIsLoading(false);
     } catch (error) {
