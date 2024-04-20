@@ -11,6 +11,12 @@ import {configureStore} from "@reduxjs/toolkit"
 import { ChakraProvider } from '@chakra-ui/react'
 import { Toaster } from "react-hot-toast";
 import {ThemeProvider} from './Context/ThemeContext';
+import {disableReactDevTools} from '@fvilers/disable-react-devtools'
+
+
+if(process.env.NODE_ENV==='production') disableReactDevTools()
+
+
 
 const store = configureStore({
   reducer:rootReducer,

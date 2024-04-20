@@ -3,9 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const passport = require("passport");
-const path = require('path');
-const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 const testRouter=require('./src/Routes/UserRoutes/user.routes.js')
 const authrouter=require("./src/Routes/Auth/auth.js")
 const postrouter=require("./src/Routes/PostRoutes/post.js")
@@ -45,7 +42,7 @@ app.use(cors({
 
 
 
-const PORT=5000;
+const PORT=process.env.PORT
 connectDb()
 
 
