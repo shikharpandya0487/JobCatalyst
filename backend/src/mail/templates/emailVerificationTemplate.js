@@ -1,5 +1,5 @@
 const otpTemplate = (otp) => {
-	return (`<!DOCTYPE html>
+	return `<!DOCTYPE html>
 	<html>
 	
 	<head>
@@ -23,7 +23,7 @@ const otpTemplate = (otp) => {
 				text-align: center;
 			}
 	
-			.Logo {
+			.logo {
 				max-width: 200px;
 				margin-bottom: 20px;
 			}
@@ -66,7 +66,7 @@ const otpTemplate = (otp) => {
 	
 	<body>
 		<div class="container">
-			<a href=""><img class="Logo"
+			<a href=""><img class="logo"
 					src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKQQM9SfMl6qR_QCFbT02HSWCPCrW02pr1RA&usqp=CAU" alt="JOBCATALYST"></a>
 			<div class="message">OTP Verification Email</div>
 			<div class="body">
@@ -82,6 +82,6 @@ const otpTemplate = (otp) => {
 		</div>
 	</body>
 	
-	</html>`);
+	</html>`;
 };
 module.exports = otpTemplate;
