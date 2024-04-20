@@ -156,6 +156,7 @@ const handleEdit = async (id)=>{
       
        
         {/* reaction icons */}
+<<<<<<< Updated upstream
         <div className='flex flex-col space-y-[20px] '>
             {
               post.likes.find((id)=> id == userId)
@@ -183,6 +184,9 @@ const handleEdit = async (id)=>{
             }
             <h5>{post.congrats.length} Congratulation</h5>
           </div>
+=======
+        
+>>>>>>> Stashed changes
       
 
       <div className='flex justify-evenly gap-2 items-center p-1 w-full'>
