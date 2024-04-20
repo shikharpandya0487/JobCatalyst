@@ -3,7 +3,7 @@ const path = require('path');
 const pdf = require('html-pdf');
 const pdfSample = require('../../pdf-sample'); 
 const router = express.Router();
-const Resume = require("../../models/Resume/resume.js");
+const Resume=require("../../models/Resume/Resume.js")
 const requireLogin = require("../../middlewares/requireLogin.js");
 
 router.post('/create-resume', async (req,res) => {
