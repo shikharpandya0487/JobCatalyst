@@ -263,7 +263,7 @@ const disCongratsPost = (id) => {
             <h5>{post.likes.length} Likes</h5>
 
             {
-              post.heart.find((id)=> id == userId)
+              post.heart.find((id)=> id === userId)
               ?
               <FaHeart onClick={() => disHeartPost(id)}  />
               :
