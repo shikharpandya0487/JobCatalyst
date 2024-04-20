@@ -1,0 +1,48 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+.blue-color {
+  color: rgb(15, 105, 240);
+}
+
+.resume-header {
+  color: #333;
+  padding: 20px;
+  text-align: center;
+}
+.resume-header h1 {
+  margin-bottom: 0;
+}
+.resume-contact-info {
+  margin-top: 20px;
+}
+.resume-section {
+  background-color: rgb(246, 242, 242);
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+}
+.resume-section h3 {
+  color: black;
+  margin-top: 0;
+  font-size: large;
+  background-color: rgb(194, 192, 192);
+  padding: 2px;
+}
+.resume-section p {
+  margin-bottom: 10px;
+}
+.resume-section ul {
+  margin-bottom: 0;
+}
+.resume-section ul li {
+  list-style-type: none;
+  margin-bottom: 5px;
+}
+.resume-footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+}
