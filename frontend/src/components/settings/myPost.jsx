@@ -38,7 +38,7 @@ const MyPost = () => {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       };
 
-      const url = `http://localhost:5000/api/post/my-post/${userId}`;
+      const url = `https://jobcatalyst.onrender.com/api/post/my-post/${userId}`;
       try {
         const response = await axios.get(url, { headers });
         if (response.data) {
@@ -59,7 +59,7 @@ const MyPost = () => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       };
-      const url = `http://localhost:5000/api/post/delete-post`;
+      const url = `https://jobcatalyst.onrender.com/api/post/delete-post`;
       const data = { postId: id };
       const response = await axios.delete(url, { data, headers });
       alert(response.data.message);

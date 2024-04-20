@@ -11,7 +11,7 @@ import io from "socket.io-client";
 import Lottie from 'react-lottie'
 
 const AnimationData =require('../animation/AnimationData.json')
-const ENDPOINT="http://localhost:5000"
+const ENDPOINT="https://jobcatalyst.onrender.com"
 var socket,selectedChatCompare;
 // console.log(io)
 
@@ -79,7 +79,7 @@ const SingleChat = ({fetchAgain,setFetchAgain}) => {
                 }
             }
 
-            const {data}=await axios.get(`http://localhost:5000/api/message/${selectedChat._id}`,config)
+            const {data}=await axios.get(`https://jobcatalyst.onrender.com/api/message/${selectedChat._id}`,config)
 
             if(!data)
             {
@@ -117,7 +117,7 @@ const SingleChat = ({fetchAgain,setFetchAgain}) => {
                 }
 
                 setNewMessage("")
-                const {data}=await axios.post('http://localhost:5000/api/message',{
+                const {data}=await axios.post('https://jobcatalyst.onrender.com/api/message',{
                     content:newMessage,
                     chatId:selectedChat._id
                 },config)

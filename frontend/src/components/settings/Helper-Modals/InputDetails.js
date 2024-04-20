@@ -27,7 +27,7 @@ function InputDetails({ title, label, purpose, PlaceHolder, UserInformation, set
                         },
                       };
 
-                    const response=await axios.post("http://localhost:5000/api/user/add-skill",{skill:selectedSkill},config)
+                    const response=await axios.post("https://jobcatalyst.onrender.com/api/user/add-skill",{skill:selectedSkill},config)
 
                     if(!response)
                     {

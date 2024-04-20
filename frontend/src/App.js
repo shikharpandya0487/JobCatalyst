@@ -25,7 +25,7 @@ import Chats from './components/Chats-ChatsHome/Chats.js';
 
 
 function App() {
-  axios.defaults.baseURL = 'http://localhost:5000';
+  axios.defaults.baseURL = 'https://jobcatalyst.onrender.com';
   axios.defaults.withCredentials = true;
   //this useTheme hook is access theme state and toggle function
   const {theme,toggleTheme} = useTheme();
