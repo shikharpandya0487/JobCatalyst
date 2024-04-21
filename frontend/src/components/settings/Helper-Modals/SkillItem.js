@@ -5,8 +5,7 @@ function SkillItem({ skill, index, deleteSkill, id, editSkill }) {
     const [skillName, setSkillName] = useState(skill.name);
     const [skillProficiency, setSkillProficiency] = useState(skill.proficiency);
     const [isEditable, setIsEditable] = useState(false);
-    const [open, setOpen] = useState(false); // Added assignment operator "="
-        // console.log(id);
+  
 
     const handleEdit = () => {
         if (isEditable) {

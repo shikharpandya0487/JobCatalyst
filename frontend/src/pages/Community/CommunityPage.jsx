@@ -4,7 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import Stories from '../../components/community/Stories';
 import JobPosting from '../../components/community/JobPosting';
-import EmployerSpotlight from '../../components/community/EmployerSpotlight';
+
 
 
 
@@ -71,13 +71,7 @@ const closeSearch=()=>{
   setRefresh(!refresh);
 }
 
-  const spotlight = [
-    {
-      s1: '!! Google Claim to have best Job Experience',
-      s2: '!! Microsoft hire 20 year old intern at 1.51p/m',
-      s3: '!! Person Bagged 55.5LPA in Microsoft'
-    },
-  ];
+ 
 
   return (
     <div className="min-h-screen bg-gradient-to-l from-blue-50 via-white to-blue-50 ">

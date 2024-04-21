@@ -22,7 +22,7 @@ const DisplayData = () => {
         }
       };
     fetchData();
-  }, []);
+  }, [id]);
 
 
   return (

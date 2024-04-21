@@ -7,34 +7,33 @@ import {
 } from "../DemoApi/api.js";
 import Comment from "./Comment";
 import CommentForm from "./CommentsForm.js";
-import { ChatState } from "../../UserContext.js";
+// import { ChatState } from "../../UserContext.js";
 
 const Comments2 = ({postId, currentUserId }) => {
   // states to track the comments made
   console.log("Post ID ",postId,"currentUserID ",currentUserId);
   const [backendComments, setBackendComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
-  
-  const {user}=ChatState();
+
   // writing a function to find the root comment
   const rootComments = backendComments.filter((data) => data?.parentId === null);
   
   
   
-  // we have to sort the array according to (createdAt) time of their creation
-  const getReplies = (commendId) => {
-    //here the time will be in string so we have to convert the string to javascript Date to perform the sorting
-    //get time calculates the time in milliseconds
-    console.log("Backend comments check before replies ",backendComments)
-    const k= backendComments
-      .filter((backendComment) => backendComment.parentComment === commendId)
+  // // we have to sort the array according to (createdAt) time of their creation
+  // const getReplies = (commendId) => {
+  //   //here the time will be in string so we have to convert the string to javascript Date to perform the sorting
+  //   //get time calculates the time in milliseconds
+  //   console.log("Backend comments check before replies ",backendComments)
+  //   const k= backendComments
+  //     .filter((backendComment) => backendComment.parentComment === commendId)
       
 
       
-      console.log("replies ",k);
-      return k;
+  //     console.log("replies ",k);
+  //     return k;
 
-  };
+  // };
 
   const addComment = (text, parentId, postId) => {
     console.log("Added comment", text, parentId);
@@ -93,9 +92,9 @@ const Comments2 = ({postId, currentUserId }) => {
     }
   };
 
-  const replyComment = (text, parentId) => {
-    console.log(backendComments);
-  };
+  // const replyComment = (text, parentId) => {
+  //   console.log(backendComments);
+  // };
 
   const updateComment = (text, commendId, postId) => {
     updateCommentApi(text, commendId, postId)

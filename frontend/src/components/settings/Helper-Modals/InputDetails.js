@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Textarea, useDisclosure } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, useDisclosure } from "@chakra-ui/react";
 import axios from 'axios';
 import { ChatState } from '../../../UserContext';
 
 
-function InputDetails({ title, label, purpose, PlaceHolder, UserInformation, setUserInformation }) {
+function InputDetails({ title, label, purpose,UserInformation, setUserInformation }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);

@@ -25,11 +25,7 @@ function CompanyPage() {
     return regex.test(value) ? "" : "Invalid email address";
   };
 
-  const validatePhoneNumber = (value) => {
-    // Basic phone number validation regex
-    const regex = /^[0-9]{10}$/;
-    return regex.test(value) ? "" : "Invalid phone number";
-  };
+ 
 
   return (
     <Box
@@ -40,16 +36,7 @@ function CompanyPage() {
     >
       <Navbar />
       <Box className="mx-auto max-w-[1559px] md:max-w-full p-5">
-        <Box className="md:flex md:justify-between md:items-center">
-          <h2 className="text-3xl md:text-5xl md:px-20 py-5">
-            Create an Employer Account
-          </h2>
-          <img
-            src="./Employee image.png"
-            alt="Employee Image"
-            className="max-w-[300px] h-[170px] order-last md:order-none px-5"
-          />
-        </Box>
+        
         <Box className="flex flex-col md:flex-row gap-5 text-lg md:text-lg text-black md:flex-wrap mt-5">
           <FormControl>
             <FormLabel htmlFor="companyName">Your Company Name:</FormLabel>

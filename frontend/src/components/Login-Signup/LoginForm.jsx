@@ -11,24 +11,22 @@ import {
   FormControl,
   FormLabel,
   Input,
-  FormErrorMessage,
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { ChatState } from '../../UserContext';
+
+
 
 const LoginForm = (props) => {
-  const dispatch = useDispatch();
+
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: '',
     companyName: '',
   });
-  const {isAdmin,setIsAdmin}=props
+  const {isAdmin}=props
 
 
-  const { setUser } = ChatState();
 
   const navigate = useNavigate();
   const { email, password, companyName } = userInfo;

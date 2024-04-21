@@ -6,7 +6,7 @@ import { ChatState } from "../../UserContext";
 
 const ContactInfo = () => {
   const { theme } = useTheme();
-  const [userData, setUserData] = useState({});
+  
   const [github, setGithub] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [discord, setDiscord] = useState("");
@@ -22,7 +22,7 @@ const ContactInfo = () => {
     id:""
   })
   const [deleteName,setDeleteName]=useState("")
-  const { user,userId} = ChatState();
+  const { user} = ChatState();
  console.log("contact info log ",user);
   const handleSave = async () => {
     try {

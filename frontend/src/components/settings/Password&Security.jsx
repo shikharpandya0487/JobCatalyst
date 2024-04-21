@@ -101,7 +101,7 @@ const PasswordAndSecurity = () => {
          padding: "20px",
          backgroundColor: theme === "dark" ? "#333" : "#fff",
          color: theme === "dark" ? "#fff" : "#333",
-         border:theme== "dark" ? ' 1px solid #fff': '',
+         border:theme=== "dark" ? ' 1px solid #fff': '',
  
     }}>
       <h4>Password And Security</h4>

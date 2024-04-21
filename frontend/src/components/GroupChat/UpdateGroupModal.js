@@ -22,7 +22,7 @@ const UpdateGroupModal = ({fetchAgain,setFetchAgain,fetchMessages}) => {
         //check user is group admin or not
         //filter the group users after removing
         //fetch the chats again after removing a persom from the group
-        console.log(selectedChat)
+        console.log(selectedChat,search)
         if(selectedChat.groupAdmin._id !== user._id && user1._id!==user._id)
         {
             toast({

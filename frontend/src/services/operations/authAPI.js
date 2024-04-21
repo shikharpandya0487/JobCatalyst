@@ -5,11 +5,8 @@ import { apiConnector } from "../apiconnector"
 import { endpoints } from "../apis"
 
 const {
-    SENDOTP_API,
-    SIGNUP_API,
-    LOGIN_API,
-    RESETPASSTOKEN_API,
-    RESETPASSWORD_API,
+    
+    LOGIN_API
   } = endpoints
 
   export  function login(email, password, navigate) {

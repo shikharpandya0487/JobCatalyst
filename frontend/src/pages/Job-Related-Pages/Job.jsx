@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import data from "../../components/DummyData/Data.json";
 import CompanyPost from "../../components/Company-components/CompanyPost.jsx";
-import ForCompanies from "../../components/Company-components/ForCompanies.jsx";
+// import ForCompanies from "../../components/Company-components/ForCompanies.jsx";
 import {useTheme} from "../../Context/ThemeContext";
 
 function Job() {
   const {theme} = useTheme();
   const [searchLocation, setSearchLocation] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [displayBody, setDisplayBody] = useState(false);
+ 
 
   const onChangeLocationHandler = (e) => {
     setSearchLocation(e.target.value);
@@ -27,13 +27,7 @@ function Job() {
     }
   };
 
-  const goToForCompanies = () => {
-    setDisplayBody(true);
-  };
 
-  const goToForYou = () => {
-    setDisplayBody(false);
-  };
 
   const filterSearch = () => {
     const filteredData = data2.filter((item) => {
@@ -165,16 +159,8 @@ function Job() {
           </div>
         </div>
 
-        {/* SubNavbar */}
-        <div className=" h-[8em] w-full flex justify-evenly items-center">
-          <div className="font-bold cursor-pointer" onClick={goToForYou}>
-            For You
-          </div>
-          <div className="font-bold cursor-pointer" onClick={goToForCompanies}>
-            For Companies
-          </div>
-        </div>
-
+   
+        
         {/* Search Tags & Body */}
         <div className="flex justify-between  min-h-screen w-full p-2">
           {/* Search Tags */}
@@ -308,12 +294,7 @@ function Job() {
               color: theme === "dark" ? "#fff" : "#333",
             }}
             >
-              {displayBody ? (
-                <>
-                  {/* Infinite scroll test   */}
-                  <ForCompanies />
-                </>
-              ) : (
+              {
                 data2.map((item, index) => (
                   <div key={index} className="mb-4"
                   style={{
@@ -335,7 +316,7 @@ function Job() {
                     />
                   </div>
                 ))
-              )}
+              }
             </div>
           </div>
         </div>

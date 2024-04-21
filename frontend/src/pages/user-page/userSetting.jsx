@@ -1,7 +1,6 @@
 import React,{useState} from "react";
 import UserProfileInfo from "../../components/settings/userProfileInfo";
 import ContactInfo from "../../components/settings/ContactInfo";
-import MyTeams from "../../components/settings/MyTeams";
 import PasswordAndSecurity from "../../components/settings/Password&Security";
 import NotificationandSetting from "../../components/settings/NotificationandSetting";
 import ResumeSetting from "../../components/resume/Form"
@@ -12,7 +11,7 @@ const UserSettings = () => {
     const {theme} = useTheme();
     const [showUserProfile,setShowUserProfile] = useState(true);
     const [showContactInfo,setShowContactInfo] = useState(false);  
-    const [showMyTeams,setShowMyTeams] = useState(false);
+  
     const [showSetting,setShowSetting] = useState(false);
     const [showNotification,setShowNotification] = useState(false);
     const [showResume,setShowResume] = useState(false);
@@ -21,7 +20,6 @@ const UserSettings = () => {
     const showMyProfile = () => {
         setShowUserProfile(true);
         setShowContactInfo(false);
-        setShowMyTeams(false);
         setShowSetting(false);
         setShowNotification(false);
         setShowResume(false);
@@ -31,28 +29,18 @@ const UserSettings = () => {
     const showContactInformation = () => {
         setShowUserProfile(false);
         setShowContactInfo(true);
-        setShowMyTeams(false);
+      
         setShowSetting(false);
         setShowNotification(false);
         setShowResume(false);
         setShowRecord(false);
         setshowMyPost(false);
     }
-    const showMyTeamInfo = () => {
-        setShowUserProfile(false);
-        setShowContactInfo(false);
-        setShowMyTeams(true);
-        setShowSetting(false);
-        setShowNotification(false);
-        setShowResume(false);
-        setShowRecord(false);
-        setshowMyPost(false);
-
-    }
+   
     const showMyTeamSetting = () => {
         setShowUserProfile(false);
         setShowContactInfo(false);
-        setShowMyTeams(false);
+       
         setShowSetting(true);
         setShowNotification(false);
         setShowResume(false);
@@ -63,7 +51,7 @@ const UserSettings = () => {
     const showNotificationmethod = () => {
         setShowUserProfile(false);
         setShowContactInfo(false);
-        setShowMyTeams(false);
+      
         setShowSetting(false);
         setShowNotification(true);
         setShowResume(false);
@@ -74,7 +62,7 @@ const UserSettings = () => {
     const showResumemethod = () => {
       setShowUserProfile(false);
       setShowContactInfo(false);
-      setShowMyTeams(false);
+
       setShowSetting(false);
       setShowNotification(false);
       setShowResume(true);
@@ -85,7 +73,7 @@ const UserSettings = () => {
     const showRecordMethod = () => {
     setShowUserProfile(false);
     setShowContactInfo(false);
-    setShowMyTeams(false);
+
     setShowSetting(false);
     setShowNotification(false);
     setShowResume(false);
@@ -96,7 +84,7 @@ const UserSettings = () => {
   const showmyPostMethod = () => {
     setShowUserProfile(false);
     setShowContactInfo(false);
-    setShowMyTeams(false);
+    
     setShowSetting(false);
     setShowNotification(false);
     setShowResume(false);

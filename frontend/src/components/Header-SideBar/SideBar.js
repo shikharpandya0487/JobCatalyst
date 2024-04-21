@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, D
 import React, { useState } from 'react'
 // import NotificationBadge from "react-notification-badge";
 import axios from 'axios'
-import {BellIcon,ChevronDownIcon, ChevronLeftIcon} from "@chakra-ui/icons"
+import {BellIcon,ChevronDownIcon} from "@chakra-ui/icons"
 import { ChatState } from '../../UserContext.js'
 import ProfileModal from '../ProfileModal/ProfileModal.js'
 import {  useNavigate } from 'react-router-dom';
@@ -29,8 +29,6 @@ const SideBar = () => {
   const {
     setSelectedChat,
     user,
-    notification,
-    setNotification,
     chats,
     setChats,
   } = ChatState();

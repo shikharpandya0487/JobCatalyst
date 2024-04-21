@@ -5,7 +5,6 @@ import './index.css';
 import LandingPage from './pages/LandingPage/LandingPage.jsx'
 import './index.js'
 import CommunityPage from './pages/Community/CommunityPage.jsx';
-import {useTheme} from './Context/ThemeContext'
 import Job from './pages/Job-Related-Pages/Job.jsx';
 import UserPage from './pages/user-page/userPage.jsx';
 import AddPost from './components/community/AddPost.js';
@@ -27,8 +26,7 @@ import Chats from './components/Chats-ChatsHome/Chats.js';
 function App() {
   axios.defaults.baseURL = 'https://jobcatalyst.onrender.com';
   axios.defaults.withCredentials = true;
-  //this useTheme hook is access theme state and toggle function
-  const {theme,toggleTheme} = useTheme();
+
   return (
     <BrowserRouter>
       <ChatProvider>

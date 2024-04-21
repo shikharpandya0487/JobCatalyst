@@ -12,7 +12,7 @@ const Chats = () => {
   const [fetchAgain, setFetchAgain] = useState(true);
   const {user}=ChatState()
   console.log({user});
-  const { selectedChat, setSelectedChat, chats, setChats } = ChatState();
+  const { setChats } = ChatState();
   const toast=useToast()
 
   useEffect(()=>{

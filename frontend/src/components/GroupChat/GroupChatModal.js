@@ -3,12 +3,11 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { ChatState } from '../../UserContext.js'
 import UserItem from '../UserItem.js'
-import ChatLoading from '../animation/ChatLoading.js'
 import ListUser from '.././ListUsers/ListUser.js'
 const GroupChatModal = ({children}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [groupChatName,setGroupChatName]=useState("")
-    const [search,setSearch]=useState()
+ 
     const [selectedUsers,setSelectedUsers]=useState([])
     const [loading,setLoading]=useState(false)
     const [searchResult,setSearchResult]=useState([])

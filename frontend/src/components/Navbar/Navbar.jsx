@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 import SignupForm from '../Login-Signup/SignupForm';
 import LoginForm from '../Login-Signup/LoginForm';
 import './Navbar.css';

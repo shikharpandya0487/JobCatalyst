@@ -9,7 +9,6 @@ import {
   Input,
   Text,
   Textarea,
-  CircularProgress,
 } from '@chakra-ui/react';
 
 const AddPost = () => {
@@ -65,12 +64,12 @@ const AddPost = () => {
   return (
     <Box
       className='max-w-screen mx-auto min-h-screen dark:bg-slate-500 bg-slate-300'
-      style={{backgroundColor:(theme=='dark')?"gray":"lightgray",color:(theme=='dark')?"white":"black"}}
+      style={{backgroundColor:(theme==='dark')?"gray":"lightgray",color:(theme==='dark')?"white":"black"}}
     >
     
       <Navbar />
       <Box className='flex justify-center w-[100%] gap-2 p-4 min-h-fit'
-      style={{backgroundColor:(theme=='dark')?"gray":"cream",color:(theme=='dark')?"white":"black"}}>
+      style={{backgroundColor:(theme==='dark')?"gray":"cream",color:(theme==='dark')?"white":"black"}}>
         <Box className='w-1/2 p-2 bg-white rounded-md md:rounded-lg'>
           <Text className='pt-2 pb-10 text-3xl md:text-5xl text-black text-center'>
             Add Post

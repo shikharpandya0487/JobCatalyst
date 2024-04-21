@@ -44,7 +44,7 @@ const EditPost = () => {
       };
     
       fetchPostData();
-    }, []);
+    }, [id]);
     
 
     const handleApi = async (e)=> {

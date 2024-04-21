@@ -151,7 +151,7 @@ const Form = () => {
           style={{
             backgroundColor: theme === "dark" ? "#333" : "#fff",
             color: theme === "dark" ? "#fff" : "#333",
-            border: theme == "dark" ? ' 1px solid #fff' : '',
+            border: theme === "dark" ? ' 1px solid #fff' : '',
           }}>
           <h1 className="text-2xl font-semibold mb-5">{FormTitle[page]}</h1>
           <div>{PageDisplay()}</div>

@@ -30,7 +30,7 @@ const SignupForm = (props) => {
     companyName:'',
     location:''
   });
-  const {isAdmin,setIsAdmin}=props
+  const {isAdmin}=props
 
   const handleInput = (e) => {
     setUser((prevData) => ({
@@ -43,7 +43,7 @@ const SignupForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { username, email, password, confirmPassword,companyName } = user;
+    const { username, email, password, confirmPassword} = user;
 
     if (!username || !email || !password || !confirmPassword) {
       toast({

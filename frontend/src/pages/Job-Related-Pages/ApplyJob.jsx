@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Navbar from '../../components/Navbar/Navbar';
-import { useTheme } from '../../Context/ThemeContext';
 import {
   Modal,
   ModalOverlay,
@@ -17,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 
 const ApplyJob = ({setIsOpen,isOpen}) => {
-  const { theme } = useTheme();
   const [formData, setFormData] = useState({
     name: '',
     email: '',

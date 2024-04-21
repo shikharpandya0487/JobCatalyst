@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from '../../Context/ThemeContext'; 
 
 import axios from 'axios'
-import { Button, Container, Input } from "@chakra-ui/react";
+import {  Input } from "@chakra-ui/react";
 import InputDetails from './Helper-Modals/InputDetails.js'
 import SkillItem from "./Helper-Modals/SkillItem.js";
 import { ChatState } from "../../UserContext.js";
@@ -19,11 +19,11 @@ const UserProfileInfo = () => {
 
 
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  // const [selectedFile, setSelectedFile] = useState(null);
   
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
+    // const file = event.target.files[0];
+    // setSelectedFile(file);
   };
   const[profile,setprofile]=useState({
     username:"",
@@ -110,7 +110,7 @@ const UserProfileInfo = () => {
   useEffect(() => {
     axios.get(profileDataApi)
         .then((response) => {
-            const { username, email, contact, skills } = response.data;
+            const { username, email, contact} = response.data;
             // const updatedSkills = skills.map(skill => ({
             //     name: skill.name,
             //     proficiency: skill.proficiency,
@@ -169,7 +169,7 @@ useEffect(() => {
         style={{
           backgroundColor: theme === "dark" ? "#333" : "#fff",
           color: theme === "dark" ? "#fff" : "#333",
-          border:theme== "dark" ? ' 1px solid #fff': '',
+          border:theme=== "dark" ? ' 1px solid #fff': '',
         }}
         >
           <h5 className="mb-2 font-semibold pb-4 italic md:not-italic">User Information</h5>
@@ -188,7 +188,7 @@ useEffect(() => {
         style={{
           backgroundColor: theme === "dark" ? "#333" : "#fff",
           color: theme === "dark" ? "#fff" : "#333",
-          border:theme== "dark" ? ' 1px solid #fff': '',
+          border:theme=== "dark" ? ' 1px solid #fff': '',
         }}
         >
           <div className="w-full"><h5 className="font-semibold mt-1 italic md:not-italic">Skills</h5></div>

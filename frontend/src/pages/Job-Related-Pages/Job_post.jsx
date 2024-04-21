@@ -10,7 +10,6 @@ import {
   FormLabel,
   Select,
   Text,
-  Textarea,
   Flex,
   Modal,
   ModalOverlay,

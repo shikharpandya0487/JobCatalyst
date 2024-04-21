@@ -39,7 +39,7 @@ const Comment = ({id,postId,comment,replies,currentUserId,deleteComment,activeCo
         
     <div className='comment w-full'>
         <div className='comment-image-container'>
-            <img src="/user-icon.png" alt="Image of user here" />
+            <img src="/user-icon.png" alt="user here" />
         </div>
 
         <div className='comment-right-part'>

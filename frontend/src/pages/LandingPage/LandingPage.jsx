@@ -3,11 +3,11 @@ import { useNavigate} from 'react-router-dom';
 import Navbar from "../../components/Navbar/Navbar";
 import {useTheme} from '../../Context/ThemeContext';
 import axios from 'axios';
-// import './GoggleLogin.css'
-import "./LandingPage.css"
 import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
 import {auth} from '../../firebase/firebaseConfig'
 import {Button} from '@chakra-ui/react'
+import '../LandingPage/LandingPage.css'
+
 
 
 
@@ -20,12 +20,6 @@ function LandingPage() {
   const [password, setPassword] = useState("")
   const [isEmailValid, setIsEmailValid] = useState(false)
   const [isAdmin,setIsAdmin]=useState(false)
-
-  const SubmitHandler = (e) => {
-    e.preventDefault();
-    setEmail('')
-    setPassword('')
-  }
 
 
   const emailHandler = (e) => {

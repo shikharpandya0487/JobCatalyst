@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { FaThumbsUp } from "react-icons/fa";
@@ -28,11 +27,6 @@ const MediaDisplay = ({ url }) => {
 
 const JobPosting = ({
   title,
-  company,
-  position,
-  location,
-  jobType,
-  salary,
   description,
   tags,
   image,
@@ -42,12 +36,8 @@ const JobPosting = ({
   post,
   onReaction
 }) => {
-  const [expanded, setExpanded] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const toggle = () => {
-    setExpanded(!expanded);
-  };
-  const navigate = useNavigate();
+
+
 
   if(title)
   {
@@ -254,7 +244,7 @@ const disCongratsPost = (id) => {
           
           <div className='flex flex-col space-y-[20px] '>
             {
-              post.likes.find((id)=> id == userId)
+              post.likes.find((id)=> id === userId)
               ?
               <FaThumbsUp onClick={() => dislikePost(id)}  />
               :
@@ -271,7 +261,7 @@ const disCongratsPost = (id) => {
             }
             <h5>{post.heart.length} Heart</h5>
             {
-              post.congrats.find((id)=> id == userId)
+              post.congrats.find((id)=> id === userId)
               ?
               <FaHandsClapping onClick={() => disCongratsPost(id)}  />
               :

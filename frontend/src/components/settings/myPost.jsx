@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { FaEdit, FaHeart, FaThumbsUp, FaAward } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import Comments2 from '../Comments/Comments2';
+
 
 const MediaDisplay = ({ url }) => {
   const isVideo = url.endsWith('.mp4');
@@ -24,7 +24,6 @@ const MediaDisplay = ({ url }) => {
 const MyPost = () => {
   const userId = localStorage.getItem('userId');
   const [data, setData] = useState([]);
-  const [openComments, setOpenComments] = useState(false);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
@@ -51,7 +50,7 @@ const MyPost = () => {
       }
     };
     fetchData();
-  }, [success]);
+  }, [success,userId]);
 
   const handleDelete = async (id) => {
     try {
