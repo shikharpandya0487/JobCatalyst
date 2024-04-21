@@ -5,7 +5,7 @@ const addSkillController=async(req,res)=>{
 
         const skillname=skill.name 
         const skillProficiency=skill.proficiency 
-        console.log(skillname,skillProficiency)
+       
         if(!skillname||!skillProficiency)
         {
             res.status(401).json({
@@ -116,6 +116,8 @@ const accessSkillsController=async(req,res)=>{
                 message:"Not able to fetch all skills "
             })
         }
+
+  
         
 
         res.status(201).json({

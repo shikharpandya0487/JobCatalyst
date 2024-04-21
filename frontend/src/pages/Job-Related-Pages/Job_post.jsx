@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import JoditEditor from 'jodit-react';
 import Navbar from '../../components/Navbar/Navbar';
 import { useTheme } from '../../Context/ThemeContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -19,30 +19,57 @@ import {
   ModalFooter,
   ModalCloseButton,
 } from '@chakra-ui/react';
+import axios from 'axios';
+import { ChatState } from '../../UserContext';
 
 const Job_post = () => {
+  const {user,jobPost,setJobPost } =ChatState()
+  const navigate = useNavigate();
   const { theme } = useTheme();
   const editor = useRef(null);
   const [post, setPost] = useState({
     experience: '',
     salary: '',
     content: '',
-    numberOfEmployees: '',
+    numberOfEmployee:'',
   });
   const [isOpen, setIsOpen] = useState(false);
 
   const editorDataHandler = (data) => {
     console.log(data);
+    console.log(post)
     setPost({ ...post, content: data });
+    setJobPost({...jobPost,description:data})
+
   };
 
   const fieldChanged = (event) => {
     const { name, value } = event.target;
     console.log(name, value);
+    console.log(post)
     setPost({ ...post, [name]: value });
+    setJobPost({...jobPost,[name]:value})
   };
 
-  const handleCreate = () => {};
+  const handleCreate = async () => {
+    try{
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };                            
+      const response=await axios.post("https://jobcatalyst.onrender.com/api/jobs/createJobPost",jobPost,config)
+      console.log(response.data)
+      setJobPost({location:"",description:"",jobtype:"",numberOfEmployee:"",experience:"",salary:"",position:""})
+      navigate("/jobs")
+    }
+    catch(e){
+      console.log(e)
+      navigate("/job-basics")
+      throw new Error("Error fetching the job post")
+    }
+  };
 
   const onClose = () => setIsOpen(false);
 
@@ -63,7 +90,7 @@ const Job_post = () => {
             <Select
               id='experience'
               name='experience'
-              value={post.experience}
+              value={jobPost.experience}
               onChange={fieldChanged}
               bg='gray.100'
               rounded='3xl'
@@ -81,7 +108,7 @@ const Job_post = () => {
             <Select
               id='salary'
               name='salary'
-              value={post.salary}
+              value={jobPost.salary}
               onChange={fieldChanged}
               bg='gray.100'
               rounded='3xl'
@@ -99,14 +126,14 @@ const Job_post = () => {
           <Text>Job Description</Text>
         </Box>
         <Box className='flex flex-col h-8/12 w-full p-2'>
-          <JoditEditor ref={editor} value={post.content} onChange={editorDataHandler} />
+          <JoditEditor ref={editor} value={jobPost.description} onChange={editorDataHandler} />
         </Box>
         <Box className='flex flex-col gap-2 p-1 w-full'>
           <FormLabel htmlFor='numberOfEmployees'>Number of Employees</FormLabel>
           <Select
             id='numberOfEmployees'
-            name='numberOfEmployees'
-            value={post.numberOfEmployees}
+            name='numberOfEmployee'
+            value={jobPost.numberOfEmployee}
             onChange={fieldChanged}
             bg='gray.100'
             rounded='3xl'

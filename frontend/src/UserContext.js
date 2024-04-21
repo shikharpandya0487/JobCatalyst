@@ -9,6 +9,15 @@ const ChatProvider=({ children }) =>{
   const [selectedChat,setSelectedChat]=useState()
    const [notification,setNotification]=useState([])
    const [chats,setChats]=useState([])
+   const [jobPost,setJobPost]=useState({
+    location:"",
+    jobtype:"",
+    experience:"",
+    salary:"",
+    description:"",
+    numberOfEmployee:"",
+    position:""
+   })
   
   const navigate=useNavigate()
 
@@ -19,11 +28,11 @@ const ChatProvider=({ children }) =>{
     if (!userInfo) {
       navigate("/");
     }
-  }, [navigate, user]);
+  }, []);
   
 
   return (
-    <ChatContext.Provider value={{user,setUser,selectedChat,setSelectedChat,notification,setNotification,chats,setChats}}>
+    <ChatContext.Provider value={{user,setUser,selectedChat,setSelectedChat,notification,setNotification,chats,setChats,jobPost,setJobPost}}>
       {children}
     </ChatContext.Provider>
   );

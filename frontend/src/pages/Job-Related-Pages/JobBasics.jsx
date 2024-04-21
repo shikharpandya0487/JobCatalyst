@@ -1,3 +1,4 @@
+// Import necessary dependencies
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
@@ -18,15 +19,24 @@ import {
   ModalFooter,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import { ChatState } from '../../UserContext';
 
 const JobBasics = () => {
+  // Retrieve necessary data from context
   const { theme } = useTheme();
+  const { user, jobPost, setJobPost } = ChatState(); // Assuming ChatState returns user, jobPost, and setJobPost
+
+  // State to manage modal open/close
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleCreate = () => {
-    console.log("Create button clicked");
+  // Function to handle create action
+  const handle = (e,name) => {
+    
+    console.log(jobPost)
+    setJobPost({...jobPost,[name]:e.target.value})
   };
 
+  // Function to handle modal close
   const onClose = () => setIsOpen(false);
 
   return (
@@ -51,20 +61,20 @@ const JobBasics = () => {
             <FormLabel htmlFor="jobTitle" className="font-medium text-2xl">
               Job Title:
             </FormLabel>
-            <Select
+            <Input
+              type="text"
               id="jobTitle"
-              mt="3"
-              bg="gray.100"
+              mt="2"
+              bg="zinc.100"
               h="40px"
               rounded="3xl"
               border="2px"
               borderColor="black"
               maxW="full"
-            >
-              <option value="option1"></option>
-              <option value="option2"></option>
-              <option value="option3"></option>
-            </Select>
+              value={jobPost.title}
+              onChange={(e)=>handle(e,"title")} // Handle change and update jobPost.title
+            />
+            
           </FormControl>
         </Box>
         <hr className="border-t-2 border-gray-700 w-full ml-2 mr-4 mt-4" />
@@ -86,17 +96,19 @@ const JobBasics = () => {
               border="2px"
               borderColor="black"
               maxW="full"
+              value={jobPost.jobtype}
+              onChange={(e)=>handle(e,"jobtype")}
             >
-              <option value="option1"></option>
-              <option value="option2"></option>
-              <option value="option3"></option>
+              <option >Remote</option>
+              <option >Hybrid</option>
+              <option >On-Premise</option>
             </Select>
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="city" mt="3" className="text-lg font-medium text-black-800">City</FormLabel>
+            <FormLabel htmlFor="location" mt="3" className="text-lg font-medium text-black-800">location</FormLabel>
             <Input
               type="text"
-              id="city"
+              id="location"
               mt="2"
               bg="zinc.100"
               h="40px"
@@ -104,10 +116,12 @@ const JobBasics = () => {
               border="2px"
               borderColor="black"
               maxW="full"
+              value={jobPost.location} // Set value to jobPost.city
+              onChange={(e)=>handle(e,"location")} // Handle change and update jobPost.city
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="address" mt="3" className="text-lg font-medium text-black-800">Address</FormLabel>
+            <FormLabel htmlFor="position" mt="3" className="text-lg font-medium text-black-800">Job Position</FormLabel>
             <Input
               type="text"
               id="address"
@@ -118,6 +132,8 @@ const JobBasics = () => {
               border="2px"
               borderColor="black"
               maxW="full"
+              value={jobPost.position}
+              onChange={(e)=>setJobPost({...jobPost,position:e.target.value})}
             />
           </FormControl>
         </Box>
@@ -131,7 +147,7 @@ const JobBasics = () => {
           <Link to="/job-post">
             <Button
               className="order-last px-6 py-2 mt-4 ml-10 mr-10 md:ml-10 mr-10 w-28 md:w-30 text-lg md:text-lg text-black whitespace-nowrap bg-blue-500 rounded-xl md:rounded-3xl"
-              onClick={handleCreate}
+              onClick={handle}
             >
               Continue
             </Button>
@@ -151,7 +167,7 @@ const JobBasics = () => {
               Cancel
             </Button>
             <Link to="/jobs">
-              <Button colorScheme="red" onClick={handleCreate}>
+              <Button colorScheme="red" onClick={handle}>
                 Go Back
               </Button>
             </Link>

@@ -9,6 +9,7 @@ function Job() {
   const {theme} = useTheme();
   const [searchLocation, setSearchLocation] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [JobPosting,setJobPosting]=useState([])
  
 
   const onChangeLocationHandler = (e) => {

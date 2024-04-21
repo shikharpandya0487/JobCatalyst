@@ -18,7 +18,6 @@ const jobSchema=new mongoose.Schema({
     },
     tag:{
         type:String,
-        required:true,
     },
     position:{
         type:String ,
@@ -35,6 +34,12 @@ const jobSchema=new mongoose.Schema({
     jobtype:{
         type:String,
         required:true,
+    },
+    numberOfEmployee:{
+        type:String
+    },
+    experience:{
+        type:String
     }
 })
 module.exports = mongoose.model("Jobs", jobSchema);

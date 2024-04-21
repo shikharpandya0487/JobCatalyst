@@ -59,7 +59,7 @@ const AddPost = () => {
       });
   };
 
-  console.log(theme,setJobtype(null))
+  console.log(theme)
 
   return (
     <Box

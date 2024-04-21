@@ -23,7 +23,7 @@ const ContactInfo = () => {
   })
   const [deleteName,setDeleteName]=useState("")
   const { user} = ChatState();
- console.log("contact info log ",user);
+
   const handleSave = async () => {
     try {
       const config = {
@@ -170,9 +170,10 @@ const ContactInfo = () => {
         }
       }
       accessLinks()
-    },[user]
+      
+    },[]
   )
-console.log(gitId,linkedInId,googleDriveId);
+
   return (
     <div
       style={{

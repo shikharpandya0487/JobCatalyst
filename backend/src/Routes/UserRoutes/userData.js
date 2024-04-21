@@ -5,7 +5,7 @@ const authmiddleware = require("../../middlewares/checkAuth/authMiddleware.js");
 const userController=require('../../controllers/Users/SearchUserController.js');
 const {addLinkController,deleteLinkController,acceessLinkController} = require('../../controllers/Users/linkController.js');
 const { addSkillController, editingSkillController, deleteSkillController, accessSkillsController } = require('../../controllers/Users/skillController.js');
-
+ 
 router.get('/profile/:id', profileController);
 
 router.route("/").get(authmiddleware,userController)

@@ -22,21 +22,20 @@ exports.createJob = async (req, res) => {
 		// Get all required fields from request body
 		const {
             title,
-            postedby,
             description,
             tag,
             position,
             salary,
             location,
-            jobtype
+            jobtype,
+			experience,
+			numberOfEmployee
 		} = req.body;
 
 		// Check if any of the required fields are missing
 		if (
 			!title ||
-			!postedby ||
 			!description ||
-			!tag ||
 			!position ||
 			!salary||
             !location||
@@ -47,7 +46,13 @@ exports.createJob = async (req, res) => {
 				message: "All Fields are Mandatory",
 			});
 		}
-
+		const user=req.user 
+		if(!user.isAdmin)
+		{
+			res.status("Access not allowed")
+		}
+		const postedby=user.username
+		
 		// Create a new job post with the given details
 		const newJob = await Jobs.create({
 			title,
@@ -58,6 +63,8 @@ exports.createJob = async (req, res) => {
 			salary,
 			location,
 			jobtype,
+			experience,
+			numberOfEmployee
 		});
 		res.status(200).json({
 			success: true,
