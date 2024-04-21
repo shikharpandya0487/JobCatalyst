@@ -12,15 +12,15 @@ const ChatProvider=({ children }) =>{
   
   const navigate=useNavigate()
 
-   useEffect(()=>{
-    const userInfo=JSON.parse(localStorage.getItem("user"))
-    console.log(user)
-    setUser(userInfo)
-
-    if(!userInfo) navigate('/');
-
-
-    },[])
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("user"));
+    setUser(userInfo);
+  
+    if (!userInfo) {
+      navigate("/");
+    }
+  }, [navigate, user]);
+  
 
   return (
     <ChatContext.Provider value={{user,setUser,selectedChat,setSelectedChat,notification,setNotification,chats,setChats}}>

@@ -172,7 +172,7 @@ const ContactInfo = () => {
       accessLinks()
     },[user]
   )
-
+console.log(gitId,linkedInId,googleDriveId);
   return (
     <div
       style={{
