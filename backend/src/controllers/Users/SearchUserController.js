@@ -1,4 +1,4 @@
-const User=require('../../models/user/User.js')
+const {User}=require('../../models/user/User.js')
 
 // i means case sensitive
 const allUsers=async (req,res)=>{

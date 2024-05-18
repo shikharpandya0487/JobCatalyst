@@ -3,7 +3,7 @@ const jobSchema=new mongoose.Schema({
     title:{
         type: String,
         required:true,
-    },
+    }, 
     postedby:{
         type:String,
         required:true,

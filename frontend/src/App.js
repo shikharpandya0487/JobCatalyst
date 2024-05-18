@@ -24,7 +24,7 @@ import Chats from './components/Chats-ChatsHome/Chats.js';
 
 
 function App() {
-  axios.defaults.baseURL = 'https://jobcatalyst.onrender.com';
+  axios.defaults.baseURL = 'http://localhost:5000';
   axios.defaults.withCredentials = true;
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoPersonCircleSharp } from 'react-icons/io5';
 import { Button } from '@chakra-ui/react';
 import ApplyJob from '../../pages/Job-Related-Pages/ApplyJob';
@@ -29,7 +29,8 @@ const CompanyPost = ({
   tag,
   image,
   posted,
-  id,
+  jobpostId,
+  value
 }) => {
   const [expanded, setExpanded] = useState(false);
   const toggle = () => {
@@ -38,6 +39,21 @@ const CompanyPost = ({
 
   const [isOpen, setIsOpen] = useState(false);
 
+  // Function to set inner HTML of description paragraph
+  const setText = () => {
+    const p = document.getElementById(value);
+
+    if (p) {
+      // Set inner HTML content
+      p.innerHTML=description
+    }
+  };
+
+ 
+  useEffect(() => {
+    setText();
+  }, []);
+
   return (
     <div className='bg-slate-200  w-3/4 p-2 rounded-lg'>
       <div className='flex gap-1 items-center w-full h-15'>
@@ -45,6 +61,9 @@ const CompanyPost = ({
           <IoPersonCircleSharp className='w-14 h-14 flex justify-center items-center' />
           <div>
             <p className='text-slate-700 text-sm font-light'>{posted}</p>
+          </div>
+          <div className='text-xl font-light font-italic'>
+            Position {position}
           </div>
         </div>
 
@@ -56,28 +75,23 @@ const CompanyPost = ({
               )}
             </h1>
           </div>
+          <div>
+            Location : {location}
+          </div>
         </div>
       </div>
-      <div className='flex justify-center items-center'>
-        {image && <MediaDisplay url={image} />}
-      </div>
+      <div className='flex justify-center items-center'>{image && <MediaDisplay url={image} />}</div>
       <div className='mb-4'>
         <h4 className='text-lg font-medium'>Description: </h4>
-        <p className='text-gray-700'>
-          {expanded ? description : description.slice(0, 250) + '...'}
-          {expanded && description.length > 250 && (
-            <span>
-              {' '}
-              Remaining content is here when expanded.
-              <Button variant='link' color='blue.500' onClick={toggle}>
-                Read less
-              </Button>
-            </span>
-          )}
-        </p>
+        <p className='text-gray-700' id={value}></p>
         {!expanded && description.length > 250 && (
           <Button variant='link' color='blue.500' onClick={toggle}>
             Read more
+          </Button>
+        )}
+        {expanded && description.length > 250 && (
+          <Button variant='link' color='blue.500' onClick={toggle}>
+            Read less
           </Button>
         )}
       </div>
@@ -95,7 +109,7 @@ const CompanyPost = ({
             <Button colorScheme='blue' onClick={() => setIsOpen(true)}>
               Apply For Job
             </Button>
-            {isOpen ? <ApplyJob isOpen={isOpen} setIsOpen={setIsOpen} /> : null}
+            {isOpen ? <ApplyJob isOpen={isOpen} setIsOpen={setIsOpen} jobpostId={jobpostId} /> : null}
           </div>
         </div>
       </div>

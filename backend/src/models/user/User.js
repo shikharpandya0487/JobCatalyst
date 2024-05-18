@@ -1,5 +1,49 @@
 const mongoose = require("mongoose");
 
+const jobApplicationSchema=new mongoose.Schema({
+  name:{
+    type:String 
+  },
+  email:{ 
+    type:String 
+  },
+  address:{
+    type:String  
+  },
+  contactNumber:{
+    type:String 
+  },
+  description:{
+    type:String 
+  },
+  file:{
+    type:String 
+  },
+  status:{
+    type:Boolean,
+    required:true,
+    default:false 
+  },
+  rejected:{
+    type:Boolean,
+    default:false,
+    required:true
+  },
+  jobId:{
+    type:String
+  },
+  employerId:{
+    type:String 
+  },
+  postedby:{
+    type:String
+  },
+  title:{
+    type:String
+  }
+},{timestamps:true})
+
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -34,7 +78,7 @@ const userSchema = new mongoose.Schema({
   },
   pic: {
     type: String,
-    default: "https://icons8.com/icon/20749/male-user"
+    default:"https://icons8.com/icon/9XcGFWDvUMi7/administrator-male"
   },
   github: {
     type: {
@@ -93,13 +137,14 @@ const userSchema = new mongoose.Schema({
             }
         }
     ]
-  }
+  },
+  jobApplications:[jobApplicationSchema]
 }, { timestamps: true });
 
 
 
 
 const User = mongoose.model("User", userSchema);
+const JobApplications=mongoose.model("JobApplications",jobApplicationSchema)
 
-
-module.exports = User;
+module.exports = { User, JobApplications };

@@ -13,7 +13,7 @@ const UserProfileInfo = () => {
   
   const userId=localStorage.getItem('userId')
   // console.log(userId)
-  const profileDataApi = `https://jobcatalyst.onrender.com/api/user/profile/${userId}`;
+  const profileDataApi = `http://localhost:5000/api/user/profile/${userId}`;
 
   const {user}=ChatState()
 
@@ -43,7 +43,7 @@ const UserProfileInfo = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-     const response=await axios.delete(`https://jobcatalyst.onrender.com/api/user/delete-skill/${id}`,config)
+     const response=await axios.delete(`http://localhost:5000/api/user/delete-skill/${id}`,config)
      console.log(response.data.skills)
 
      const skills=response.data.skills.map(skill=>({
@@ -77,7 +77,7 @@ const UserProfileInfo = () => {
         name:newName,
         proficiency:newProficiency
       }
-     const response=await axios.put(`https://jobcatalyst.onrender.com/api/user/edit-skill/${id}`,{
+     const response=await axios.put(`http://localhost:5000/api/user/edit-skill/${id}`,{
       skill:editSkill
      },config)
 
@@ -131,7 +131,7 @@ useEffect(() => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-     const response=await axios.get(`https://jobcatalyst.onrender.com/api/user/get-skills`,config)
+     const response=await axios.get(`http://localhost:5000/api/user/get-skills`,config)
      console.log(response.data)
      const skills = response.data.skills.map(skill => ({
       ...skill,

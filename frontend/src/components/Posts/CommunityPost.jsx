@@ -62,7 +62,7 @@ const likePost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/like-post';
+  const url = 'http://localhost:5000/api/post/like-post';
   const data = { postId: id }
   axios({
     method: 'put',
@@ -84,7 +84,7 @@ const dislikePost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/dislike-post';
+  const url = 'http://localhost:5000/api/post/dislike-post';
   const data = { postId: id }
   axios({
     method: 'put',
@@ -107,7 +107,7 @@ const dislikePost = (id) => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       };
-      const url = 'https://jobcatalyst.onrender.com/api/post/heart-post';
+      const url = 'http://localhost:5000/api/post/heart-post';
       const data = { postId: id }
 
       const response=await axios.put(url,data,headers)
@@ -125,7 +125,7 @@ const dislikePost = (id) => {
        'Content-Type': 'application/json',
        'Authorization': 'Bearer ' + localStorage.getItem('token'),
      };
-     const url = 'https://jobcatalyst.onrender.com/api/post/unheart-post';
+     const url = 'http://localhost:5000/api/post/unheart-post';
      const data = { postId: id }
     const response=await axios.put(url,data,headers)
     console.log(response)
@@ -143,7 +143,7 @@ const congratsPost = async(id) => {
      'Content-Type': 'application/json',
      'Authorization': 'Bearer ' + localStorage.getItem('token'),
    };
-   const url = 'https://jobcatalyst.onrender.com/api/post/cong-post';
+   const url = 'http://localhost:5000/api/post/cong-post';
    const data = { postId: id }
    const response=await axios.put(url,data,headers)
    console.log(response)
@@ -159,7 +159,7 @@ const disCongratsPost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/discong-post';
+  const url = 'http://localhost:5000/api/post/discong-post';
   const data = { postId: id }
   axios({
     method: 'put',
@@ -181,7 +181,7 @@ const handleDelete = async (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = `https://jobcatalyst.onrender.com/api/post/delete-post`;
+  const url = `http://localhost:5000/api/post/delete-post`;
   const data = { postId: id };
       const response = await axios({
           method: 'delete',

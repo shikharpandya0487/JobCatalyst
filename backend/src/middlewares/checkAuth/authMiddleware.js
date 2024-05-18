@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../../models/user/User.js');
+const {User} = require('../../models/user/User.js');
 
 const authmiddleware = async (req, res, next) => {
     try {
@@ -15,15 +15,17 @@ const authmiddleware = async (req, res, next) => {
                 const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
                 // Find the user based on decoded token's ID
                 req.user = await User.findById(decode.id).select('-password');
-                console.log(req.user);
+             
                 // Proceed to the next middleware
                 next();
             } catch (error) {
                 // Token verification failed
-                res.status(401).json({ message: "Not authorized" });
+                console.log(req.user)
+                res.status(401).json({ message: "Not authorized",error:error });
             }
         } else {
             // Authorization header or Bearer token is missing
+           
             res.status(401).json({ message: "Token not present, authorization failed" });
         }
     } catch (error) {

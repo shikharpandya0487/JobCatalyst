@@ -64,7 +64,7 @@ const handleDelete = async (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = `https://jobcatalyst.onrender.com/api/post/delete-post`;
+  const url = `http://localhost:5000/api/post/delete-post`;
   const data = { postId: id };
       const response = await axios({
           method: 'delete',

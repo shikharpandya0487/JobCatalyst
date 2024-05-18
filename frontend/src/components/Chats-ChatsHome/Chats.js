@@ -11,7 +11,7 @@ import { useToast } from '@chakra-ui/react';
 const Chats = () => {
   const [fetchAgain, setFetchAgain] = useState(true);
   const {user}=ChatState()
-  console.log({user});
+
   const { setChats } = ChatState();
   const toast=useToast()
 
@@ -27,7 +27,7 @@ const Chats = () => {
               }
           }
 
-          const {data}=await axios.get("https://jobcatalyst.onrender.com/api/chat",config)
+          const {data}=await axios.get("http://localhost:5000/api/chat",config)
           console.log(data)
           if(!data)
           {

@@ -50,7 +50,7 @@ const likePost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/like-post';
+  const url = 'http://localhost:5000/api/post/like-post';
   const data = { postId: id }
   axios({
     method: 'put',
@@ -72,7 +72,7 @@ const dislikePost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/dislike-post';
+  const url = 'http://localhost:5000/api/post/dislike-post';
   const data = { postId: id }
   axios({
     method: 'put',
@@ -94,7 +94,7 @@ const dislikePost = (id) => {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/heart-post';
+    const url = 'http://localhost:5000/api/post/heart-post';
     const data = { postId: id }
     axios({
       method: 'put',
@@ -116,7 +116,7 @@ const dislikePost = (id) => {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/unheart-post';
+    const url = 'http://localhost:5000/api/post/unheart-post';
     const data = { postId: id }
     axios({
       method: 'put',
@@ -138,7 +138,7 @@ const congratsPost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/cong-post';
+  const url = 'http://localhost:5000/api/post/cong-post';
   const data = { postId: id }
   axios({
     method: 'put',
@@ -160,7 +160,7 @@ const disCongratsPost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/discong-post';
+  const url = 'http://localhost:5000/api/post/discong-post';
   const data = { postId: id }
   axios({
     method: 'put',

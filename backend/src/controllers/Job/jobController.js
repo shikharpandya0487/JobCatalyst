@@ -119,3 +119,33 @@ exports.deleteJobPost = async (req, res) => {
         });
     }
 };
+
+exports.showalldetail = async (req, res) => {
+  try {
+    const allJobs = await Jobs.find({});
+    
+    if (!allJobs || allJobs.length === 0) {
+      return res.status(400).json({ message: "No job posts found" });
+    }
+
+    const allTitles = new Set()
+	const allLocations=new Set()
+	
+	allJobs.forEach(job=>
+		allTitles.add(job.title)
+	)
+
+	allJobs.forEach(job=>
+		allLocations.add(job.location)
+	)
+
+	console.log("locations",allLocations)
+	
+    res.status(200).json({ titles: {allTitles},locations:allLocations});
+  } catch (error) {
+    console.log("Error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+

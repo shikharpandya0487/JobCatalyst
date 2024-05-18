@@ -1,4 +1,4 @@
-const User=require('../../models/user/User.js')
+const {User}=require('../../models/user/User.js')
 const Chat=require('../../models/Chat/chatModal.js')
 
 const accessChats=async (req,res)=>{
@@ -72,7 +72,7 @@ const fetchingChats=async (req,res)=>{
             results=await User.populate(results,
                 {
                     path:"latestMessage.sender",
-                    select:"username pic email"
+                    select:"username pic email" 
                 });
                 // console.log(results);
             return res.status(201).send(results);

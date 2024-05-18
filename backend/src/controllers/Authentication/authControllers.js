@@ -1,5 +1,5 @@
-const User=require("../../models/user/User");
-const OTP=require("../../models/OTP/OTP");
+const {User}=require("../../models/user/User.js");
+const OTP=require("../../models/OTP/OTP.js");
 const otpGenerator=require("otp-generator");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
@@ -104,7 +104,7 @@ exports.signup=async(req,res)=>{
         //return res
         jwt.sign({userId:user._id,username}, jwtSecret, {}, (err, token) => {
             if (err) throw err;
-            res.cookie('token', token, {sameSite:'none', secure:true}).status(201).json({
+            res.status(201).json({
 
               _id: user._id,
               username:user.username,
@@ -136,6 +136,7 @@ exports.signup=async(req,res)=>{
 exports.login=async(req,res)=>{
     try{
         //get data from req body
+   
         const {email,password}=req.body;
         //validation data
         if(!email || !password){
@@ -173,7 +174,7 @@ exports.login=async(req,res)=>{
                 expires: new Date(Date.now() + 3*34+60*60*1000), //this mean 3days after 3 cays cookies will get destroyed
                 httpOnly:true,
             }
-            res.cookie("token",token,options).status(200).json({
+            res.status(200).json({
                 success:true,
                 token,
                 user,

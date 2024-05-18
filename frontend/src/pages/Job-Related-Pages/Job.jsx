@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import data from "../../components/DummyData/Data.json";
 import CompanyPost from "../../components/Company-components/CompanyPost.jsx";
 // import ForCompanies from "../../components/Company-components/ForCompanies.jsx";
 import {useTheme} from "../../Context/ThemeContext";
+import axios from "axios";
+import { ChatState } from "../../UserContext.js";
+import { useToast } from "@chakra-ui/toast";
+import { Spinner } from "@chakra-ui/spinner";
+
 
 function Job() {
   const {theme} = useTheme();
   const [searchLocation, setSearchLocation] = useState("");
   const [searchText, setSearchText] = useState("");
   const [JobPosting,setJobPosting]=useState([])
+  const [filtered,setFiltered]=useState([])
+  const {user}=ChatState()
+  const toast=useToast()
  
 
   const onChangeLocationHandler = (e) => {
@@ -31,18 +39,57 @@ function Job() {
 
 
   const filterSearch = () => {
-    const filteredData = data2.filter((item) => {
+    const filteredData = JobPosting.filter((item) => {
       const locationMatch = item.location
         .toLowerCase()
         .includes(searchLocation.toLowerCase());
       const jobProfileMatch = item.title
         .toLowerCase()
         .includes(searchText.toLowerCase());
-      return locationMatch && jobProfileMatch;
+        if(locationMatch.length===0)
+        {
+          return jobProfileMatch
+        }
+        if(jobProfileMatch.length===0)
+        {
+          return locationMatch
+        }
+      return locationMatch  && jobProfileMatch;
     });
-    return filteredData;
+    setFiltered(filteredData);
+    console.log("searched data",filteredData)
   };
 
+  
+
+  useEffect(()=>{
+    const fetchJobs=async()=>{
+      try {
+        console.log("user token in job section",user.token)
+        const config={
+          headers:{
+              Authorization:`Bearer ${user.token}`
+          }
+      }
+      const response=await axios.get("http://localhost:5000/api/jobs/getAllJobs",config)
+      console.log("All jobs ",response.data.data)
+      setJobPosting(response.data.data)
+  
+        
+      } catch (error) {
+        console.log("Error while fetching jobs",error)
+        toast({
+          title: "Error Occured!",
+          description: "Failed to Load the job posts",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top-center",
+        });
+      }
+    }
+    fetchJobs()
+  },[])
   const data2 = [
     {
       title: "SDE INTERVIEW Experience : Apple",
@@ -129,35 +176,26 @@ function Job() {
           </div> */}
 
           {/* Search Results Dropdown */}
+         
           <div className="dropdown absolute h-fit w-1/5">
-            {Array.isArray(data.people) ? (
-              data.people
-                .filter((item) => {
-                  const searchItems = searchText.toLowerCase();
-                  console.log(searchItems);
-                  const fullname = item.fullName.toLowerCase();
-
-                  // Check if searchItems is empty or fullname starts with searchItems
-                  return (
-                    searchItems !== "" &&
-                    fullname.startsWith(searchItems) &&
-                    fullname !== searchItems
-                  );
-                })
-                .slice(0, 10)
-                .map((item) => (
-                  <div
-                    className="dropdown-row cursor-pointer text-center"
-                    key={item.id}
-                    onClick={() => Search(item.fullName)}
-                  >
-                    {item.fullName}
-                  </div>
-                ))
+            {
+              console.log("Filtered Data",filtered)
+            }
+            {filtered.length > 0 ? (
+              filtered.map((item, idx) => (
+                <div
+                  className="dropdown-row cursor-pointer text-center"
+                  key={idx}
+                  onClick={() => Search(item, item.position)}
+                >
+                  {item.position}
+                </div>
+              ))
             ) : (
-              <div className="error-message">Invalid data format</div>
+              null
             )}
           </div>
+
         </div>
 
    
@@ -294,30 +332,58 @@ function Job() {
               backgroundColor: theme === "dark" ? "#333" : "#fff",
               color: theme === "dark" ? "#fff" : "#333",
             }}
-            >
+            >              
               {
-                data2.map((item, index) => (
-                  <div key={index} className="mb-4"
-                  style={{
-                    backgroundColor: theme === "dark" ? "#333" : "#fff",
-                    color: theme === "dark" ? "#fff" : "#333",
-                  }}
-                  >
-                    <CompanyPost
-                      title={item.title}
-                      company={item.company}
-                      position={item.position}
-                      location={item.location}
-                      jobType={item.jobType}
-                      salary={item.salary}
-                      description={item.description}
-                      tags={item.tags}
-                      image={item.image}
-                      posted={item.posted}
-                    />
-                  </div>
-                ))
+                Array.isArray(JobPosting) ? (
+                 (filtered.length===0)? 
+                 (
+                    JobPosting.map((item, index) => (
+                    <div key={index} className="mb-4">
+                      <CompanyPost
+                        title={item?.title}
+                        company={item?.company}
+                        position={item?.position}
+                        location={item?.location}
+                        jobType={item?.jobtype}
+                        salary={item?.salary}
+                        description={item?.description}
+                        tags={item?.tags}
+                        image={item?.image}
+                        posted={item?.postedby}
+                        value={index+"abc"}
+                        jobpostId={item?._id}
+                      />
+                    </div>
+                  ))
+                 )
+                  :(
+                    filtered.map((item,idx)=>(
+                      <div key={idx+1000} className="mb-4">
+                      <CompanyPost
+                        title={item?.title}
+                        company={item?.company}
+                        position={item?.position}
+                        location={item?.location}
+                        jobType={item?.jobtype}
+                        salary={item?.salary}
+                        description={item?.description}
+                        tags={item?.tags}
+                        image={item?.image}
+                        posted={item?.postedby}
+                        value={idx+"abc"}
+                      />
+                    </div>
+                    ))
+                  )
+                 
+                ) : (
+                 
+                  <Spinner />
+                
+                )
+                      
               }
+
             </div>
           </div>
         </div>

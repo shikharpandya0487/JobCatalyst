@@ -58,7 +58,7 @@ const SideBar = () => {
         },
       };
 
-      const { data } = await axios.get(`https://jobcatalyst.onrender.com/api/user?search=${search}`, config);
+      const { data } = await axios.get(`http://localhost:5000/api/user?search=${search}`, config);
       console.log(data);
       setLoading(false);
       setSearchResult(data);
@@ -87,7 +87,7 @@ const SideBar = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`https://jobcatalyst.onrender.com/api/chat`, { userId }, config);
+      const { data } = await axios.post(`http://localhost:5000/api/chat`, { userId }, config);
       console.log("SIde bar data post ",data);
       //if the chat is present  then just append it
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);

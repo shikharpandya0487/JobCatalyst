@@ -15,7 +15,7 @@ const connectDb = require("./src/database/Connection.js")
 const cookieParser = require("cookie-parser"); 
 const jobRoutes=require("../backend/src/Routes/jobRoutes/jobRoute.js");
 const jobRecordRoutes=require("../backend/src/Routes/jobRecordRoutes/jobRecordRoute.js")
-
+const jobApplyRoute=require("./src/Routes/ApplyJobRoutes/ApplyJobRoute.js")
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -33,6 +33,7 @@ app.use("/api/chat",chatRouter)
 app.use("/api/message",messageRoutes)
 app.use("/api/jobs",jobRoutes);
 app.use("/api/profile/jobrecords",jobRecordRoutes)
+app.use("/api/applyjob",jobApplyRoute) 
 app.use(cors({  
     origin:"http://localhost:3000", 
     methods:"GET,POST,PUT,DELETE",

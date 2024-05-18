@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaLaptopHouse, FaTimes } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import SignupForm from '../Login-Signup/SignupForm';
 import LoginForm from '../Login-Signup/LoginForm';
@@ -10,9 +10,9 @@ function Navbar({isAdmin,setIsAdmin}) {
   const [open, setOpen] = useState(false);
   const [modalShowlogin, setModalShowlogin] = useState(false);
   const [modalShowSignup, setModalShowSignup] = useState(false);
-  const isAuthenticated = localStorage.getItem('token');
+  const isAuthenticated =(localStorage.getItem('token')!==null)?true:false;
   const user=JSON.parse(localStorage.getItem("user"))
-  
+  console.log("Check",isAuthenticated) 
   const admin=(user)?user.isAdmin:false;
 
 

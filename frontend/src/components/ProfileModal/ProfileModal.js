@@ -6,7 +6,7 @@ import React from 'react'
     const ProfileModal = ({user,children}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
    
-    const capitalizedUsername = user.username.charAt(0).toUpperCase() + user.username.slice(1).toLowerCase();
+    const capitalizedUsername = user?.username.charAt(0).toUpperCase() + user?.username.slice(1).toLowerCase();
 
 
   return (

@@ -20,7 +20,7 @@ const CommunityPage = () => {
   //DISPLAYING DATA ON COMMUNITY PAGE 
   useEffect(() => {
       const fetchData = async () => {
-          const url = 'https://jobcatalyst.onrender.com/api/post/get-posts'
+          const url = 'http://localhost:5000/api/post/get-posts'
           try {
               const response = await axios.get(url);
               if (response.data.post) {
@@ -48,7 +48,7 @@ const CommunityPage = () => {
   
 //search product on the basis of title 
 const handleSearch = async () => {
-    const url = `https://jobcatalyst.onrender.com/api/post/search?search=${search}`;
+    const url = `http://localhost:5000/api/post/search?search=${search}`;
     try {
         const response = await axios.get(url);
         console.log(response.data.post);

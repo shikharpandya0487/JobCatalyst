@@ -4,7 +4,7 @@ const { accessChats,fetchingChats ,createGroup, addToTheGroup, removeFromGroup, 
 
 
 const router=express.Router()
-
+  
 router.route('/').post(authmiddleware,accessChats);
 router.route('/').get(authmiddleware,fetchingChats)
 router.route('/group').post(authmiddleware,createGroup)

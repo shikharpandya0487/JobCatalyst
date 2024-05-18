@@ -1,4 +1,4 @@
-const User=require('../../models/user/User.js')
+const {User}=require('../../models/user/User.js')
 
 
 const profile=async(req,res)=>{

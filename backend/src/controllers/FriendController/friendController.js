@@ -1,4 +1,4 @@
-import User from "../../models/user/User"
+import {User} from "../../models/user/User"
 
 const friendReqAcceptController=async (req,res)=>{
    try {

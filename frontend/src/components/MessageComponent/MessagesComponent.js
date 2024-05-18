@@ -10,6 +10,9 @@ const MessagesComponent = ({messages}) => {
     <ScrollableFeed>
         {messages && messages.map((m,idx)=>(
             <div key={m?._id} style={{display:"flex"}}>
+                  {
+                              console.log(m.sender)
+                   }
                 {
                     (isSameSender(messages,m,idx,user?._id)
                     ||
@@ -28,6 +31,7 @@ const MessagesComponent = ({messages}) => {
                             name={m.sender?.username}
                             src={m.sender?.pic}
                             />
+                           
                         </Tooltip>
                     )
 

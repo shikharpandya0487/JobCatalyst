@@ -1,5 +1,5 @@
 const Message=require('../../models/message/messageModal.js')
-const User=require('../../models/user/User.js')
+const {User}=require('../../models/user/User.js')
 const Chat=require('../../models/Chat/chatModal.js')
 
 
