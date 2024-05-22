@@ -52,12 +52,13 @@ exports.createJob = async (req, res) => {
 			res.status("Access not allowed")
 		}
 		const postedby=user.username
-		
+		const employerId=user._id
 		// Create a new job post with the given details
 		const newJob = await Jobs.create({
 			title,
 			postedby,
 			description,
+			employerId,
 			tag,
 			position,
 			salary,

@@ -4,6 +4,10 @@ const jobSchema=new mongoose.Schema({
         type: String,
         required:true,
     }, 
+    employerId:{
+        type:String,
+        required:true
+    },
     postedby:{
         type:String,
         required:true,
@@ -12,7 +16,7 @@ const jobSchema=new mongoose.Schema({
         type: Date,
 		default: Date.now,
     },
-    description: {
+    description: { 
         type:String,
         required:true,
     },

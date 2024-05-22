@@ -35,6 +35,9 @@ const jobApplicationSchema=new mongoose.Schema({
   employerId:{
     type:String 
   },
+  senderId:{
+    type:String
+  },
   postedby:{
     type:String
   },

@@ -21,6 +21,7 @@ import DisplayData from './components/community/DisplayData.jsx'
 import axios from 'axios'
 import ChatProvider  from './UserContext.js';
 import Chats from './components/Chats-ChatsHome/Chats.js';
+import { ThemeProvider } from './Context/ThemeContext.js';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ThemeProvider>
       <ChatProvider>
           <div className="App">
             <Routes>
@@ -52,7 +54,9 @@ function App() {
             </Routes>
         
           </div>
+         
          </ChatProvider>
+         </ThemeProvider>
         </BrowserRouter>
   );
 }

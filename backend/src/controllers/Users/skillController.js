@@ -1,3 +1,5 @@
+const { User } = require("../../models/user/User")
+
 const addSkillController=async(req,res)=>{
     try {
         const user=req.user
@@ -107,9 +109,19 @@ const deleteSkillController = async (req, res) => {
 
 
 const accessSkillsController=async(req,res)=>{
-    try {
-        const user=req.user 
-        const allSkills=user.skills 
+    try{
+        const user=req.user
+        const id=user._id 
+        const user2=await User.findById(id) 
+
+        if(!user2)
+            {
+                console.log("can't get the user")
+                res.status(500).json({message:"Can't find the user"})
+            }
+            const allSkills=user2.skills
+            
+
         if(!allSkills)
         {
             res.status(501).json({

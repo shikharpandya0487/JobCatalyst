@@ -28,7 +28,7 @@ const ChatProvider=({ children }) =>{
     if (!userInfo) {
       navigate("/");
     }
-  }, []);
+  }, [navigate]);
   
 
   return (
