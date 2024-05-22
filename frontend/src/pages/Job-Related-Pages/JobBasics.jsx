@@ -24,7 +24,7 @@ import { ChatState } from '../../UserContext';
 const JobBasics = () => {
   // Retrieve necessary data from context
   const { theme } = useTheme();
-  const { user, jobPost, setJobPost } = ChatState(); // Assuming ChatState returns user, jobPost, and setJobPost
+  const {  jobPost, setJobPost } = ChatState(); // Assuming ChatState returns user, jobPost, and setJobPost
 
   // State to manage modal open/close
   const [isOpen, setIsOpen] = useState(false);

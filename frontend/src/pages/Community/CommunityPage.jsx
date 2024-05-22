@@ -1,102 +1,165 @@
 import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Container,
+  Flex,
+  Heading,
+  Input,
+  Button,
+  Spinner,
+  Text,
+} from '@chakra-ui/react';
 import Navbar from '../../components/Navbar/Navbar';
 import axios from 'axios';
 import moment from 'moment';
 import Stories from '../../components/community/Stories';
 import JobPosting from '../../components/community/JobPosting';
 
-
-
-
 const CommunityPage = () => {
-
   const [data, setData] = useState([]);
-  const [search,setSearch] = useState('');
-  const [stories,setStories] = useState([]);
-  const [refresh,setRefresh] = useState(false);
-  const [isSearch,setIsearch] = useState(false);
-   
+  const [search, setSearch] = useState('');
+  const [stories, setStories] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const [isSearch, setIsearch] = useState(false);
+  const [loadingStories, setLoadingStories] = useState(true);
+  const [loadingPosts, setLoadingPosts] = useState(true);
 
-  //DISPLAYING DATA ON COMMUNITY PAGE 
+  // Displaying data on community page
   useEffect(() => {
-      const fetchData = async () => {
-          const url = 'http://localhost:5000/api/post/get-posts'
-          try {
-              const response = await axios.get(url);
-              if (response.data.post) {
-                  console.log(response.data);
-                  setData(response.data.post);
-                  setStories(response.data.post);
-              }
-          } catch (error) {
-              console.error(error);
-              alert("Server error");
-          }
-      };
-      fetchData();
+    const fetchData = async () => {
+      setLoadingPosts(true);
+      const url = 'http://localhost:5000/api/post/get-posts';
+      try {
+        const response = await axios.get(url);
+        if (response.data.post) {
+          console.log(response.data);
+          setData(response.data.post);
+          setStories(response.data.post);
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Server error');
+      } finally {
+        setLoadingPosts(false);
+        setLoadingStories(false);
+      }
+    };
+    fetchData();
   }, [refresh]);
-  
-  
-  
 
   const handleReaction = () => {
     setRefresh(!refresh);
-    console.log("Reaction button clicked");
+    console.log('Reaction button clicked');
   };
 
-
-  
-//search product on the basis of title 
-const handleSearch = async () => {
+  // Search product on the basis of title
+  const handleSearch = async () => {
+    setLoadingPosts(true);
     const url = `http://localhost:5000/api/post/search?search=${search}`;
     try {
-        const response = await axios.get(url);
-        console.log(response.data.post);
-        
-        if (response.data.post.length !== 0) {
-            setData(response.data.post);
-        } else {
-            alert("No result found");
-        }
-        setSearch('');
-        setIsearch(true);
+      const response = await axios.get(url);
+      console.log(response.data.post);
+
+      if (response.data.post.length !== 0) {
+        setData(response.data.post);
+      } else {
+        alert('No result found');
+      }
+      setSearch('');
+      setIsearch(true);
     } catch (error) {
-        console.error(error);
-        alert("Server error");
+      console.error(error);
+      alert('Server error');
+    } finally {
+      setLoadingPosts(false);
     }
-};
+  };
 
-const closeSearch=()=>{
-  setIsearch(false);
-  setRefresh(!refresh);
-}
-
- 
+  const closeSearch = () => {
+    setIsearch(false);
+    setRefresh(!refresh);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-l from-blue-50 via-white to-blue-50 ">
+    <Box minH="100vh" bgGradient="linear(to-l, blue.50, white, blue.50)">
       <Navbar />
-       {/* search bar */}
-      <div className='flex gap-0 w-full justify-center items-center pt-2 p-2'>
-        <input placeholder='search' className=" bg-slate-100 border-1 border-black p-2 rounded-l-xl opacity-85" value={search} onChange={(e)=>setSearch(e.target.value)}/>
-        <button  className=" flex items-center justify-center bg-blue-400 p-2 rounded-r-xl border-1 border-r-black border-t-black border-b-black hover:bg-blue-100 transition-shadow" onClick={handleSearch}> <img src="Search.png" className='w-1/2' alt="" /></button>
-      </div>
-      {isSearch &&<div> <div>Search results</div> <button onClick={closeSearch}>CLose Search results</button></div>}
+      <Flex justify="evenly" className="w-1/2" align="center" pt={4}>
+        <Input
+          placeholder="search"
+          bg="gray.100"
+          border="1px"
+          borderColor="black"
+          p={2}
+          borderRadius="xl"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <Button
+          onClick={handleSearch}
+          bg="blue.400"
+          borderRadius="xl"
+          ml={2}
+          _hover={{ bg: 'blue.100' }}
+        >
+          Search
+        </Button>
+      </Flex>
+      {isSearch && (
+        <Box textAlign="center" mt={4}>
+          <Text>Search results</Text>
+          <Button onClick={closeSearch}>Close Search results</Button>
+        </Box>
+      )}
+      <Flex pt={6} pl={6} rounded="5xl" className="w-full">
+        <Box
+          bgGradient="linear(to-r, orange.300, white, orange.300)"
+          pt={4}
+          rounded="3xl"
+          px={4}
+          w="25%"
+          pr={4}
+          h="fit-content"
+        >
+          <Box mb={8} textAlign="center">
+            <Heading size="lg" mb={3} textColor="slate.900">
+              Success Stories
+            </Heading>
+            {loadingStories ? (
+              <Spinner size="xl" />
+            ) : (
+              stories
+                .sort((a, b) => b.salary - a.salary)
+                .slice(0, 3)
+                .map((item, index) => (
+                  <Stories
+                    key={index}
+                    title={item.title}
+                    company={item.company}
+                    position={item.position}
+                    location={item.location}
+                    jobType={item.jobtype}
+                    salary={item.salary}
+                    description={item.description}
+                    tags={item.tag}
+                    image={item.imgPath}
+                    posted={moment(item.createdAt).fromNow()}
+                    postedBy={item.postedBy?.username}
+                    id={item._id}
+                    post={item}
+                  />
+                ))
+            )}
+          </Box>
+        </Box>
 
-      
-        {/* <img className="w-[20px] h-[20px] left-[20px] top-[50%] -translate-y-1/2 absolute" src="https://via.placeholder.com/33x35" /> */}
-        {/* <div className="w-[600px] h-[30px] left-[10%] top-[50%] -translate-y-1/2 absolute bg-zinc-100 rounded-xl" /> */}
-        {/* <div className="left-[50%] -translate-x-1/2 top-[50%] -translate-y-1/2 absolute opacity-50 text-black text-[18px] font-normal font-['Inter']">Search Interview Experience</div> */}
-      
-      <div className="flex pt-6 pl-6 rounded-5xl ">
-        <div className="bg-gradient-to-r from-orangeCustom via-white to-orangeCustom pt-4 rounded-3xl px-4 w-1/4 pr-4 h-fit ">
-          <section className="mb-8 flex flex-col justify-center items-center gap-2 p-1">
-            <div className="rounded-2xl p-1 bg-gradient-to-r from-blue-50 via-slate-300 to-blue-50 ">
-              <h2 className="text-3xl text-center font-semibold mb-3 text-slate-900">Success Stories</h2>
-            </div>
-            <div className="flex flex-col ">
-            {stories.sort((a, b) => b.salary - a.salary).slice(0, 3).map((item, index) => (
-                <Stories
+        <Container p={3} flex="2" className="w-fit">
+          <Flex flexDirection="column" alignItems="center" gap={4} className='w-full'>
+            {loadingPosts ? (
+              <Spinner size="xl" />
+            ) : (
+              data.map((item, index) => (
+                <JobPosting
+                  className="w-[800px]"
                   key={index}
                   title={item.title}
                   company={item.company}
@@ -111,42 +174,14 @@ const closeSearch=()=>{
                   postedBy={item.postedBy?.username}
                   id={item._id}
                   post={item}
-                  
+                  onReaction={handleReaction}
                 />
-              ))}
-            </div>
-          </section>
-
-          
-        </div>
-
-
-        <div className="container p-1 " >
-          <div className="flex flex-col items-center justify-evenly gap-2 p-1 rounded-xl">
-            {data.map((item, index) => (
-              <JobPosting
-                key={index}
-                title={item.title}
-                company={item.company}
-                position={item.position}
-                location={item.location}
-                jobType={item.jobtype}
-                salary={item.salary}
-                description={item.description}
-                tags={item.tag}
-                image={item.imgPath}
-                posted={moment(item.createdAt).fromNow()}
-                postedBy={item.postedBy?.username}
-                id={item._id}
-                post={item}
-                onReaction={handleReaction} 
-              />
-            ))}
-
-          </div>
-        </div>
-      </div>
-    </div>
+              ))
+            )}
+          </Flex>
+        </Container>
+      </Flex>
+    </Box>
   );
 };
 

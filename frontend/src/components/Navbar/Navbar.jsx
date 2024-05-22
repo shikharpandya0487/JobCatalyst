@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaBars, FaLaptopHouse, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import SignupForm from '../Login-Signup/SignupForm';
 import LoginForm from '../Login-Signup/LoginForm';

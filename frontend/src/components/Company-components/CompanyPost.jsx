@@ -40,18 +40,19 @@ const CompanyPost = ({
   const [isOpen, setIsOpen] = useState(false);
 
   // Function to set inner HTML of description paragraph
-  const setText = () => {
-    const p = document.getElementById(value);
-
-    if (p) {
-      // Set inner HTML content
-      p.innerHTML=description
-    }
-  };
-
- 
+  
+  
   useEffect(() => {
+    const setText = () => {
+      const p = document.getElementById(value);
+  
+      if (p) {
+        // Set inner HTML content
+        p.innerHTML=description
+      }
+    };
     setText();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

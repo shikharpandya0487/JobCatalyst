@@ -13,9 +13,6 @@ const ContactInfo = () => {
   const [editModeGithub, setEditModeGithub] = useState(false); 
   const [editModeLinkedin, setEditModeLinkedin] = useState(false); 
   const [editModeDiscord, setEditModeDiscord] = useState(false);
-  const [gitId,setGitId]=useState("")
-  const [linkedInId,setlinkInId]=useState("")
-  const [googleDriveId,setGoogleDriveId]=useState("")
   const [linkName,setLinkName]=useState({
     name:"",
     url:"",
@@ -47,19 +44,16 @@ const ContactInfo = () => {
       if(linkName.name==="github")
       {
         setGithub(linkName.url)
-        setGitId(k)
         setEditModeGithub(false);
       }
       else if(linkName.name==="linkedIn")
       {
         setLinkedin(linkName.url)
-        setlinkInId(k)
         setEditModeLinkedin(false)
       }
       else
       {
         setDiscord(linkName.url)
-        setGoogleDriveId(k)
         setEditModeDiscord(false)
       }
         

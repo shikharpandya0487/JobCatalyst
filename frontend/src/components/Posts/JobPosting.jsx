@@ -98,7 +98,7 @@ const handleEdit = async (id)=>{
   const [openComments, setOpenComments] = useState(false)
 
   return (
-    <div className="bg-slate-200  w-3/4 p-2 rounded-lg">
+    <div className="bg-slate-200  w-full p-2 rounded-lg">
       <div className="flex gap-1 items-center w-full h-15">
         {/* <img src={image} alt={company} className="w-12 h-12 mr-4" /> */}
           
@@ -156,37 +156,7 @@ const handleEdit = async (id)=>{
       
        
         {/* reaction icons */}
-<<<<<<< Updated upstream
-        <div className='flex flex-col space-y-[20px] '>
-            {
-              post.likes.find((id)=> id == userId)
-              ?
-              <FaThumbsUp onClick={() => dislikePost(id)}  />
-              :
-              <FaRegThumbsUp onClick={() => likePost(id)} />
-            }
-            <h5>{post.likes.length} Likes</h5>
-
-            {
-              post.heart.find((id)=> id == userId)
-              ?
-              <FaHeart onClick={() => disHeartPost(id)}  />
-              :
-              <CiHeart onClick={() => heartPost(id)} />
-            }
-            <h5>{post.heart.length} Heart</h5>
-            {
-              post.congrats.find((id)=> id == userId)
-              ?
-              <FaHandsClapping onClick={() => disCongratsPost(id)}  />
-              :
-              <PiHandsClapping onClick={() => congratsPost(id)} />
-            }
-            <h5>{post.congrats.length} Congratulation</h5>
-          </div>
-=======
         
->>>>>>> Stashed changes
       
 
       <div className='flex justify-evenly gap-2 items-center p-1 w-full'>

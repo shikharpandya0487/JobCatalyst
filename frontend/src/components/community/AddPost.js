@@ -161,6 +161,18 @@ const AddPost = () => {
             </Box>
             <Box className='w-full p-1'>
               <Text className='text-black text-xl text-center font-light font-serif w-1/4'>
+                Job Type
+              </Text>
+              <Input
+                type='text'
+                className='input-field bg-gray-100 rounded-md p-1 w-3/4 hover:cursor-pointer'
+                placeholder='set job type'
+                value={tag}
+                onChange={(e) => setJobtype(e.target.value)}
+              />
+            </Box>
+            <Box className='w-full p-1'>
+              <Text className='text-black text-xl text-center font-light font-serif w-1/4'>
                 File:
               </Text>
               <Input

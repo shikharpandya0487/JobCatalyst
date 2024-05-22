@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from '../../Context/ThemeContext'; 
 import axios from 'axios';
-import { Input, Spinner, Center, Box } from "@chakra-ui/react";
+import { Input, Spinner, Center } from "@chakra-ui/react";
 import InputDetails from './Helper-Modals/InputDetails.js';
 import SkillItem from "./Helper-Modals/SkillItem.js";
 import { ChatState } from "../../UserContext.js";
