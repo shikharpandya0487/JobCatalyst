@@ -18,7 +18,7 @@ const jobRecordRoutes = require("../backend/src/Routes/jobRecordRoutes/jobRecord
 const jobApplyRoute = require("./src/Routes/ApplyJobRoutes/ApplyJobRoute.js");
 
 app.use(cors({
-  origin: 'https://job-catalyst.vercel.app/',
+  origin: 'https://job-catalyst.vercel.app',
   credentials: true 
 }));
 app.use("/uploads",express.static("uploads"))
@@ -47,7 +47,7 @@ const server = app.listen(PORT, () => {
 const io = require('socket.io')(server, {
   pingTimeout: 50000,
   cors: {
-    origin: 'https://job-catalyst.vercel.app/', // Specify your frontend URL
+    origin: 'https://job-catalyst.vercel.app', // Specify your frontend URL
     methods: ["GET", "POST"],
     credentials: true
   }
