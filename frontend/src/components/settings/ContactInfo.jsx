@@ -40,7 +40,7 @@ const ContactInfo = () => {
       );
 
       console.log("Response from backend:", response.data);
-      const k=response.data.id
+  
       if(linkName.name==="github")
       {
         setGithub(linkName.url)
@@ -164,7 +164,7 @@ const ContactInfo = () => {
         }
       }
       accessLinks()
-      
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]
   )
 

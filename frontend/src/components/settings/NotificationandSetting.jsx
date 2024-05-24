@@ -23,11 +23,13 @@ const NotificationAndSetting = () => {
     };
 
     fetchNotificationPreferences();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     // Save the Changes
     localStorage.setItem('notificationPreferences', JSON.stringify(notificationPreferences));
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationPreferences]);
 
   const handleToggleNotification = (notificationType) => {

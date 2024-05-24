@@ -25,6 +25,7 @@ const PasswordAndSecurity = () => {
       }
     };
     fetchUserSecuritySettings();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   //function for checking password strength
@@ -40,6 +41,7 @@ const PasswordAndSecurity = () => {
   };
   useEffect(() => {
     setPasswordStrength(checkPasswordStrength(password));
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [password]);
   //function which enable to change the users password
   const handleChangePassword = async () => {

@@ -83,6 +83,7 @@ const UserProfileInfo = () => {
         setProfile({ username, email, contact });
       })
       .catch(error => console.log(error));
+       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   useEffect(() => {
@@ -111,6 +112,7 @@ const UserProfileInfo = () => {
     };
 
     accessSkills();
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.token]);
 
 

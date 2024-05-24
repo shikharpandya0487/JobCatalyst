@@ -36,6 +36,7 @@ const Jobapplications = () => {
             }
         };
         fetchJobApp();
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user.token,user.jobApplications]);
 
     const handleReject = (jobId) => {

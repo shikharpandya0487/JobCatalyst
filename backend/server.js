@@ -18,7 +18,7 @@ const jobRecordRoutes = require("../backend/src/Routes/jobRecordRoutes/jobRecord
 const jobApplyRoute = require("./src/Routes/ApplyJobRoutes/ApplyJobRoute.js");
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://shikharpandya0487.github.io/',
   credentials: true 
 }));
 app.use("/uploads",express.static("uploads"))
