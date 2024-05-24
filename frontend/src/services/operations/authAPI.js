@@ -44,7 +44,7 @@ const {
       const toastId = toast.loading("Loading...")
       dispatch(setLoading(true))
       try {
-        const response = await apiConnector("POST", "http://localhost:5000/api/auth/sendotp", {
+        const response = await apiConnector("POST", "https://jobcatalyst.onrender.com/api/auth/sendotp", {
           email,
           checkUserPresent: true,
         })
@@ -82,7 +82,7 @@ const {
       
       dispatch(setLoading(true))
       try {
-        const response = await apiConnector("POST", "http://localhost:5000/api/auth/signup", {
+        const response = await apiConnector("POST", "https://jobcatalyst.onrender.com/api/auth/signup", {
           username,
           email,
           password,
@@ -121,7 +121,7 @@ const {
     return async(dispatch) => {
       dispatch(setLoading(true));
       try{
-        const response = await apiConnector("POST", "http://localhost:5000/api/auth/reset-password-token", {email,})
+        const response = await apiConnector("POST", "https://jobcatalyst.onrender.com/api/auth/reset-password-token", {email,})
   
         console.log("RESET PASSWORD TOKEN RESPONSE....", response);
   
@@ -144,7 +144,7 @@ const {
     return async(dispatch) => {
       dispatch(setLoading(true));
       try{
-        const response = await apiConnector("POST","http://localhost:5000/api/auth/reset-password", {password, confirmPassword, token});
+        const response = await apiConnector("POST","https://jobcatalyst.onrender.com/api/auth/reset-password", {password, confirmPassword, token});
   
         console.log("RESET Password RESPONSE ... ", response);
   

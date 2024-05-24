@@ -67,7 +67,7 @@ const ApplyJob = ({ setIsOpen, isOpen, jobpostId }) => {
         return;
       }
 
-      const response = await axios.post("http://localhost:5000/api/applyjob/applyForJob", formDataToSend, config);
+      const response = await axios.post("https://jobcatalyst.onrender.com/api/applyjob/applyForJob", formDataToSend, config);
       console.log("The job application is sent successfully", response.data);
       setIsOpen(false);
     } catch (error) {

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getComments = async (postId) => {
   try {
-    const url = `http://localhost:5000/api/post/get-comment/${postId}`;
+    const url = `https://jobcatalyst.onrender.com/api/post/get-comment/${postId}`;
     const response = await axios.get(url);
     console.log(response.data);
     return response.data;
@@ -20,7 +20,7 @@ export const createComment = async (text, parentId ,postId) => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '+ localStorage.getItem('token'),
       };
-      const url='http://localhost:5000/api/post/comments';
+      const url='https://jobcatalyst.onrender.com/api/post/comments';
       const response = await axios({
         method: 'POST', 
         url: url,
@@ -44,7 +44,7 @@ export const createComment = async (text, parentId ,postId) => {
         'Authorization': 'Bearer '+ localStorage.getItem('token'),
       };
 
-      const response=await axios.put(`http://localhost:5000/api/post/update-comments/${commendId}`,data,{headers})
+      const response=await axios.put(`https://jobcatalyst.onrender.com/api/post/update-comments/${commendId}`,data,{headers})
         // console.log("Updated comment ",response);
         return response;
     } catch (error) {
@@ -58,7 +58,7 @@ export const createComment = async (text, parentId ,postId) => {
       const headers = {
         'Authorization': 'Bearer '+ localStorage.getItem('token'),
       };
-      const response=await axios.delete(`http://localhost:5000/api/post/delete-comments/${commendId}`,{headers})
+      const response=await axios.delete(`https://jobcatalyst.onrender.com/api/post/delete-comments/${commendId}`,{headers})
       
       console.log("Deleted comment",response);
       
@@ -80,7 +80,7 @@ export const createComment = async (text, parentId ,postId) => {
         'Authorization': 'Bearer '+ localStorage.getItem('token'),
       };
       
-      const response=await axios.post(`http://localhost:5000/api/post/comments`,data,headers)
+      const response=await axios.post(`https://jobcatalyst.onrender.com/api/post/comments`,data,headers)
       console.log("reply ",response)
 
       return response;

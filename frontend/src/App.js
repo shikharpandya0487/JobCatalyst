@@ -25,7 +25,7 @@ import { ThemeProvider } from './Context/ThemeContext.js';
 
 
 function App() {
-  axios.defaults.baseURL = 'http://localhost:5000';
+  axios.defaults.baseURL = 'https://jobcatalyst.onrender.com';
   axios.defaults.withCredentials = true;
 
   return (

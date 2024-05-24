@@ -42,7 +42,7 @@ const LoginForm = (props) => {
     try {
       e.preventDefault();
       console.log("Console from loginForm ",userInfo)
-      const response = await axios.post('http://localhost:5000/api/auth/login', userInfo);
+      const response = await axios.post('https://jobcatalyst.onrender.com/api/auth/login', userInfo);
       console.log(response);
       if (response.data.success) {
         // Handle successful login
