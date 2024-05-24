@@ -32,7 +32,7 @@ exports.resetPasswordToken=async(req,res)=>{
     // in the updatedDetails variable
 
     //create the url
-    const url=`https://job-catalyst-51pmb4e0r-shikharpandya0487s-projects.vercel.app//update-password/${token}`
+    const url=`https://job-catalyst.vercel.app//update-password/${token}`
     //frontend url 
 
     //send mail containing the url
