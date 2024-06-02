@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
-  Container,
   Flex,
   Heading,
   Input,
@@ -20,15 +19,15 @@ const CommunityPage = () => {
   const [search, setSearch] = useState('');
   const [stories, setStories] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const [isSearch, setIsearch] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
   const [loadingStories, setLoadingStories] = useState(true);
   const [loadingPosts, setLoadingPosts] = useState(true);
 
-  // Displaying data on community page
+  // Fetching data on community page load
   useEffect(() => {
     const fetchData = async () => {
       setLoadingPosts(true);
-      const url = 'https://jobcatalyst.onrender.com/api/post/get-posts';
+      const url = 'http://localhost:5000/api/post/get-posts';
       try {
         const response = await axios.get(url);
         if (response.data.post) {
@@ -52,10 +51,10 @@ const CommunityPage = () => {
     console.log('Reaction button clicked');
   };
 
-  // Search product on the basis of title
+  // Search for posts based on title
   const handleSearch = async () => {
     setLoadingPosts(true);
-    const url = `https://jobcatalyst.onrender.com/api/post/search?search=${search}`;
+    const url = `http://localhost:5000/api/post/search?search=${search}`;
     try {
       const response = await axios.get(url);
       console.log(response.data.post);
@@ -66,7 +65,7 @@ const CommunityPage = () => {
         alert('No result found');
       }
       setSearch('');
-      setIsearch(true);
+      setIsSearch(true);
     } catch (error) {
       console.error(error);
       alert('Server error');
@@ -76,16 +75,16 @@ const CommunityPage = () => {
   };
 
   const closeSearch = () => {
-    setIsearch(false);
+    setIsSearch(false);
     setRefresh(!refresh);
   };
 
   return (
     <Box minH="100vh" bgGradient="linear(to-l, blue.50, white, blue.50)">
       <Navbar />
-      <Flex justify="evenly" className="w-1/2" align="center" pt={4}>
+      <Flex justify="center" align="center" pt={4}>
         <Input
-          placeholder="search"
+          placeholder="Search"
           bg="gray.100"
           border="1px"
           borderColor="black"
@@ -93,6 +92,7 @@ const CommunityPage = () => {
           borderRadius="xl"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          width="30%" // Adjust width of the input field as needed
         />
         <Button
           onClick={handleSearch}
@@ -110,17 +110,18 @@ const CommunityPage = () => {
           <Button onClick={closeSearch}>Close Search results</Button>
         </Box>
       )}
-      <Flex pt={6} pl={6} rounded="5xl" className="w-full">
+      <Flex pt={6} pl={6} rounded="5xl" flexDirection={{ base: 'column', md: 'row' }} className='gap-2 w-screen'>
         <Box
           bgGradient="linear(to-r, orange.300, white, orange.300)"
           pt={4}
           rounded="3xl"
           px={4}
-          w="25%"
+          className='w-1/4'
           pr={4}
           h="fit-content"
+          mb={{ base: 6, md: 0 }}
         >
-          <Box mb={8} textAlign="center">
+          <Box mb={8} textAlign="center" className='w-full'>
             <Heading size="lg" mb={3} textColor="slate.900">
               Success Stories
             </Heading>
@@ -152,14 +153,13 @@ const CommunityPage = () => {
           </Box>
         </Box>
 
-        <Container p={3} flex="2" className="w-fit">
-          <Flex flexDirection="column" alignItems="center" gap={4} className='w-full'>
+        
+          <Box className='w-3/4 flex gap-2 p-1 flex-col justify-start items-start'>
             {loadingPosts ? (
               <Spinner size="xl" />
             ) : (
               data.map((item, index) => (
                 <JobPosting
-                  className="w-[800px]"
                   key={index}
                   title={item.title}
                   company={item.company}
@@ -175,11 +175,12 @@ const CommunityPage = () => {
                   id={item._id}
                   post={item}
                   onReaction={handleReaction}
+                  className="w-full"
                 />
               ))
             )}
-          </Flex>
-        </Container>
+          </Box>
+       
       </Flex>
     </Box>
   );

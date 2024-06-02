@@ -62,7 +62,7 @@ function Job() {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        const response = await axios.get("https://jobcatalyst.onrender.com/api/jobs/getAllJobs", config);
+        const response = await axios.get("http://localhost:5000/api/jobs/getAllJobs", config);
         console.log("All jobs ", response.data.data);
         setJobPosting(response.data.data);
         setLoading(false);

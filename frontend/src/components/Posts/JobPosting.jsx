@@ -3,12 +3,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
-import { FaRegThumbsUp } from "react-icons/fa";
-import { FaThumbsUp } from "react-icons/fa";
-import { CiHeart } from "react-icons/ci";
-import { FaHeart } from "react-icons/fa";
-import { FaHandsClapping } from "react-icons/fa6";
-import { PiHandsClapping } from "react-icons/pi";
+// import { FaRegThumbsUp } from "react-icons/fa";
+// import { FaThumbsUp } from "react-icons/fa";
+// import { CiHeart } from "react-icons/ci";
+// import { FaHeart } from "react-icons/fa";
+// import { FaHandsClapping } from "react-icons/fa6";
+// import { PiHandsClapping } from "react-icons/pi";
 import { FaEdit } from "react-icons/fa";
 import Comments2 from '../Comments/Comments2'
 import AddPost from '../community/AddPost'
@@ -31,18 +31,14 @@ const MediaDisplay = ({ url }) => {
 
 const JobPosting = ({
   title,
-  company,
-  position,
-  location,
-  jobType,
-  salary,
+  
   description,
   tags,
   image,
   posted,
   postedBy,
   id,
-  post
+
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -64,7 +60,7 @@ const handleDelete = async (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = `https://jobcatalyst.onrender.com/api/post/delete-post`;
+  const url = `http://localhost:5000/api/post/delete-post`;
   const data = { postId: id };
       const response = await axios({
           method: 'delete',
@@ -128,10 +124,9 @@ const handleEdit = async (id)=>{
       <div className="mb-4">
         <h4 className="text-lg font-medium">Description: </h4>
         <p className="text-gray-700">
-          {expanded ? description : description.slice(0, 250) + '...'}
+          {expanded ? description : description.slice(0, 40) + '...'}
           {expanded && description.length > 200 && (
             <span>
-        
               Remaining content is here when expanded.
               <div className="text-blue-500" onClick={toggle}>
                 Read less
@@ -174,9 +169,8 @@ const handleEdit = async (id)=>{
         <div className='w-fit flex flex-col items-center justify-center p-1 cursor-pointer'>
           <div className="like flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2"  >
             <img className='rounded-full' src="FacebookLike.png" alt="Placeholder" />
-          
           </div>
-          <div className='text-center w-fit'>
+          <div className='text-center w-fit cursor-pointer '>
             Like
           </div>
         </div>

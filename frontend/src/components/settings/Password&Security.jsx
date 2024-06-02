@@ -51,7 +51,7 @@ const PasswordAndSecurity = () => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '+ localStorage.getItem('token'),
       };
-      const url='https://jobcatalyst.onrender.com/api/auth/changepassword';
+      const url='http://localhost:5000/api/auth/changepassword';
       const response = await axios({
         method: 'POST', 
         url: url,

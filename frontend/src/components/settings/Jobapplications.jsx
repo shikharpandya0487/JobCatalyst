@@ -26,7 +26,7 @@ const Jobapplications = () => {
                         Authorization: `Bearer ${user.token}`,
                     },
                 };
-                const response = await axios.get("https://jobcatalyst.onrender.com/api/applyjob/getAppliedJobs", config);
+                const response = await axios.get("http://localhost:5000/api/applyjob/getAppliedJobs", config);
                 setJobapplications(response.data.jobApplications);
                 console.log("Response from job Applications", response.data.jobApplications);
             } catch (error) {
@@ -59,7 +59,7 @@ const Jobapplications = () => {
             const data={
                 applicationId:selectedJobId
             }
-            const response=await axios.post("https://jobcatalyst.onrender.com/api/applyjob/acceptJob",data,config)
+            const response=await axios.post("http://localhost:5000/api/applyjob/acceptJob",data,config)
 
             console.log(response.data)
 
@@ -76,7 +76,7 @@ const Jobapplications = () => {
                     Authorization: `Bearer ${user.token}`,
                 },
             };
-            const response = await axios.delete(`https://jobcatalyst.onrender.com/api/applyjob/cancelJobApplication/${selectedJobId}`, config);
+            const response = await axios.delete(`http://localhost:5000/api/applyjob/cancelJobApplication/${selectedJobId}`, config);
             setJobapplications((prev) => prev.filter(job => job._id !== selectedJobId));
             console.log("Response after rejecting the job", response);
         } catch (error) {
@@ -88,7 +88,7 @@ const Jobapplications = () => {
     };
 
     const handlePdf=(pdf)=>{
-        window.open(`https://jobcatalyst.onrender.com/uploads/${pdf}`)
+        window.open(`http://localhost:5000/uploads/${pdf}`)
     }
 
 

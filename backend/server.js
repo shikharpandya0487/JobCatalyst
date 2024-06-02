@@ -16,9 +16,10 @@ const cookieParser = require("cookie-parser");
 const jobRoutes = require("../backend/src/Routes/jobRoutes/jobRoute.js");
 const jobRecordRoutes = require("../backend/src/Routes/jobRecordRoutes/jobRecordRoute.js");
 const jobApplyRoute = require("./src/Routes/ApplyJobRoutes/ApplyJobRoute.js");
+const SearchPeopleRoutes=require('./src/Routes/SearchPeople/SearchPeopleRoutes.js')
 
 app.use(cors({
-  origin: 'https://job-catalyst.vercel.app',
+  origin: 'http://localhost:3000',
   credentials: true 
 }));
 app.use("/uploads",express.static("uploads"))
@@ -36,6 +37,7 @@ app.use("/api/message", messageRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/profile/jobrecords", jobRecordRoutes);
 app.use("/api/applyjob", jobApplyRoute);
+app.use("/api/people",SearchPeopleRoutes)
 
 const PORT = process.env.PORT;
 connectDb();
@@ -47,7 +49,7 @@ const server = app.listen(PORT, () => {
 const io = require('socket.io')(server, {
   pingTimeout: 50000,
   cors: {
-    origin: 'https://job-catalyst.vercel.app', // Specify your frontend URL
+    origin: 'http://localhost:3000', // Specify your frontend URL
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -84,7 +86,7 @@ io.on("connection", (socket) => {
   socket.on("typing", (user) => socket.in(user).emit("Typing"));
   socket.on("stop typing", (room) => socket.in(room).emit("Stop typing"));
 
-  socket.off("setup", () => {
+  socket.off("setup", (userData) => {
     console.log("USER DISCONNECTED");
     socket.leave(userData._id);
   });

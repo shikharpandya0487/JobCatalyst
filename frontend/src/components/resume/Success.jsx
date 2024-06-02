@@ -11,7 +11,7 @@ const Success = () => {
   useEffect(() => {
     const fetchData = async () => {
       let userId = localStorage.getItem("userId");
-      const url = `https://jobcatalyst.onrender.com/api/resume/get-resume/${userId}`;
+      const url = `http://localhost:5000/api/resume/get-resume/${userId}`;
       try {
         const response = await axios.get(url);
         if (response.data) {

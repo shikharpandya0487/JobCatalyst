@@ -50,7 +50,7 @@ const likePost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/like-post';
+  const url = 'http://localhost:5000/api/post/like-post';
   const data = { postId: id }
   axios({
     method: 'put',
@@ -72,7 +72,7 @@ const dislikePost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/dislike-post';
+  const url = 'http://localhost:5000/api/post/dislike-post';
   const data = { postId: id }
   axios({
     method: 'put',
@@ -94,7 +94,7 @@ const dislikePost = (id) => {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/heart-post';
+    const url = 'http://localhost:5000/api/post/heart-post';
     const data = { postId: id }
     axios({
       method: 'put',
@@ -116,7 +116,7 @@ const dislikePost = (id) => {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/unheart-post';
+    const url = 'http://localhost:5000/api/post/unheart-post';
     const data = { postId: id }
     axios({
       method: 'put',
@@ -138,7 +138,7 @@ const congratsPost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/cong-post';
+  const url = 'http://localhost:5000/api/post/cong-post';
   const data = { postId: id }
   axios({
     method: 'put',
@@ -160,7 +160,7 @@ const disCongratsPost = (id) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
   };
-  const url = 'https://jobcatalyst.onrender.com/api/post/discong-post';
+  const url = 'http://localhost:5000/api/post/discong-post';
   const data = { postId: id }
   axios({
     method: 'put',
@@ -230,7 +230,7 @@ const disCongratsPost = (id) => {
         )} */}
         {description}
         <br/>
-          <span className="bg-gray-200 px-2 py-1 mr-6 rounded-xl w-20 text-2xl cursor-pointer text-center text-blue-600 ">
+          <span className="bg-gray-200 px-2 py-1 mr-6 rounded-xl w-20 text-2xl cursor-pointer text-center text-blue-600  hover:text-red-600">
             #{tags}
           </span>
     
@@ -242,66 +242,52 @@ const disCongratsPost = (id) => {
         
           {/* reaction icons */}
           
-          <div className='flex flex-col space-y-[20px] '>
-            {
-              post.likes.find((id)=> id === userId)
-              ?
-              <FaThumbsUp onClick={() => dislikePost(id)}  />
-              :
-              <FaRegThumbsUp onClick={() => likePost(id)} />
-            }
-            <h5>{post.likes.length} Likes</h5>
+          <div className='flex justify-evenly items-center w-3/4 gap-1 '>
 
-            {
-              post.heart.find((id)=> id === userId)
-              ?
-              <FaHeart onClick={() => disHeartPost(id)}  />
-              :
-              <CiHeart onClick={() => heartPost(id)} />
-            }
-            <h5>{post.heart.length} Heart</h5>
+
+          <div className='flex flex-col w-fit p-1 items-center justify-center gap-1'>
+                {
+                  post.likes.find((id)=> id === userId)
+                  ?
+                  <FaThumbsUp className='cursor-pointer' onClick={() => dislikePost(id)}  />
+                  :
+                  <FaRegThumbsUp className='cursor-pointer' onClick={() => likePost(id)} />
+                }
+                <div>
+                  <h5>{post.likes.length} Likes</h5>
+                </div>
+          </div>
+
+          <div className='flex flex-col w-fit p-1 items-center justify-center gap-1'>
+                {
+                  post.heart.find((id)=> id === userId)
+                  ?
+                  <FaHeart className='cursor-pointer' onClick={() => disHeartPost(id)}  />
+                  :
+                  <CiHeart className='cursor-pointer' onClick={() => heartPost(id)} />
+                }
+                <div>
+                  <h5>{post.heart.length} Loves </h5>
+                </div>
+          </div>
+
+          <div className='flex flex-col w-fit p-1 items-center justify-center gap-1'>
             {
               post.congrats.find((id)=> id === userId)
               ?
-              <FaHandsClapping onClick={() => disCongratsPost(id)}  />
+              <FaHandsClapping className='cursor-pointer' onClick={() => disCongratsPost(id)}  />
               :
-              <PiHandsClapping onClick={() => congratsPost(id)} />
+              <PiHandsClapping className='cursor-pointer' onClick={() => congratsPost(id)} />
             }
-            <h5>{post.congrats.length} Congratulation</h5>
+
+            <div>
+               <h5>{post.congrats.length} Congrats</h5>
+            </div>
+          </div>
+            
           </div>         
 
-        <div className='flex justify-evenly gap-2 items-center p-1 w-full'>
-
-          <div className='w-fit flex flex-col items-center justify-center p-1'>
-            <div className="comment flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2 cursor-pointer" onClick={() => setOpenComments((open) => !open)}>
-              <img className='rounded-full' src="Chat.png" alt="Placeholder" />
-            </div>
-            <div className='text-center w-fit'>
-              Comment
-            </div>
-          </div>
-          
-          
-          <div className='w-fit flex flex-col items-center justify-center p-1 cursor-pointer'>
-            <div className="like flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2"  >
-              <img className='rounded-full' src="FacebookLike.png" alt="Placeholder" />
-            
-            </div>
-            <div className='text-center w-fit'>
-              Like
-            </div>
-          </div>
-
-          <div className='w-fit flex flex-col items-center justify-center p-1 cursor-pointer'>
-            <div className="share flex justify-center items-center rounded-full w-12 h-12 bg-slate-400 p-2">
-              <img className='rounded-full' src="ForwardArrow.png" alt="Placeholder" />
-            </div>
-            <div className='text-center w-fit'>
-              Share
-            </div>
-          </div>
-
-        </div>
+     
   
         {/* addcomment */}
         <div className='flex w-full rounded-md flex-col p-2 justify-start items-start min-h-fit gap-2'>

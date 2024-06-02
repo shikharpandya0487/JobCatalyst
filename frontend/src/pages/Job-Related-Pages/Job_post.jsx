@@ -59,7 +59,7 @@ const Job_post = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };                            
-      const response=await axios.post("https://jobcatalyst.onrender.com/api/jobs/createJobPost",jobPost,config)
+      const response=await axios.post("http://localhost:5000/api/jobs/createJobPost",jobPost,config)
       console.log(response.data)
       setJobPost({location:"",description:"",jobtype:"",numberOfEmployee:"",experience:"",salary:"",position:""})
       navigate("/jobs")

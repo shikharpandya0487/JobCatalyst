@@ -18,6 +18,7 @@ import VerifyEmail from './pages/PasswordChanges/VerifyEmail.jsx';
 import ForgotPassword from './pages/PasswordChanges/ForgotPassword.jsx';
 import UpdatePassword from './pages/PasswordChanges/UpdatePassword.jsx';
 import DisplayData from './components/community/DisplayData.jsx'
+import SearchPeople from './pages/SearchPeople/searchPeople.jsx';
 import axios from 'axios'
 import ChatProvider  from './UserContext.js';
 import Chats from './components/Chats-ChatsHome/Chats.js';
@@ -25,7 +26,7 @@ import { ThemeProvider } from './Context/ThemeContext.js';
 
 
 function App() {
-  axios.defaults.baseURL = 'https://jobcatalyst.onrender.com';
+  axios.defaults.baseURL = 'http://localhost:5000';
   axios.defaults.withCredentials = true;
 
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/community" element={<CommunityPage/>}/>
             <Route path="/jobs" element={<Job/>}/>
             <Route path="/profile" element={<UserPage/>}/>
+            <Route path="/people" element={<SearchPeople/>}/>
             <Route path="/add-post" element={<AddPost/>}/>
             <Route path="/edit-post/:id" element={<EditPost />} />
             <Route path="/companies" element={<CompanyPage/>}/>
@@ -48,7 +50,7 @@ function App() {
             <Route path="/verify-email" element={<VerifyEmail/>}></Route>
             <Route path="/forgot-password" element={<ForgotPassword/>}></Route>
             <Route path="/display-data/:id" element={<DisplayData/>}></Route>
-            <Route path="update-password/:id" element={<UpdatePassword/>}></Route>
+            <Route path="/update-password/:id" element={<UpdatePassword/>}></Route>
             <Route path='/chats' element={<Chats/>} />
             <Route path='/post' element={<displayPost/>} />
             </Routes>

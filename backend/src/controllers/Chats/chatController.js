@@ -110,11 +110,17 @@ const createGroup=async (req,res)=>{
                 isGroupChat:true,
                 groupAdmin:req.user 
             });
-
-            const fullGrpChat=await Chat.findOne({_id:groupChat.id})
+            if(!groupChat)
+                {
+                    res.status(404).json({message:"Not able to form a group Chat try again"})
+                }
+            const fullGrpChat=await Chat.findOne({_id:groupChat._id})
             .populate("users","-password")
             .populate("groupAdmin","-password")
-
+            if(!fullGrpChat)
+                {
+                    res.status(404).json({message:"Not able to populate the fields for a grp chat"})
+                }
             res.status(200).json(fullGrpChat)
 
 

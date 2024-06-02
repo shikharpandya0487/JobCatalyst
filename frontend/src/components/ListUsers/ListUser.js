@@ -2,11 +2,10 @@ import React from 'react'
 import { Avatar } from "@chakra-ui/avatar";
 import { Box, Text } from "@chakra-ui/layout";
 
-//passing the function to be performed / used
+
 
 const ListUser = ({user,handleFunction}) => {
-  //  console.log(handleFunction);
-  //  console.log(user?.usename,user?.name)
+
   return (
     <Box
     onClick={handleFunction}
