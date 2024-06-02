@@ -21,19 +21,19 @@ const Comment = ({id,postId,comment,replies,currentUserId,deleteComment,activeCo
    const currentTime = new Date();
    const timePassed = ((currentTime-commentCreationTime)>t)?true:false
   
-   const canEdit = ((currentUserId === comment.user._id) && timePassed)|| parentId!==null;
-   const canDelete = ((currentUserId === comment.user._id) && timePassed) || parentId!==null;
+   const canEdit = ((currentUserId === comment.user?._id) && timePassed)|| parentId!==null;
+   const canDelete = ((currentUserId === comment.user?._id) && timePassed) || parentId!==null;
    console.log("rep ",replies);
 
   //  console.log("Time ",timePassed,"Edit ",canEdit,"Delete ",canDelete," IDs ",currentUserId, " User ",comment.user._id,"Comment ",comment);
    
-   const isReplying=activeComment && activeComment.type==="replying" && activeComment.id===id 
+   const isReplying=activeComment && activeComment.type==="replying" && activeComment?.id===id 
 
-   const isEditing=activeComment && activeComment.type==="editing" && activeComment.id===id
+   const isEditing=activeComment && activeComment.type==="editing" && activeComment?.id===id
 
     const createdAt=new Date(comment?.createdAt).toLocaleDateString()
 
-    const replyId=parentId?parentId:comment._id
+    const replyId=parentId?parentId:comment?._id
 
     return (
         
@@ -46,7 +46,7 @@ const Comment = ({id,postId,comment,replies,currentUserId,deleteComment,activeCo
             <div className='comment-content'>
                 {/* Author  */}
                 <div className='comment-author'>
-                    {comment.user.username}
+                    {comment.user?.username}
                 </div>
               
                  {/* creationg time  */}
