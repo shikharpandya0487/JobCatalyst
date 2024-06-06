@@ -27,6 +27,8 @@ const LoginForm = (props) => {
   const navigate = useNavigate();
   const { email, password, companyName } = userInfo;
 
+
+
   const handleChange = (e) => {
     setUserInfo({
       ...userInfo,

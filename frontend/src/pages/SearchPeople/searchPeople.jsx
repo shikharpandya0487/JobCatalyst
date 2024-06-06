@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Flex, Input, Button, Heading, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, useToast } from '@chakra-ui/react';
-import Navbar from '../../components/Navbar/Navbar';
+import Navbar2 from '../../components/Navbar/Navbar2.jsx';
 import axios from 'axios';
 import ListUser from '../../components/ListUsers/ListUser';
 import { ChatState } from '../../UserContext';
@@ -40,6 +40,26 @@ const SearchPeople = () => {
       [name]: value,
     }));
   };
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+        const response = await axios.get(`https://jobcatalyst.onrender.com/api/people/search`, {
+          params: formData,
+          ...config,
+        });
+        setSearchResult(response.data.users);
+      } catch (error) {
+        console.log(error);
+        setSelectedUser({});
+      }
+    };
+    fetchData()
+  },[formData,user?.token])
 
   const handleSubmit = async () => {
     try {
@@ -127,7 +147,7 @@ const SearchPeople = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar2 />
       <Flex direction="column" justify="start" align="center" gap="2" h="100vh" w="w-screen">
         <Box border="1px" borderColor="black" p="2" w="full" justify="center">
           <Flex w="full" gap="1" align="center">

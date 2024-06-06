@@ -5,7 +5,7 @@ import MyChat from '.././MyChat.js'
 import ChatBox from '../ChatDisplay/ChatBox.js'
 import { ChatState } from '../../UserContext.js'
 import SideBar from '../Header-SideBar/SideBar'
-import Navbar from '../Navbar/Navbar.jsx'
+import Navbar2 from '../Navbar/Navbar2.jsx'
 import { useToast } from '@chakra-ui/react';
 
 const Chats = () => {
@@ -52,10 +52,10 @@ const Chats = () => {
   },[])
 
   return (
-    <div style={{width:'100%'}}>
-      <Navbar/>
-      {user && <SideBar/>} 
-      <Box style={{display:"flex",padding:"10px",width:"100%",justifyContent:"space-between"}}>
+    <div style={{width:'100%',height:"100%"}}>
+      <Navbar2/>
+      {user && <SideBar className='min-h-screen'/>} 
+      <Box className='min-h-screen' style={{display:"flex",padding:"10px",width:"100%",justifyContent:"space-between"}}>
         {user && <MyChat  fetchAgain={fetchAgain} />} 
         { user &&  <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}  />}
       </Box>

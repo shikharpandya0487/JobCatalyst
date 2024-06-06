@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate} from 'react-router-dom';
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar2 from "../../components/Navbar/Navbar2.jsx";
 import {useTheme} from '../../Context/ThemeContext';
 import axios from 'axios';
 import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
 import {auth} from '../../firebase/firebaseConfig'
-import {Button} from '@chakra-ui/react'
+import {Button, useToast} from '@chakra-ui/react'
 import '../LandingPage/LandingPage.css'
+import SignupForm from "../../components/Login-Signup/SignupForm.jsx";
 
 
 
@@ -16,42 +17,56 @@ function LandingPage() {
 
   const navigate = useNavigate();
   
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [isEmailValid, setIsEmailValid] = useState(false)
+  // const [email, setEmail] = useState("")
+  // const [password, setPassword] = useState("")
+  // const [isEmailValid, setIsEmailValid] = useState(false)
   const [isAdmin,setIsAdmin]=useState(false)
-
-
-  const emailHandler = (e) => {
-    const enteredEmail = e.target.value;
-    setEmail(enteredEmail);
-
-    // Regular expression for basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setIsEmailValid(emailRegex.test(enteredEmail));
-  };
-
-  const passwordHandler = (e) => {
-    setPassword(e.target.value)
+  // const [open, setOpen] = useState(false);
+  const [modalShowSignup, setModalShowSignup] = useState(false);
+  const userInfo={
+    email:"shikharpandya007@gmail.com",
+    password:"123",
+    companyName:"EmptyGlasses Makes Lot of Sound"
   }
 
+  const guestEmployer={
+    email:"shah@gmail.com",
+    password:"123",
+    companyName:""
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const url = 'https://jobcatalyst.onrender.com/api/auth/login';
-    const data = { email, password };
-    try {
-        const response = await axios.post(url, data);
-        navigate('/community');
-        console.log(response.data)
-        localStorage.setItem('token', response.data);
-        localStorage.setItem('userId', response.data.user);
-    } catch (error) {
-        console.error(error);
-    }
-    setEmail('');
-    setPassword('');
-};
+  const toast=useToast()
+
+  // const emailHandler = (e) => {
+  //   const enteredEmail = e.target.value;
+  //   setEmail(enteredEmail);
+
+  //   // Regular expression for basic email validation
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   setIsEmailValid(emailRegex.test(enteredEmail));
+  // };
+
+  // const passwordHandler = (e) => {
+  //   setPassword(e.target.value)
+  // }
+
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const url = 'https://jobcatalyst.onrender.com/api/auth/login';
+//     const data = { email, password };
+//     try {
+//         const response = await axios.post(url, data);
+//         navigate('/community');
+//         console.log(response.data)
+//         localStorage.setItem('token', response.data);
+//         localStorage.setItem('userId', response.data.user);
+//     } catch (error) {
+//         console.error(error);
+//     }
+//     setEmail('');
+//     setPassword('');
+// };
 
     
  const handleGoogle=(e)=>{
@@ -81,6 +96,100 @@ function LandingPage() {
    })
  }
 
+ const handlesignup=()=>{
+  setModalShowSignup(true)
+  setIsAdmin((prev)=>!prev)
+ }
+
+ const handleGuestLogin=async (e)=>{
+    try {
+      e.preventDefault()
+      console.log("Console from loginForm ", userInfo);
+      const response = await axios.post('https://jobcatalyst.onrender.com/api/auth/login', userInfo);
+      console.log(response);
+      if (response.data.success) {
+        // Handle successful login
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userId', response.data.user._id);
+        localStorage.setItem('LoggedIn', true);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        
+        toast({
+          title: 'Logged in successfully.',
+          description: "You have been logged in.",
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        });
+
+        navigate('/community');
+      } else {
+        // Handle unsuccessful login
+        toast({
+          title: 'Login failed',
+          description: response.data.message,
+          status: 'error',
+          duration: 4000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      toast({
+        title: 'An error occurred',
+        description: 'An error occurred while logging in. Please try again later.',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      });
+    }
+ 
+
+}
+
+const handleGuestEmployerLogin=async(e)=>{
+  try {
+    e.preventDefault()
+    console.log("Console from loginForm ", guestEmployer);
+    const response = await axios.post('https://jobcatalyst.onrender.com/api/auth/login', guestEmployer);
+    console.log(response);
+    if (response.data.success) {
+      // Handle successful login
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('userId', response.data.user._id);
+      localStorage.setItem('LoggedIn', true);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      
+      toast({
+        title: 'Logged in successfully.',
+        description: "You have been logged in.",
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+      });
+
+      navigate('/community');
+    } else {
+      // Handle unsuccessful login
+      toast({
+        title: 'Login failed',
+        description: response.data.message,
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      });
+    }
+  } catch (error) {
+    console.error('Login failed:', error);
+    toast({
+      title: 'An error occurred',
+      description: 'An error occurred while logging in. Please try again later.',
+      status: 'error',
+      duration: 4000,
+      isClosable: true,
+    });
+  }
+}
 
 
 
@@ -88,7 +197,7 @@ function LandingPage() {
 
   return (
     <>
-      <Navbar isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
+      <Navbar2 isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
 
       <div className="w-screen h-screen overflow-x-hidden flex flex-col"
       style={{
@@ -118,57 +227,33 @@ function LandingPage() {
            
 
 
-            <div className="min-h-1/2 w-full flex flex-col justify-center items-center gap-3 p-1"
+            <div className="h-3/4  w-full flex flex-col justify-center items-center gap-2 p-1"
             style={{
               color: theme === "dark" ? "#333" : "black",
             }}
             >
-              {/* email  */}
-                <label
-                  htmlFor=""
-                  className={`p-4 flex w-7/12 h-[50px] bg-zinc-100 rounded-[40px] justify-between items-center gap-4`}
-                >
-                  Email
+             
 
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Enter your email"
-                  className={`w-full bg-zinc-100 rounded-[40px] text-center gap-2 ${!isEmailValid ? 'text-red-500' : ''}`}
-                  onChange={emailHandler}
-                  value={email}
-                />
-
-
-
-              </label>
-
-              <label htmlFor="password" className="flex w-7/12 p-4 h-[50px] bg-zinc-100 rounded-[40px] justify-between items-center gap-4" >
-                {/* <div className=" p-2 w-5/12 text-black text-xl font-normal font-['Inter']">Enter Password</div> */}
-                 Password
-                <input type="password" name="password" id="password" placeholder="Enter your password" className="text-center text-black w-7/12 h-[50px] bg-zinc-100 rounded-[40px] " onChange={passwordHandler} value={password} />
-              </label>
-
-              <div className="w-7/12 flex  justify-end p-1  ">
-                <button className="w-full p-2 bg-zinc-600 rounded-[40px] justify-center items-center text-white font-bold" onClick={handleSubmit}>
-                  Login
-                </button>
-                
-              </div>
-              <div className="w-7/12 p-2 border-1 flex justify-evenly rounded-xl border-black">
+              
+              <div className="w-7/12 h-fit p-2 border-1 flex justify-evenly rounded-xl border-black">
                  <button type="button" className="login-with-google-btn w-full text-black" onClick={handleGoogle}>
                   Sign in with Google
                 </button>
               </div>
-              <Button className="p-3 w-7/12 text-red-700" onClick={()=>setIsAdmin((prev)=>!prev)}>
-                {isAdmin ?<p > Click Here If you are not an Employer</p>:<p> Click here if you are Employer</p>}
+              <Button className="p-3 w-7/12 text-red-700 " onClick={handlesignup}>
+               {isAdmin ?<p >To Sign Up Click Here If you are not an Employer</p>:<p>To Sign Up Click here if you are Employer</p>}
+              </Button>
+              <Button className="p-3 w-7/12 text-red-700 " onClick={handleGuestLogin}>
+                Guest User Account
+              </Button>
+              <Button className="p-3 w-7/12 text-red-700 " onClick={handleGuestEmployerLogin}>
+                Guest Employer Account
               </Button>
              
 
             </div>
-
           </div>
+            <SignupForm show={modalShowSignup} onHide={() => setModalShowSignup(false)} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
         </div>
 
       </div>

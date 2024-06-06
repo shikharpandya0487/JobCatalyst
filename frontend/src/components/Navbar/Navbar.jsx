@@ -72,7 +72,7 @@ function Navbar({ isAdmin, setIsAdmin }) {
               )}
               {!isAuthenticated && (
                 <div className='flex flex-row justify-evenly items-center gap-4 p-2 w-fit '>
-                  <button style={{ '--clr': '#39FF14' }} id="login" className="login" onClick={() => setModalShowlogin(true)}><span>Login</span><i></i></button>
+                  <button style={{ '--clr': '#39FF14' }} id="login" className="login" onClick={() => setModalShowlogin(true)}><span>Login</span></button>
                   <LoginForm show={modalShowlogin} onHide={() => setModalShowlogin(false)} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
                   <button style={{ '--clr': '#39FF14' }} id="login" className="login" onClick={() => setModalShowSignup(true)}><span>Sign up</span><i></i></button>
                   <SignupForm show={modalShowSignup} onHide={() => setModalShowSignup(false)} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />

@@ -7,7 +7,8 @@ const {
     signup,
     sendotp,
     changePassword,
-    googleAuth
+    googleAuth,
+    guest
   } = require("../../controllers/Authentication/authControllers.js")
  
   const {
@@ -21,7 +22,7 @@ router.get('/', (req, res) => {
 const { auth } = require("../../middlewares/auth-middleware.js");
 
 router.post("/login", login)
-
+router.post("/guest",guest)
 // Route for user signup
 router.post("/signup", signup) 
 

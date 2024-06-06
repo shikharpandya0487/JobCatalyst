@@ -1,12 +1,12 @@
 import React from 'react';
-import Navbar from '../../components/Navbar/Navbar';
+import Navbar2 from '../../components/Navbar/Navbar2.jsx';
 import UserSettings from './userSetting';
  
  const UserPage = () => {
     return (
       <div >
 
-        <Navbar/>
+        <Navbar2/>
         <UserSettings/>
       </div>
     );

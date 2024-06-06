@@ -15,7 +15,6 @@ const NotificationAndSetting = () => {
   useEffect(() => {
     // fetch preferences from local storage
     const fetchNotificationPreferences = () => {
-      // Replace with your actual fetch logic
       const savedPreferences = localStorage.getItem('notificationPreferences');
       if (savedPreferences) {
         setNotificationPreferences(JSON.parse(savedPreferences));
@@ -23,13 +22,11 @@ const NotificationAndSetting = () => {
     };
 
     fetchNotificationPreferences();
-     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     // Save the Changes
     localStorage.setItem('notificationPreferences', JSON.stringify(notificationPreferences));
-     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationPreferences]);
 
   const handleToggleNotification = (notificationType) => {
@@ -44,7 +41,14 @@ const NotificationAndSetting = () => {
   };
 
   return (
-    <div style={{ width: "900px", maxWidth: "1000px", margin: "auto", padding: "20px", backgroundColor: theme === 'dark' ? '#333' : '#fff', color: theme === 'dark' ? '#fff' : '#333' }}>
+    <div style={{
+      width: "900px",
+      maxWidth: "1000px",
+      margin: "auto",
+      padding: "20px",
+      backgroundColor: theme === 'dark' ? '#333' : '#fff',
+      color: theme === 'dark' ? '#fff' : '#000',
+    }}>
       <div style={{ marginBottom: "20px" }}>
         <h4>Notification Preferences</h4>
         <div style={{ marginBottom: "15px" }}>
@@ -123,4 +127,4 @@ const NotificationAndSetting = () => {
   );
 };
 
-export default NotificationAndSetting
+export default NotificationAndSetting;
