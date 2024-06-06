@@ -19,8 +19,12 @@ import {
   useDisclosure,
   List,
   ListItem,
-  Text
+  Text,
+  Image,
+  Spinner,
+  Box
 } from "@chakra-ui/react";
+import { ChatState } from '../../UserContext';
 
 const MediaDisplay = ({ url }) => {
   const isVideo = url.endsWith('.mp4');
@@ -42,14 +46,18 @@ const JobPosting = ({
   image,
   posted,
   postedBy,
+  postedById,
   id,
   post,
   onReaction
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [profileData, setProfileData] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [openComments, setOpenComments] = useState(false);
+  const { user } = ChatState();
 
   const userId = localStorage.getItem('userId');
 
@@ -58,7 +66,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'http://localhost:5000/api/post/like-post';
+    const url = 'https://jobcatalyst.onrender.com/api/post/like-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -70,7 +78,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'http://localhost:5000/api/post/dislike-post';
+    const url = 'https://jobcatalyst.onrender.com/api/post/dislike-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -82,7 +90,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'http://localhost:5000/api/post/heart-post';
+    const url = 'https://jobcatalyst.onrender.com/api/post/heart-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -94,7 +102,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'http://localhost:5000/api/post/unheart-post';
+    const url = 'https://jobcatalyst.onrender.com/api/post/unheart-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -106,7 +114,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'http://localhost:5000/api/post/cong-post';
+    const url = 'https://jobcatalyst.onrender.com/api/post/cong-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -118,7 +126,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'http://localhost:5000/api/post/discong-post';
+    const url = 'https://jobcatalyst.onrender.com/api/post/discong-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -128,7 +136,7 @@ const JobPosting = ({
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
     // Perform search query here
-    axios.get(`http://localhost:5000/api/user/search?query=${event.target.value}`)
+    axios.get(`https://jobcatalyst.onrender.com/api/user/search?query=${event.target.value}`)
       .then((response) => {
         setSearchResults(response.data);
       })
@@ -139,7 +147,7 @@ const JobPosting = ({
 
   const handleShareToUser = (userId) => {
     // Share post logic
-    axios.post('http://localhost:5000/api/post/share', { postId: id, userId })
+    axios.post('https://jobcatalyst.onrender.com/api/post/share', { postId: id, userId })
       .then((response) => {
         console.log("Post shared successfully", response);
         onClose();
@@ -149,11 +157,33 @@ const JobPosting = ({
       });
   };
 
+  const handleProfileShow = async () => {
+    try {
+      // Search for the profile of the person
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      console.log("username ", postedBy, "id ", postedById);
+      const response = await axios.get(`https://jobcatalyst.onrender.com/api/community/search?username=${postedBy}&id=${postedById}`, config);
+      if (response === undefined) {
+        console.log("no");
+      }
+
+      console.log('Search results:', response.data);
+      setProfileData(response.data);
+      setProfileModalOpen(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="bg-slate-200 w-3/4 p-2 rounded-lg">
       <div className="flex gap-1 items-center w-full h-15">
-        <div className='flex flex-col justify-center items-start pl-4 select-none w-1/3'>
-          <IoPersonCircleSharp className="w-14 h-14 flex justify-center items-center" />
+        <div className='flex flex-col justify-center items-start pl-4 select-none w-1/3 cursor-pointer ' onClick={handleProfileShow}>
+          <IoPersonCircleSharp className="w-14 h-14 flex justify-center items-center cursor-pointer" />
           <div>
             <h6 className="text-slate-700 text-sm font-light">Posted by: <b className='font-semibold cursor-pointer hover:underline text-lg'>{postedBy}</b></h6>
             <p className="text-slate-700 text-sm font-light">{posted}</p>
@@ -232,6 +262,45 @@ const JobPosting = ({
         </div>
       
       </div>
+
+      <Modal isOpen={profileModalOpen} onClose={() => setProfileModalOpen(false)} className='p-2'>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader className='display-block'>
+            User Profile
+          </ModalHeader>
+          <ModalCloseButton />
+          
+
+          <ModalBody className='flex flex-col gap-3 p-1'>
+            <Box className='w-full'>
+              <Button className='w-full'>
+                Connect
+              </Button>
+            </Box>
+            <Box>
+            {profileData ? (
+              <Box className='flex flex-col gap-1 justify-center'>
+                <Image className='mx-auto' src={profileData.searchedUser.pic} alt="Profile Picture" boxSize="100px" />
+                <Text className='flex gap-2 items-center'><b>Username:</b> {profileData.searchedUser.username}</Text>
+                <Text className='flex gap-2 items-center'><b>Email:</b> {profileData.searchedUser.email}</Text>
+                <Text className='flex gap-2 items-center'><b>Profession:</b> {profileData.searchedUser.profession || "N/A"}</Text>
+                <Text className='flex gap-2 items-center'><b>Location:</b> {profileData.searchedUser.location}</Text>
+                <Text className='flex gap-2 items-center'><b>Company:</b> {(profileData.searchedUser.isAdmin)?profileData.searchedUser?.companyName:<>N/A</>}</Text>
+                <Text className='flex gap-2 items-center'><b>GitHub:</b> <a className='font-semibold' href={profileData.searchedUser.github.url} target="_blank" rel="noopener noreferrer">{profileData.searchedUser.github.url}</a></Text>
+              </Box>
+            ) : (
+              <Spinner>Loading...</Spinner>
+            )}
+            </Box>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3} onClick={() => setProfileModalOpen(false)}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

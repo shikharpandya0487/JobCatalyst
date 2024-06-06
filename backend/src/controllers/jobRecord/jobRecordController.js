@@ -1,12 +1,30 @@
 const JobRecord = require("../../models/JobRecord/JobRecord");
-
 exports.showAllJobRecord = async (req, res) => {
     try {
-        const allJobs = await JobRecord.find({});
-        console.log(allJobs);
+       
+        const page = parseInt(req.query.page) || 1; 
+        const pageSize = 10;
+
+      
+        const startIndex = (page - 1) * pageSize;
+        const endIndex = page * pageSize;
+
+       
+        const allJobs = await JobRecord.find({}).skip(startIndex).limit(pageSize);
+        
+     
+        const totalDocs = await JobRecord.countDocuments();
+
+      
+        const totalPages = Math.ceil(totalDocs / pageSize);
+
         res.status(200).json({
             success: true,
             data: allJobs,
+            pagination: {
+                currentPage: page,
+                totalPages: totalPages,
+            }
         });
     } catch (error) {
         return res.status(500).json({
@@ -16,21 +34,24 @@ exports.showAllJobRecord = async (req, res) => {
     }
 };
 
+
 exports.createJobRecord = async (req, res) => {
     try {
         const {
-            Company,
-            Position,
-            StartDate,
-            EndDate,
+            company,
+            position,
+            startDate,
+            endDate,
+            description
         } = req.body;
  
 		console.log(req.body)
         const newJobRecord = await JobRecord.create({
-            Company,
-            Position,
-            StartDate,
-            EndDate,
+           company,
+           position,
+           startDate,
+           endDate,
+           description
         });
         console.log(newJobRecord);
         res.status(200).json({

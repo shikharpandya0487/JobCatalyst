@@ -6,6 +6,8 @@ import axios from "axios";
 import { ChatState } from "../../UserContext.js";
 import { useToast } from "@chakra-ui/toast";
 import { Spinner } from "@chakra-ui/spinner";
+import { Flex, HStack, IconButton, Text } from "@chakra-ui/react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 function Job() {
   const { theme } = useTheme();
@@ -14,6 +16,9 @@ function Job() {
   const [JobPosting, setJobPosting] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize] = useState(2); 
   const { user } = ChatState();
   const toast = useToast();
 
@@ -54,7 +59,7 @@ function Job() {
   };
 
   useEffect(() => {
-    const fetchJobs = async () => {
+    const fetchJobs = async (page = 1 ) => {
       try {
         console.log("user token in job section", user.token);
         const config = {
@@ -62,25 +67,44 @@ function Job() {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        const response = await axios.get("http://localhost:5000/api/jobs/getAllJobs", config);
+        const response = await axios.get(`https://jobcatalyst.onrender.com/api/jobs/getAllJobs?page=${page}&limit=${pageSize}`, config);
         console.log("All jobs ", response.data.data);
-        setJobPosting(response.data.data);
+        setJobPosting(response.data.data)
+        setTotalPages(response.data.totalPages); 
+         
+        toast({
+          title: "Jobs Loaded",
+          description: "Successfully loaded job posts",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
         setLoading(false);
       } catch (error) {
         console.log("Error while fetching jobs", error);
         toast({
           title: "Error Occurred!",
-          description: "Failed to Load the job posts",
+          description: "Failed to load the job posts",
           status: "error",
           duration: 5000,
           isClosable: true,
-          position: "top-center",
+          position: "top",
         });
         setLoading(false);
       }
     };
-    fetchJobs();
-  }, [user.token, toast]);
+    fetchJobs(currentPage);
+  }, [user.token, toast,currentPage,pageSize]);
+
+  const handlePageChange = (direction) => {
+    if (direction === 'next' && currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    } else if (direction === 'prev' && currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
 
   return (
     <div className="min-h-screen max-w-screen"
@@ -245,6 +269,25 @@ function Job() {
                 color: theme === "dark" ? "#fff" : "#333",
               }}
             >
+               <Flex justify="space-between" align="center" mt={4} w="100%">
+            <HStack spacing={4} className='flex justify-evenly items-center gap-2'>
+              <IconButton
+                icon={<ChevronLeftIcon/>}
+                onClick={() => handlePageChange('prev')}
+                isDisabled={currentPage === 1}
+                aria-label="Previous Page"
+              />
+              <Text>
+                Page {currentPage} of {totalPages}
+              </Text>
+              <IconButton
+                icon={<ChevronRightIcon />}
+                onClick={() => handlePageChange('next')}
+                isDisabled={currentPage === totalPages}
+                aria-label="Next Page"
+              />
+            </HStack>
+           </Flex>
               {loading ? (
                 <div className="flex justify-center items-center w-full h-full">
                   <Spinner size="xl" />

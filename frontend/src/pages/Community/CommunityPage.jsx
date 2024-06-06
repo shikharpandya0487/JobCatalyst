@@ -7,12 +7,16 @@ import {
   Button,
   Spinner,
   Text,
+  useToast,
+  IconButton,
+  HStack,
 } from '@chakra-ui/react';
 import Navbar from '../../components/Navbar/Navbar';
 import axios from 'axios';
 import moment from 'moment';
 import Stories from '../../components/community/Stories';
 import JobPosting from '../../components/community/JobPosting';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 const CommunityPage = () => {
   const [data, setData] = useState([]);
@@ -22,29 +26,50 @@ const CommunityPage = () => {
   const [isSearch, setIsSearch] = useState(false);
   const [loadingStories, setLoadingStories] = useState(true);
   const [loadingPosts, setLoadingPosts] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize] = useState(2); 
 
+  const toast=useToast()
   // Fetching data on community page load
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (page = 1) => {
       setLoadingPosts(true);
-      const url = 'http://localhost:5000/api/post/get-posts';
+      const url = `https://jobcatalyst.onrender.com/api/post/get-posts?page=${page}&limit=${pageSize}`;
       try {
         const response = await axios.get(url);
         if (response.data.post) {
           console.log(response.data);
           setData(response.data.post);
+          setTotalPages(response.data.totalPages); 
           setStories(response.data.post);
+          toast({
+            title: "Community Posts Loaded",
+            description: "Successfully loaded community posts",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
         }
       } catch (error) {
         console.error(error);
+        toast({
+          title: "Error Occurred!",
+          description: error.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
         alert('Server error');
       } finally {
         setLoadingPosts(false);
         setLoadingStories(false);
       }
     };
-    fetchData();
-  }, [refresh]);
+    fetchData(currentPage);
+  }, [refresh,toast,currentPage,pageSize]);
 
   const handleReaction = () => {
     setRefresh(!refresh);
@@ -54,7 +79,7 @@ const CommunityPage = () => {
   // Search for posts based on title
   const handleSearch = async () => {
     setLoadingPosts(true);
-    const url = `http://localhost:5000/api/post/search?search=${search}`;
+    const url = `https://jobcatalyst.onrender.com/api/post/search?search=${search}`;
     try {
       const response = await axios.get(url);
       console.log(response.data.post);
@@ -78,6 +103,15 @@ const CommunityPage = () => {
     setIsSearch(false);
     setRefresh(!refresh);
   };
+
+  const handlePageChange = (direction) => {
+    if (direction === 'next' && currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    } else if (direction === 'prev' && currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
 
   return (
     <Box minH="100vh" bgGradient="linear(to-l, blue.50, white, blue.50)">
@@ -155,10 +189,31 @@ const CommunityPage = () => {
 
         
           <Box className='w-3/4 flex gap-2 p-1 flex-col justify-start items-start'>
+          <Flex justify="space-between" align="center" mt={4} w="100%">
+            <HStack spacing={4} className='flex justify-evenly items-center gap-2'>
+              <IconButton
+                icon={<ChevronLeftIcon/>}
+                onClick={() => handlePageChange('prev')}
+                isDisabled={currentPage === 1}
+                aria-label="Previous Page"
+              />
+              <Text>
+                Page {currentPage} of {totalPages}
+              </Text>
+              <IconButton
+                icon={<ChevronRightIcon />}
+                onClick={() => handlePageChange('next')}
+                isDisabled={currentPage === totalPages}
+                aria-label="Next Page"
+              />
+            </HStack>
+           </Flex>
             {loadingPosts ? (
               <Spinner size="xl" />
             ) : (
-              data.map((item, index) => (
+              data.map((item, index) => 
+                
+                (                   
                 <JobPosting
                   key={index}
                   title={item.title}
@@ -168,17 +223,20 @@ const CommunityPage = () => {
                   jobType={item.jobtype}
                   salary={item.salary}
                   description={item.description}
-                  tags={item.tag}
+                  tags={item.tag} 
                   image={item.imgPath}
                   posted={moment(item.createdAt).fromNow()}
                   postedBy={item.postedBy?.username}
+                  postedById={item.postedBy?._id}
                   id={item._id}
                   post={item}
                   onReaction={handleReaction}
                   className="w-full"
                 />
-              ))
+              )
+            )
             )}
+           
           </Box>
        
       </Flex>

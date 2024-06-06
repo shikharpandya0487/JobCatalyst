@@ -43,11 +43,27 @@ const createPost = async (req, res) => {
 
 const getPosts = async (req, res) => {
   try { 
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 2;
+
+    const totalPosts = await Post.countDocuments();
+    const totalPages = Math.ceil(totalPosts / pageSize);
       const result = await Post.find().populate({
         path: 'comments',
         populate: { path: 'replies' }
-      }).populate("postedBy", "_id username");
-      res.json({ msg: "Find success", post: result });
+      }).populate("postedBy", "_id username")
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    
+
+      res.json({ 
+      msg: "Find success", 
+      post: result,
+      totalPosts: totalPosts,
+      totalPages: totalPages,
+      currentPage: page
+    });
   } catch (err) {
       console.error(err);
       res.status(500).json({ msg: "Server error" });

@@ -27,7 +27,7 @@ const Chats = () => {
               }
           }
 
-          const {data}=await axios.get("http://localhost:5000/api/chat",config)
+          const {data}=await axios.get("https://jobcatalyst.onrender.com/api/chat",config)
           console.log(data)
           if(!data)
           {

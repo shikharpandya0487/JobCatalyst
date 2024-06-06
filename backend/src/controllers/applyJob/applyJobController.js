@@ -138,12 +138,8 @@ const acceptJob = async (req, res) => {
             return res.status(404).json({ message: "Job application not found" });
         }
 
-        let senderId = null;
-        user.jobApplications.forEach(job => {
-            if (job._id.toString() === applicationId) {
-                senderId = job.senderId;
-            }
-        });
+        const senderId=jobApplication.senderId
+        
 
         console.log("senderId:", senderId);
         if (!senderId) {
@@ -245,50 +241,70 @@ const rejectJob=async (req,res)=>{
         return res.status(500).json({ message: "Internal server error" });
     }
 }
-
 const cancelJobReq = async (req, res) => {
     try {
         const user = req.user;
         const jobId = req.params.jobId;
-        console.log("Checking ", user.username);
+        console.log("Checking ", user.username,jobId);
 
-        if (user.isAdmin) {
-            return res.status(403).json({ message: "An admin cannot cancel a job application" });
-        }
+       
 
         const jobApplication = await JobApplications.findById(jobId);
         if (!jobApplication) {
             return res.status(404).json({ message: "Job application not found" });
         }
 
-     
+        const employerId = jobApplication.employerId;
+        const employer = await User.findById(employerId);
 
-       
+        if (!employer) {
+            return res.status(404).json({ message: "Employer not found" });
+        }
+
+        // Remove the job application from the employer's jobApplications array
+        const filter = employer.jobApplications.filter((job) => job._id.toString() !== jobId.toString());
+        employer.jobApplications = filter;
+
+        const filter2 = user.jobApplications.filter((job) => job._id.toString() !== jobId.toString());
+        
+        employer.jobApplications = filter;
+        user.jobApplications=filter2
+    
+        await employer.save();
+        await user.save()
+
+        console.log("Updated employer job applications:", employer.jobApplications);
+
+        const updatedUser2 = await User.findByIdAndUpdate(
+            employer._id,
+            { $pull: { jobApplications: jobId } },
+            { new: true }
+        );
+
+        // Remove the job application from JobApplications collection
         const deletedJobApplication = await JobApplications.findByIdAndDelete(jobId);
         if (!deletedJobApplication) {
             return res.status(400).json({ message: "Error deleting job application" });
         }
-
+        
+        // Remove the job application from the user's jobApplications array
         const updatedUser = await User.findByIdAndUpdate(
             user._id,
-            { $pull: { jobApplications: { _id: jobId } } }, 
+            { $pull: { jobApplications: jobId } },
             { new: true }
         );
 
         if (!updatedUser) {
-            return res.status(500).json({ message: "Error updating user's job applications" });
+            return res.status(500).json({ message: "Error updating user's job applications", employerUpdated: employer });
         }
-      
+        console.log("Deleted JobApplication",deletedJobApplication,"Updated users",updatedUser,updatedUser2)
 
-        return res.status(200).json({ message: "Successfully canceled the job application", updatedUser });
+        return res.status(200).json({ message: "Successfully canceled the job application", updatedUser,updatedUser2 });
     } catch (error) {
         console.error("Error while canceling job application:", error);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
-
-module.exports = { cancelJobReq };
-
 
 
  module.exports={applyForJob,getAppliedJobs,acceptJob,rejectJob,cancelJobReq}

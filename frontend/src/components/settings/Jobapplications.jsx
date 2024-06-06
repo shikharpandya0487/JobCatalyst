@@ -1,6 +1,6 @@
 import {
     Box, Button, Flex, Spinner, Center, AlertDialog, AlertDialogBody,
-    AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure
+    AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure, useToast
 } from "@chakra-ui/react";
 import React, { useEffect, useState, useRef } from 'react';
 import { ChatState } from "../../UserContext";
@@ -11,12 +11,11 @@ const Jobapplications = () => {
     const employer = user.isAdmin === true;
     const [jobapplications, setJobapplications] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [rejectLoading, setRejectLoading] = useState(false); // State for reject loading
+    const [rejectLoading, setRejectLoading] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef();
-    const [selectedJobId, setSelectedJobId] = useState(null) 
-    
-    // console.log(user)
+    const toast = useToast();
+    const [selectedJobId, setSelectedJobId] = useState(null);
 
     useEffect(() => {
         const fetchJobApp = async () => {
@@ -26,47 +25,74 @@ const Jobapplications = () => {
                         Authorization: `Bearer ${user.token}`,
                     },
                 };
-                const response = await axios.get("http://localhost:5000/api/applyjob/getAppliedJobs", config);
+                const response = await axios.get("https://jobcatalyst.onrender.com/api/applyjob/getAppliedJobs", config);
                 setJobapplications(response.data.jobApplications);
                 console.log("Response from job Applications", response.data.jobApplications);
             } catch (error) {
                 console.log("Error", error);
+                toast({
+                    title: "Error loading job applications.",
+                    description: error.message,
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
             } finally {
                 setLoading(false);
             }
         };
         fetchJobApp();
-         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user.token,user.jobApplications]);
+    }, [user.token, user.jobApplications, toast]);
 
     const handleReject = (jobId) => {
         setSelectedJobId(jobId);
         onOpen();
     };
-    const handleAccept=(jobId)=>{
-        setSelectedJobId(jobId)
-        acceptJobs()
-    }
-    const acceptJobs=async (res,req)=>{
-     try {
+
+    const handleAccept = (jobId) => {
+        setSelectedJobId(jobId);
+        acceptJobs();
+    };
+
+    const acceptJobs = async () => {
+        try {
             const config = {
                 headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${user.token}`,
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
                 },
-              };  
-            
-            const data={
-                applicationId:selectedJobId
-            }
-            const response=await axios.post("http://localhost:5000/api/applyjob/acceptJob",data,config)
+            };
 
-            console.log(response.data)
+            const data = {
+                applicationId: selectedJobId,
+            };
+            console.log("Application Id ",selectedJobId)
+            const response = await axios.post("https://jobcatalyst.onrender.com/api/applyjob/acceptJob", data, config);
+            console.log(response.data);
 
+            toast({
+                title: "Job application accepted.",
+                description: "You have successfully accepted the job application.",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+
+            // Update the state to reflect the accepted job application
+            setJobapplications((prev) =>
+                prev.map((job) => (job._id === selectedJobId ? { ...job, status: true } : job))
+            );
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            toast({
+                title: "Error accepting job application.",
+                description: error.message,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         }
-    }
+    };
 
     const confirmReject = async () => {
         setRejectLoading(true);
@@ -76,22 +102,36 @@ const Jobapplications = () => {
                     Authorization: `Bearer ${user.token}`,
                 },
             };
-            const response = await axios.delete(`http://localhost:5000/api/applyjob/cancelJobApplication/${selectedJobId}`, config);
+            console.log("selected job app",selectedJobId)
+            const response = await axios.delete(`https://jobcatalyst.onrender.com/api/applyjob/cancelJobApplication/${selectedJobId}`, config);
             setJobapplications((prev) => prev.filter(job => job._id !== selectedJobId));
             console.log("Response after rejecting the job", response);
+
+            toast({
+                title: "Job application rejected.",
+                description: "You have successfully rejected the job application.",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
         } catch (error) {
             console.error("Failed to reject the job application:", error);
+            toast({
+                title: "Error rejecting job application.",
+                description: error.message,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         } finally {
             setRejectLoading(false);
             onClose();
         }
     };
 
-    const handlePdf=(pdf)=>{
-        window.open(`http://localhost:5000/uploads/${pdf}`)
-    }
-
-
+    const handlePdf = (pdf) => {
+        window.open(`https://jobcatalyst.onrender.com/uploads/${pdf}`);
+    };
 
     return (
         <Box className="max-h-[600px] overflow-x-auto">
@@ -128,15 +168,15 @@ const Jobapplications = () => {
                                         </div>
                                     </Box>
                                     <Box className="flex justify-evenly w-5/12">
-                                        {(employer===true && item.status===false) ? (
-                                            <Button p={2} colorScheme="green" className="rounded" onClick={()=>handleAccept(item._id)}>
+                                        {(employer === true && item.status === false) ? (
+                                            <Button p={2} colorScheme="green" className="rounded" onClick={() => handleAccept(item._id)}>
                                                 Accept
                                             </Button>
-                                        ) :
-                                        <Button p={2} className="rounded bg-slate-300 text-black" onClick={() => handleReject(item._id)}>
-                                            Reject
-                                        </Button>
-                                            }
+                                        ) : (
+                                            <Button p={2} className="rounded bg-slate-300 text-black" onClick={() => handleReject(item._id)}>
+                                                Reject
+                                            </Button>
+                                        )}
                                         <Button
                                             className="bg-green-800 text-white rounded p-1"
                                             style={{ backgroundColor: item.status ? 'green' : 'red' }}
@@ -145,12 +185,12 @@ const Jobapplications = () => {
                                         </Button>
                                     </Box>
                                 </Flex>
-                                        <Button
-                                         className="bg-green-600 border-1 border-white p-1"
-                                         onClick={()=>handlePdf(item.file)}
-                                        >
-                                            View User document
-                                        </Button>
+                                <Button
+                                    className="bg-green-600 border-1 border-white p-1"
+                                    onClick={() => handlePdf(item.file)}
+                                >
+                                    View User document
+                                </Button>
                             </Box>
                         )) : (
                             jobapplications.length === 0 ? <div className="text-red-600 text-2xl font">

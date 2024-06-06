@@ -67,11 +67,27 @@ const ApplyJob = ({ setIsOpen, isOpen, jobpostId }) => {
         return;
       }
 
-      const response = await axios.post("http://localhost:5000/api/applyjob/applyForJob", formDataToSend, config);
+      const response = await axios.post("https://jobcatalyst.onrender.com/api/applyjob/applyForJob", formDataToSend, config);
       console.log("The job application is sent successfully", response.data);
+      toast({
+        title: "Job application sent",
+        description: "Successfully applied for job post",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
       setIsOpen(false);
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error Occurred!",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
       console.log("The form data was ", formData);
       setIsOpen(false);
     }

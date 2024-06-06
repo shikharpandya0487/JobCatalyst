@@ -30,7 +30,7 @@ const SignupForm = (props) => {
     companyName:'',
     location:''
   });
-  const {isAdmin}=props
+  const { isAdmin } = props;
 
   const handleInput = (e) => {
     setUser((prevData) => ({
@@ -38,12 +38,11 @@ const SignupForm = (props) => {
       [e.target.name]: e.target.value,
     }));
   };
-  const {companyName,location}=user
+  const { companyName, location } = user;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const { username, email, password, confirmPassword} = user;
+    const { username, email, password, confirmPassword } = user;
 
     if (!username || !email || !password || !confirmPassword) {
       toast({
@@ -71,15 +70,17 @@ const SignupForm = (props) => {
     const signupData = {
       ...user,
     };
-    console.log(signupData)
-    // Setting signup data to state
-    // To be used after otp verification
     dispatch(setSignupData(signupData));
-
-    // Send OTP to user for verification
     dispatch(sendOtp(user.email, navigate));
 
-    // Reset
+    toast({
+      title: 'Sign up successful',
+      description: 'Please verify your email to continue.',
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    });
+
     setUser({
       username: '',
       email: '',
@@ -88,6 +89,8 @@ const SignupForm = (props) => {
       companyName:'',
       location:""
     });
+
+    props.onHide();
   }
 
   return (
@@ -99,17 +102,17 @@ const SignupForm = (props) => {
         <ModalBody>
           <form onSubmit={handleSubmit}>
             <FormControl id="formUser" isRequired>
-              <FormLabel>UserName</FormLabel>
+              <FormLabel>Username</FormLabel>
               <Input
                 type="text"
-                placeholder="Enter your UserName"
+                placeholder="Enter your username"
                 name="username"
                 value={user.username}
                 onChange={handleInput}
               />
             </FormControl>
             <FormControl id="formEmail" isRequired mt={4}>
-              <FormLabel>{isAdmin?"Company Email":"Email"}</FormLabel>
+              <FormLabel>{isAdmin ? "Company Email" : "Email"}</FormLabel>
               <Input
                 type="email"
                 placeholder="Enter your email"
@@ -145,31 +148,30 @@ const SignupForm = (props) => {
                 onChange={handleInput}
               />
             </FormControl>
-            {
-            isAdmin?<FormControl id="formCompanyName" isRequired mt={4}>
-            <FormLabel>Company Name</FormLabel>
-            <Input
-              type="text"
-              placeholder="Enter your company name"
-              name="companyName"
-              value={companyName}
-              onChange={handleInput}
-            />
-          </FormControl>:null
-          }
-          {
-            isAdmin?<FormControl id="formCompanyName" isRequired mt={4}>
-            <FormLabel>Company Location</FormLabel>
-            <Input
-              type="text"
-              placeholder="Enter your company Location"
-              name="location" 
-              value={location}
-              onChange={handleInput}
-            />
-          </FormControl>
-          :null
-          }
+            {isAdmin && (
+              <>
+                <FormControl id="formCompanyName" isRequired mt={4}>
+                  <FormLabel>Company Name</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Enter your company name"
+                    name="companyName"
+                    value={companyName}
+                    onChange={handleInput}
+                  />
+                </FormControl>
+                <FormControl id="formCompanyLocation" isRequired mt={4}>
+                  <FormLabel>Company Location</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Enter your company location"
+                    name="location"
+                    value={location}
+                    onChange={handleInput}
+                  />
+                </FormControl>
+              </>
+            )}
             <Button type="submit" mt={4} colorScheme="blue">
               Sign Up
             </Button>

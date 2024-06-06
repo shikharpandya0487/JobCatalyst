@@ -16,10 +16,11 @@ const cookieParser = require("cookie-parser");
 const jobRoutes = require("../backend/src/Routes/jobRoutes/jobRoute.js");
 const jobRecordRoutes = require("../backend/src/Routes/jobRecordRoutes/jobRecordRoute.js");
 const jobApplyRoute = require("./src/Routes/ApplyJobRoutes/ApplyJobRoute.js");
-const SearchPeopleRoutes=require('./src/Routes/SearchPeople/SearchPeopleRoutes.js')
+const SearchPeopleRoutes=require('./src/Routes/SearchPeople/SearchPeopleRoutes.js');
+const communityRoutes=require("./src/Routes/SearchInCommunity/CommunitySearch.js")
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://job-catalyst.vercel.app',
   credentials: true 
 }));
 app.use("/uploads",express.static("uploads"))
@@ -38,6 +39,7 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/profile/jobrecords", jobRecordRoutes);
 app.use("/api/applyjob", jobApplyRoute);
 app.use("/api/people",SearchPeopleRoutes)
+app.use("/api/community",communityRoutes)
 
 const PORT = process.env.PORT;
 connectDb();
@@ -49,7 +51,7 @@ const server = app.listen(PORT, () => {
 const io = require('socket.io')(server, {
   pingTimeout: 50000,
   cors: {
-    origin: 'http://localhost:3000', // Specify your frontend URL
+    origin: 'https://job-catalyst.vercel.app', // Specify your frontend URL
     methods: ["GET", "POST"],
     credentials: true
   }

@@ -2,14 +2,28 @@ const Jobs=require("../../models/Jobs/Jobs");
 
 exports.showAllJobs = async (req, res) => {
 	try {
-		const allJobs = await Jobs.find(
+		const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 2;
+
+    const totalPosts = await Jobs.countDocuments();
+    const totalPages = Math.ceil(totalPosts / pageSize);
+	
+	const allJobs = await Jobs.find(
 			{}
-		);
+		) .skip((page - 1) * pageSize)
+		.limit(pageSize);
+
+
+
 		res.status(200).json({
 			success: true,
 			data: allJobs,
+			totalPosts: totalPosts,
+			totalPages: totalPages,
+			currentPage: page
 		});
 	} catch (error) {
+		console.log(error)
 		return res.status(500).json({
 			success: false,
 			message: error.message,

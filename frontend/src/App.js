@@ -23,10 +23,12 @@ import axios from 'axios'
 import ChatProvider  from './UserContext.js';
 import Chats from './components/Chats-ChatsHome/Chats.js';
 import { ThemeProvider } from './Context/ThemeContext.js';
+import JobExperiences from './pages/Job-Related-Pages/JobExperiences.jsx';
+
 
 
 function App() {
-  axios.defaults.baseURL = 'http://localhost:5000';
+  axios.defaults.baseURL = 'https://jobcatalyst.onrender.com';
   axios.defaults.withCredentials = true;
 
   return (
@@ -37,6 +39,7 @@ function App() {
             <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/community" element={<CommunityPage/>}/>
+            <Route path='/experiences' element={<JobExperiences/>} />
             <Route path="/jobs" element={<Job/>}/>
             <Route path="/profile" element={<UserPage/>}/>
             <Route path="/people" element={<SearchPeople/>}/>

@@ -5,26 +5,26 @@ import { useNavigate } from 'react-router-dom';
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { FaEdit, FaHeart, FaThumbsUp, FaAward } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-
+import { useToast } from '@chakra-ui/react';
 
 const MediaDisplay = ({ url }) => {
   const isVideo = url.endsWith('.mp4');
-  if (isVideo) {
-    return (
-      <video className='w-3/4 h-3/6' controls>
-        <source src={url} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    );
-  } else {
-    return <img className='w-3/4 rounded-md' src={url} alt="Media" />;
-  }
+  return isVideo ? (
+    <video className='w-3/4 h-3/6' controls>
+      <source src={url} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  ) : (
+    <img className='w-3/4 rounded-md' src={url} alt="Media" />
+  );
 };
 
 const MyPost = () => {
   const userId = localStorage.getItem('userId');
   const [data, setData] = useState([]);
   const [success, setSuccess] = useState(false);
+  const toast = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,20 +37,33 @@ const MyPost = () => {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       };
 
-      const url = `http://localhost:5000/api/post/my-post/${userId}`;
+      const url = `https://jobcatalyst.onrender.com/api/post/my-post/${userId}`;
       try {
         const response = await axios.get(url, { headers });
         if (response.data) {
           setData(response.data.posts);
-          setSuccess(!success);
+          setSuccess(true);
+          toast({
+            title: "Posts Loaded",
+            description: "Your posts have been loaded successfully.",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
         }
       } catch (error) {
         console.error(error);
-        alert("No post found");
+        toast({
+          title: "Error Loading Posts",
+          description: "There was an error loading your posts.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
     };
     fetchData();
-  }, [success,userId]);
+  }, [userId, success, toast]);
 
   const handleDelete = async (id) => {
     try {
@@ -58,20 +71,32 @@ const MyPost = () => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       };
-      const url = `http://localhost:5000/api/post/delete-post`;
+      const url = `https://jobcatalyst.onrender.com/api/post/delete-post`;
       const data = { postId: id };
       const response = await axios.delete(url, { data, headers });
-      alert(response.data.message);
+      toast({
+        title: "Post Deleted",
+        description: response.data.message,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      setSuccess(prev => !prev);
     } catch (err) {
       console.log("Server error");
+      toast({
+        title: "Error Deleting Post",
+        description: "There was an error deleting the post.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
   const handleEdit = (id) => {
     navigate(`/edit-post/${id}`);
   };
-
-  const navigate = useNavigate();
 
   return (
     <div className="w-full">

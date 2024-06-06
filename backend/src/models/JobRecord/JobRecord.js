@@ -1,20 +1,23 @@
 const mongoose=require("mongoose");
 const jobRecordSchema=new mongoose.Schema({
-    Company:{
+    company:{
         type: String,
         // required:true,
     },
-    Postion:{
+    position:{
         type:String,
         // required:true,
     },
-    StartDate: {
+    startDate: {
         type:String,
         // required:true,
     },
-    EndDate:{
+    endDate:{
         type:String,
         // required:true,
+    },
+    description:{
+        type:String
     }
 })
 module.exports = mongoose.model("JobRecord", jobRecordSchema);
