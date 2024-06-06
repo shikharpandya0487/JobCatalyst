@@ -1,75 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { ChatState } from '../UserContext.js';
 import { Box, Button, Stack, Text, useToast } from '@chakra-ui/react';
-import axios from 'axios';
-import ChatLoading from './animation/ChatLoading';
+import axios from 'axios'
+import ChatLoading from './animation/ChatLoading'
 import { AddIcon } from '@chakra-ui/icons';
+// import GroupChat from './GroupChat/GroupChat.js';
 import { getSender } from './HelperFunc/logicFunc';
 import GroupChatModal from './GroupChat/GroupChatModal';
 
-const MyChat = ({ fetchAgain }) => {
-  const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
-  const toast = useToast();
-  const [loggedUser, setLoggedUser] = useState();
-
-//   const handleChats=async(req,res)=>{
-//     try {
-//         const config = {
-//           headers: {
-//             Authorization: `Bearer ${user.token}`
-//           }
-//         };
+const MyChat = ({fetchAgain}) => {
+    const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
+    const toast=useToast()
+        // console.log(user);
+    const [loggedUser,setLoggedUser]=useState()
+    console.log(chats)
   
-//         const { data } = await axios.get("https://jobcatalyst.onrender.com/api/chat", config);
-//         console.log(data);
-//         if (!data) {
-//           throw new Error("Error while fetching chats");
-//         }
-//         setChats(data);
-//       } catch (error) {
-//         toast({
-//           title: "Error Occurred!",
-//           description: "Failed to load the chats",
-//           status: "error",
-//           duration: 5000,
-//           isClosable: true,
-//           position: "bottom-left"
-//         });
-//       }
-//   }
-  
-  useEffect(() => {
-      // Fetching chats
-      const fetchChats = async () => {
+   
+    //fetching chats
+    const fetchChats=async (req,res)=>{
+        //get all chats 
+        //pass the required headers before get req
+        // console.log(user.token);
         try {
-          const config = {
-            headers: {
-              Authorization: `Bearer ${user.token}`
+            const config={
+                headers:{
+                    Authorization:`Bearer ${user.token}`
+                }
             }
-          };
-    
-          const { data } = await axios.get("https://jobcatalyst.onrender.com/api/chat", config);
-          console.log(data);
-          if (!data) {
-            throw new Error("Error while fetching chats");
-          }
-          setChats(data);
-        } catch (error) {
-          toast({
-            title: "Error Occurred!",
-            description: "Failed to load the chats",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            position: "bottom-left"
-          });
-        }
-      };
-      setLoggedUser(JSON.parse(localStorage.getItem("user")));
-    console.log(loggedUser);
-    fetchChats();
-  }, [loggedUser,toast,user.token,setChats]); 
 
+            const {data}=await axios.get("https://jobcatalyst.onrender.com/api/chat",config)
+            console.log(data)
+            if(!data)
+            {
+                res.status(404).json("error while fetching chats")
+            }
+            // console.log("Data of chats ",data)
+            setChats(data)
+        } catch (error) {
+            toast({
+                title: "Error Occured!",
+                description: "Failed to Load the chats",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-left",
+              });
+            
+        }
+    }
+
+    useEffect(() => {
+        setLoggedUser(JSON.parse(localStorage.getItem("user")));
+        console.log(loggedUser);
+        fetchChats();
+         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); 
+    
   return (
     <>
       <Box
