@@ -197,6 +197,14 @@ exports.login = async (req, res) => {
     }
 }
 
+exports.guest=async(req,res)=>{
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+
 exports.googleAuth = async (req, res) => {
     try {
         //find the user 

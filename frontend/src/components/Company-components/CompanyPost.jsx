@@ -55,6 +55,8 @@ const CompanyPost = ({
      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log("JobPost Id",jobpostId)
+
   return (
     <div className='bg-slate-200  w-3/4 p-2 rounded-lg'>
       <div className='flex gap-1 items-center w-full h-15'>

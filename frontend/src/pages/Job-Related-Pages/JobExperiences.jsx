@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Flex, Text, Button, Container, Spinner, useToast } from '@chakra-ui/react';
-import Navbar from '../../components/Navbar/Navbar';
+import Navbar2 from '../../components/Navbar/Navbar2.jsx';
 
 const JobExperiences = () => {
   const [jobRecords, setJobRecords] = useState([]);
@@ -62,7 +62,7 @@ const JobExperiences = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar2 />
       <Container maxW="container.lg" py={8}>
         {loading ? (
           <Flex justify="center" align="center" h="200px">

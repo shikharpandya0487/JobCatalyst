@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar/Navbar.jsx";
+import Navbar2 from "../../components/Navbar/Navbar2.jsx";
 import CompanyPost from "../../components/Company-components/CompanyPost.jsx";
 import { useTheme } from "../../Context/ThemeContext";
 import axios from "axios";
@@ -38,7 +38,7 @@ function Job() {
     }
   };
 
-  const filterSearch = () => {
+  const handleSearch=()=>{
     const filteredData = JobPosting.filter((item) => {
       const locationMatch = item.location
         .toLowerCase()
@@ -46,17 +46,11 @@ function Job() {
       const jobProfileMatch = item.title
         .toLowerCase()
         .includes(searchText.toLowerCase());
-      if (locationMatch.length === 0) {
-        return jobProfileMatch;
-      }
-      if (jobProfileMatch.length === 0) {
-        return locationMatch;
-      }
       return locationMatch && jobProfileMatch;
     });
     setFiltered(filteredData);
     console.log("searched data", filteredData);
-  };
+  }
 
   useEffect(() => {
     const fetchJobs = async (page = 1 ) => {
@@ -69,7 +63,8 @@ function Job() {
         };
         const response = await axios.get(`http://localhost:5000/api/jobs/getAllJobs?page=${page}&limit=${pageSize}`, config);
         console.log("All jobs ", response.data.data);
-        setJobPosting(response.data.data)
+        setJobPosting(response.data.data);
+        setFiltered(response.data.data);
         setTotalPages(response.data.totalPages); 
          
         toast({
@@ -95,7 +90,7 @@ function Job() {
       }
     };
     fetchJobs(currentPage);
-  }, [user.token, toast,currentPage,pageSize]);
+  }, [user.token, toast, currentPage, pageSize]);
 
   const handlePageChange = (direction) => {
     if (direction === 'next' && currentPage < totalPages) {
@@ -105,15 +100,32 @@ function Job() {
     }
   };
 
+  useEffect(() => {
+    const filterSearch = () => {
+      const filteredData = JobPosting.filter((item) => {
+        const locationMatch = item.location
+          .toLowerCase()
+          .includes(searchLocation.toLowerCase());
+        const jobProfileMatch = item.title
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+        return locationMatch && jobProfileMatch;
+      });
+      setFiltered(filteredData);
+      console.log("searched data", filteredData);
+    };
+    filterSearch();
+
+  }, [searchLocation, searchText, JobPosting]);
 
   return (
-    <div className="min-h-screen max-w-screen"
+    <div className="min-h-screen max-w-screen bg-gradient-to-br" 
       style={{
         backgroundColor: theme === "dark" ? "#333" : "#fff",
         color: theme === "dark" ? "#fff" : "#333",
       }}
     >
-      <Navbar />
+      <Navbar2 />
       <div className="w-screen min-h-screen">
         {/* Search Bars */}
         <div className="h-[4em] w-full flex flex-col g-0 items-center justify-start p-2 ">
@@ -135,26 +147,10 @@ function Job() {
             />
             <button
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-md transition duration-300 ease-in-out"
-              onClick={() => filterSearch()}
+              onClick={handleSearch}
             >
               Search
             </button>
-          </div>
-
-          {/* Search Results Dropdown */}
-          <div className="dropdown absolute h-fit w-1/5">
-            {console.log("Filtered Data", filtered)}
-            {filtered.length > 0 ? (
-              filtered.map((item, idx) => (
-                <div
-                  className="dropdown-row cursor-pointer text-center"
-                  key={idx}
-                  onClick={() => Search(item, item.position)}
-                >
-                  {item.position}
-                </div>
-              ))
-            ) : null}
           </div>
         </div>
 
@@ -269,52 +265,33 @@ function Job() {
                 color: theme === "dark" ? "#fff" : "#333",
               }}
             >
-               <Flex justify="space-between" align="center" mt={4} w="100%">
-            <HStack spacing={4} className='flex justify-evenly items-center gap-2'>
-              <IconButton
-                icon={<ChevronLeftIcon/>}
-                onClick={() => handlePageChange('prev')}
-                isDisabled={currentPage === 1}
-                aria-label="Previous Page"
-              />
-              <Text>
-                Page {currentPage} of {totalPages}
-              </Text>
-              <IconButton
-                icon={<ChevronRightIcon />}
-                onClick={() => handlePageChange('next')}
-                isDisabled={currentPage === totalPages}
-                aria-label="Next Page"
-              />
-            </HStack>
-           </Flex>
+              <Flex justify="space-between" align="center" mt={4} w="100%">
+                <HStack spacing={4} className='flex justify-evenly items-center gap-2'>
+                  <IconButton
+                    icon={<ChevronLeftIcon/>}
+                    onClick={() => handlePageChange('prev')}
+                    isDisabled={currentPage === 1}
+                    aria-label="Previous Page"
+                  />
+                  <Text>
+                    Page {currentPage} of {totalPages}
+                  </Text>
+                  <IconButton
+                    icon={<ChevronRightIcon />}
+                    onClick={() => handlePageChange('next')}
+                    isDisabled={currentPage === totalPages}
+                    aria-label="Next Page"
+                  />
+                </HStack>
+              </Flex>
               {loading ? (
                 <div className="flex justify-center items-center w-full h-full">
                   <Spinner size="xl" />
                 </div>
-              ) : Array.isArray(JobPosting) ? (
-                filtered.length === 0 ? (
-                  JobPosting.map((item, index) => (
-                    <div key={index} className="mb-4">
-                      <CompanyPost
-                        title={item?.title}
-                        company={item?.company}
-                        position={item?.position}
-                        location={item?.location}
-                        jobType={item?.jobtype}
-                        salary={item?.salary}
-                        description={item?.description}
-                        tags={item?.tags}
-                        image={item?.image}
-                        posted={item?.postedby}
-                        value={index + "abc"}
-                        jobpostId={item?._id}
-                      />
-                    </div>
-                  ))
-                ) : (
+              ) : (
+                filtered.length > 0 ? (
                   filtered.map((item, idx) => (
-                    <div key={idx + 1000} className="mb-4">
+                    <div key={idx} className="mb-4">
                       <CompanyPost
                         title={item?.title}
                         company={item?.company}
@@ -326,12 +303,17 @@ function Job() {
                         tags={item?.tags}
                         image={item?.image}
                         posted={item?.postedby}
+                        jobpostId={item?._id}
                         value={idx + "abc"}
                       />
                     </div>
                   ))
+                ) : (
+                  <div className="flex justify-center items-center w-full h-full">
+                    <Text>No Jobs Found</Text>
+                  </div>
                 )
-              ) : null}
+              )}
             </div>
           </div>
         </div>

@@ -11,7 +11,8 @@ import {
   IconButton,
   HStack,
 } from '@chakra-ui/react';
-import Navbar from '../../components/Navbar/Navbar';
+// import Navbar from '../../components/Navbar/Navbar';
+import Navbar2 from '../../components/Navbar/Navbar2.jsx'
 import axios from 'axios';
 import moment from 'moment';
 import Stories from '../../components/community/Stories';
@@ -115,7 +116,8 @@ const CommunityPage = () => {
 
   return (
     <Box minH="100vh" bgGradient="linear(to-l, blue.50, white, blue.50)">
-      <Navbar />
+      {/* <Navbar /> */}
+      <Navbar2 />
       <Flex justify="center" align="center" pt={4}>
         <Input
           placeholder="Search"

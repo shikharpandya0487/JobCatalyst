@@ -1,7 +1,7 @@
 // Import necessary dependencies
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../../components/Navbar/Navbar';
+import Navbar2 from '../../components/Navbar/Navbar2.jsx';
 import { useTheme } from '../../Context/ThemeContext';
 import {
   Box,
@@ -46,7 +46,7 @@ const JobBasics = () => {
       bg={theme === "dark" ? "#333" : "#fff"}
       color={theme === "dark" ? "#fff" : "#333"}
     >
-      <Navbar />
+      <Navbar2 />
       <Box className="flex flex-col self-center mt-10 md:mt-5 w-full max-w-[1559px] md:max-w-full">
         <Box className="md:flex-1 flex flex-col px-5 max-w-full justify-center items-center">
           <Text

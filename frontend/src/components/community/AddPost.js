@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from '../Navbar/Navbar';
+import Navbar2 from '../Navbar/Navbar2.jsx';
 import { useTheme } from '../../Context/ThemeContext';
 import {
   Box,
@@ -67,7 +67,7 @@ const AddPost = () => {
       style={{backgroundColor:(theme==='dark')?"gray":"lightgray",color:(theme==='dark')?"white":"black"}}
     >
     
-      <Navbar />
+      <Navbar2 />
       <Box className='flex justify-center w-[100%] gap-2 p-4 min-h-fit'
       style={{backgroundColor:(theme==='dark')?"gray":"cream",color:(theme==='dark')?"white":"black"}}>
         <Box className='w-1/2 p-2 bg-white rounded-md md:rounded-lg'>
