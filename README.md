@@ -11,29 +11,26 @@ Whether you're a job seeker looking for your next career opportunity or an emplo
 4. Pihu Jain      : Frontend and Backend
 
 ## Features
-# Basic features
+# Basic Features
 - User Authentication: Implement login/signup with email verification and user type differentiation (employee/employer).
-- Add post: Create a post feature for users to share experiences(it includes image/viedo ans related information).
-- Interactive Posts: Users can edit/delete their posts and others can serach posts,react and comment on a post.
-- Success Stories: Display Top Three Posts Based on Salary Criteria.
-- User profile: user can add skills certificates and contact informaition.
-- Password and Security: password can be change.
-- Job record: users can add,edit and delete thier past job experiences.
-- Connection: Users can connect with each other by chating.
-- Theme setting: Light and dark theme both available.
-- Pagination: Pagination feature is available to make visualisation more simpler.
+- Add Post: Create a post feature for users to share experiences, including images/videos and related information.
+- Interactive Posts: Users can edit/delete their posts, search posts, and react and comment on a post.
+- Success Stories: Display top three posts based on salary criteria.
+- User Profile: Users can add skills, certificates, and contact information.
+- Password and Security: Users can change their passwords.
+- Job Record: Users can add, edit, and delete their past job experiences.
+- Connection: Users can connect with each other by chatting.
+- Theme Setting: Both light and dark themes are available.
+- Pagination: Pagination feature is available to make visualization simpler.
+  
+# Advanced Features
+- OAuth: Users can log in with their Google account.
+- Resume Builder: Users can build, edit their resumes, and download them in PDF format.
+- Nested Comment: Users can comment, reply to comments, and edit or delete their comments.
+- Search User: Search on the basis of name, profession, skills, and location is available.
+- Make Groups: Group chat feature for different users is implemented.
 
-
-# Advanced features
-- OAuth: User can login with google account.
-- Resume Builder: users can build,edit thier resume and also dowmload it in pdf formate.
-- Nested Comment: Users can comment, reply on comments and edit or delete their comments.
-- Search user: search on the basis of name, profession,skills ans location is available.
-- Make goups: Group Chat Feature for Different Users is implemented.
-- 
-
-
-
+  
 ## Images 
 
 Here are some Images from the site 
