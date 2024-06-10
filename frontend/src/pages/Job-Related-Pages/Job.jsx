@@ -303,6 +303,7 @@ function Job() {
                         tags={item?.tags}
                         image={item?.image}
                         posted={item?.postedby}
+                        jobpostId={item?._id}
                         value={idx + "abc"}
                       />
                     </div>
