@@ -141,11 +141,11 @@ const userSchema = new mongoose.Schema({
         }
     ]
   },
-  jobApplications:[jobApplicationSchema],
-  profession:{
-    type:String,
-    default:null
-  }
+  certificates: [{
+    name: String,
+    url: String,
+  }],
+  jobApplications:[jobApplicationSchema]
 }, { timestamps: true });
 
 

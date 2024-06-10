@@ -25,7 +25,7 @@ const EditPost = () => {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
           };
            
-          const url = `https://jobcatalyst.onrender.com/api/post/get-post/${id}`;
+          const url = `http://localhost:5000/api/post/get-post/${id}`;
           const response = await axios.get(url, { headers });
           console.log(response.data);
           const postData = response.data;
@@ -66,7 +66,7 @@ const EditPost = () => {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer ' + localStorage.getItem('token'),
             };
-            const url = `https://jobcatalyst.onrender.com/api/post/edit-post/${id}`;
+            const url = `http://localhost:5000/api/post/edit-post/${id}`;
             const response = await axios.put(url, formData, { headers });
             console.log(response.data);
             navigate('/profile');

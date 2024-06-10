@@ -14,7 +14,7 @@ const JobExperiences = () => {
     const fetchJobRecords = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`https://jobcatalyst.onrender.com/api/profile/jobrecords/getAllJobRecord?page=${currentPage}`);
+        const response = await axios.get(`http://localhost:5000/api/profile/jobrecords/getAllJobRecord?page=${currentPage}`);
         setJobRecords(response.data.data);
         setTotalPages(response.data.totalPages);
         setLoading(false);

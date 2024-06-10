@@ -145,7 +145,51 @@ const accessSkillsController=async(req,res)=>{
     }
 
 }
+const addCertificate = async (req, res) => {
+    try {
+      const file = req.file;
+      if (!file) {
+        return res.status(400).send({ error: "No file uploaded" });
+      }
+  
+      const userId = req.user._id;
+      const certificate = {
+        name: file.originalname,
+        url: file.path,
+      };
+  
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { $push: { certificates: certificate } },
+        { new: true }
+      );
+  
+      if (!user) {
+        return res.status(404).send('User not found.');
+      }
+  
+      res.status(200).send(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Server error.');
+    }
+  };
+  const getCertificate = async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const user = await User.findById(userId, 'certificates'); // Fetch only the certificates field
+      
+      if (!user) {
+        return res.status(404).send('User not found.');
+      }
+  
+      res.status(200).json({ certificates: user.certificates }); // Return only the certificate details
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Server error.');
+    }
+  };
+  
 
+module.exports={addSkillController,editingSkillController,deleteSkillController,accessSkillsController,addCertificate,getCertificate}
 
-
-module.exports={addSkillController,editingSkillController,deleteSkillController,accessSkillsController}

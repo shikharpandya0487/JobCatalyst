@@ -48,7 +48,7 @@ const SearchPeople = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const response = await axios.get(`https://jobcatalyst.onrender.com/api/people/search`, {
+      const response = await axios.get(`http://localhost:5000/api/people/search`, {
         params: formData,
         ...config,
       });
@@ -94,7 +94,7 @@ const SearchPeople = () => {
         ...mailData,
       };
       console.log("sender ",sender)
-      const response = await axios.post(`https://jobcatalyst.onrender.com/api/people/mail`, sender, config);
+      const response = await axios.post(`http://localhost:5000/api/people/mail`, sender, config);
       console.log('Response', response);
 
       toast({

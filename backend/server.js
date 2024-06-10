@@ -20,7 +20,7 @@ const SearchPeopleRoutes=require('./src/Routes/SearchPeople/SearchPeopleRoutes.j
 const communityRoutes=require("./src/Routes/SearchInCommunity/CommunitySearch.js")
 
 app.use(cors({
-  origin: 'https://job-catalyst.vercel.app',
+  origin: 'http://localhost:3000',
   credentials: true 
 }));
 app.use("/uploads",express.static("uploads"))
@@ -51,7 +51,7 @@ const server = app.listen(PORT, () => {
 const io = require('socket.io')(server, {
   pingTimeout: 50000,
   cors: {
-    origin: 'https://job-catalyst.vercel.app', // Specify your frontend URL
+    origin: 'http://localhost:3000', // Specify your frontend URL
     methods: ["GET", "POST"],
     credentials: true
   }

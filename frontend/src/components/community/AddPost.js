@@ -44,7 +44,7 @@ const AddPost = () => {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
     };
 
-    const url = 'https://jobcatalyst.onrender.com/api/post/create-post';
+    const url = 'http://localhost:5000/api/post/create-post';
     axios({
       method: 'post',
       url: url,

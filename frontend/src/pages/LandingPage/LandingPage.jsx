@@ -38,7 +38,7 @@ function LandingPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = 'https://jobcatalyst.onrender.com/api/auth/login';
+    const url = 'http://localhost:5000/api/auth/login';
     const data = { email, password };
     try {
         const response = await axios.post(url, data);
@@ -63,7 +63,7 @@ function LandingPage() {
     const name=result.user.displayName.split(" ")
     const username=name[0].toLowerCase()
 
-    axios.post("https://jobcatalyst.onrender.com/api/auth/google",{
+    axios.post("http://localhost:5000/api/auth/google",{
       username:username,
       email:result?.user?.email
     })

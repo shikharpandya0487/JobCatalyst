@@ -10,7 +10,6 @@ const PasswordAndSecurity = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordStrength, setPasswordStrength] = useState("");
   const [twoFactorAuth, setTwoFactorAuth] = useState(false);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,40 +40,37 @@ const PasswordAndSecurity = () => {
   };
   useEffect(() => {
     setPasswordStrength(checkPasswordStrength(password));
-     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [password]);
-  //function which enable to change the users password
-  const handleChangePassword = async () => {
+
+  const handleChangePassword = async (userId) => {
     try {
-      const data = {password,newPassword,confirmPassword};
-      const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+ localStorage.getItem('token'),
+      const data = {
+        password,
+        newPassword,
+        confirmPassword,
       };
-      const url='https://jobcatalyst.onrender.com/api/auth/changepassword';
+      const userId = localStorage.getItem("userId");
+      const url = `http://localhost:5000/api/auth/changepassword/${userId}`;
       const response = await axios({
-        method: 'POST', 
+        method: 'POST',
         url: url,
-        data:data,
-        headers: headers,
-      })
+        data: data,
+      });
       console.log(response);
       if (response) {
-        navigate("/")
+        navigate("/");
         console.log("Password Changed successfully");
-        alert("Password Changed successfully")
+        alert("Password Changed successfully");
       } else {
-        console.error("failed to change password");
-        alert("failed to change password")
+        console.error("Failed to change password");
+        alert("Failed to change password");
       }
     } catch (error) {
       console.error("Error changing password", error);
     }
-
-
   };
+  
 
-  //two factor authentication
   const handleTwoFactorAuth = async () => {
     try {
       const response = await fetch("/api/user/toggle-2fa", {
@@ -94,6 +90,7 @@ const PasswordAndSecurity = () => {
       console.error("error", error);
     }
   };
+
   const isPasswordMatch = newPassword === confirmPassword
   return (
     <div style={{ 
@@ -150,7 +147,7 @@ const PasswordAndSecurity = () => {
         <h6>Password Strength: {passwordStrength}</h6>
       </div>
 
-      <div style={{ marginBottom: "15px", marginTop: "15px" }}>
+      {/* <div style={{ marginBottom: "15px", marginTop: "15px" }}>
         <label>
           <input
             type="checkbox"
@@ -160,7 +157,7 @@ const PasswordAndSecurity = () => {
           />
           Enable Two-Factor Authentication
         </label>
-      </div>
+      </div> */}
     </div>
   )
 

@@ -27,7 +27,7 @@ router.post("/signup", signup)
 
 router.post("/sendotp", sendotp)
 
-router.post("/changepassword", auth, changePassword)
+router.post("/changepassword/:userId", changePassword)
 
 router.post("/reset-password-token", resetPasswordToken)
 

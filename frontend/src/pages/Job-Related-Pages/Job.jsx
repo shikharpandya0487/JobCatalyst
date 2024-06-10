@@ -67,7 +67,7 @@ function Job() {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        const response = await axios.get(`https://jobcatalyst.onrender.com/api/jobs/getAllJobs?page=${page}&limit=${pageSize}`, config);
+        const response = await axios.get(`http://localhost:5000/api/jobs/getAllJobs?page=${page}&limit=${pageSize}`, config);
         console.log("All jobs ", response.data.data);
         setJobPosting(response.data.data)
         setTotalPages(response.data.totalPages); 

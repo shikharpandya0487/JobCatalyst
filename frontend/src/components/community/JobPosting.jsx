@@ -66,7 +66,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/like-post';
+    const url = 'http://localhost:5000/api/post/like-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -78,7 +78,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/dislike-post';
+    const url = 'http://localhost:5000/api/post/dislike-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -90,7 +90,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/heart-post';
+    const url = 'http://localhost:5000/api/post/heart-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -102,7 +102,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/unheart-post';
+    const url = 'http://localhost:5000/api/post/unheart-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -114,7 +114,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/cong-post';
+    const url = 'http://localhost:5000/api/post/cong-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -126,7 +126,7 @@ const JobPosting = ({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/discong-post';
+    const url = 'http://localhost:5000/api/post/discong-post';
     const data = { postId: id };
     axios.put(url, data, { headers })
       .then(() => onReaction())
@@ -136,7 +136,7 @@ const JobPosting = ({
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
     // Perform search query here
-    axios.get(`https://jobcatalyst.onrender.com/api/user/search?query=${event.target.value}`)
+    axios.get(`http://localhost:5000/api/user/search?query=${event.target.value}`)
       .then((response) => {
         setSearchResults(response.data);
       })
@@ -147,7 +147,7 @@ const JobPosting = ({
 
   const handleShareToUser = (userId) => {
     // Share post logic
-    axios.post('https://jobcatalyst.onrender.com/api/post/share', { postId: id, userId })
+    axios.post('http://localhost:5000/api/post/share', { postId: id, userId })
       .then((response) => {
         console.log("Post shared successfully", response);
         onClose();
@@ -166,7 +166,7 @@ const JobPosting = ({
         },
       };
       console.log("username ", postedBy, "id ", postedById);
-      const response = await axios.get(`https://jobcatalyst.onrender.com/api/community/search?username=${postedBy}&id=${postedById}`, config);
+      const response = await axios.get(`http://localhost:5000/api/community/search?username=${postedBy}&id=${postedById}`, config);
       if (response === undefined) {
         console.log("no");
       }

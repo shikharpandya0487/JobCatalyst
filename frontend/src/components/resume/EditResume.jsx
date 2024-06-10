@@ -8,11 +8,11 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import Success from './Success';
 import { useTheme } from '../../Context/ThemeContext'
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
-const Form = () => {
-  const navigate = useNavigate();
+const EditResume = () => {
+const { id } = useParams();
   const { theme } = useTheme();
   const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -56,12 +56,13 @@ const Form = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+    setSuccess(false);
       let userId = localStorage.getItem("userId");
       const url = `http://localhost:5000/api/resume/get-resume/${userId}`
       try {
         const response = await axios.get(url);
         if (response.data) {
-          setSuccess(true);
+        //   setSuccess(true);
           setFormData(response.data.data);
         }
       } catch (error) {
@@ -82,7 +83,6 @@ const Form = () => {
     'Projects',
     'Extras',
   ];
-  const [resId,setResId] = useState([]);
 
   const PageDisplay = () => {
     if (page === 0) {
@@ -106,7 +106,7 @@ const Form = () => {
         console.log(userId);
         const resumeDataWithUserId = { ...formData, userId }; // Combine formData with userId
         await axios.post('http://localhost:5000/api/resume/create-pdf', resumeDataWithUserId);
-        await axios.post('http://localhost:5000/api/resume/create-resume', { resumeData: formData, userId }); // Send userId and resumeData separately
+        await axios.put(`http://localhost:5000/api/resume/edit-resume/${id}`, { resumeData: formData, userId }); // Send userId and resumeData separately
         //Fetch the PDF
         const response = await axios.get('http://localhost:5000/api/resume/fetch-pdf', {
           responseType: 'blob',
@@ -125,49 +125,6 @@ const Form = () => {
     }
   };
 
-  const editResume = async ()=>{
-    fetchData();
-    console.log(resId._id);
-    if(resId._id)
-    navigate(`/edit-resume/${resId._id}`);
-    
-  }
-
-  const fetchData = async () => {
-    let userId = localStorage.getItem("userId");
-    const url = `http://localhost:5000/api/resume/get-resume/${userId}`;
-    try {
-      const response = await axios.get(url);
-      if (response.data) {
-        setResId(response.data.data);
-        // console.log("hue",resId);
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Server error");
-    }
-  };
-
-  const downloadPdf=async()=>{
-    try {
-      //Create PDF
-      let userId = localStorage.getItem("userId");
-      const resumeDataWithUserId = { ...formData, userId }; // Combine formData with userId
-      await axios.post('http://localhost:5000/api/resume/create-pdf', resumeDataWithUserId);
-      //Fetch the PDF
-      const response = await axios.get('http://localhost:5000/api/resume/fetch-pdf', {
-        responseType: 'blob',
-      });
-      //Process and save the PDF
-      const pdfBlob = new Blob([response.data], {
-        type: 'application/pdf',
-      });
-      setSuccess(response.status === 200);
-      saveAs(pdfBlob, 'Resume.pdf');
-    } catch (error) {
-      console.error('Error creating or downloading PDF:', error);
-    }
-  }
 
   return (
     <div className="container mx-auto mt-10 mb-8 " style={{ width: "900px" }}>
@@ -205,14 +162,11 @@ const Form = () => {
       </div>}
       {success && <div>
         <Success />
-        <button className="px-4 py-2 rounded-lg font-semibold bg-blue-500 hover:bg-blue-600" onClick={() => downloadPdf()}>Create Pdf</button>
-        <button className="px-4 py-2 rounded-lg font-semibold bg-blue-500 hover:bg-blue-600" onClick={() => editResume()}>Edit Resume</button>
+        {/* <button className="px-4 py-2 rounded-lg font-semibold bg-blue-500 hover:bg-blue-600" onClick={() => downloadPdf()}>Edit Pdf</button> */}
       </div>
       }
     </div> 
   );
 };
 
-export default Form;
-
-
+export default EditResume;

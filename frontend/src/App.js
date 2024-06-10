@@ -24,11 +24,11 @@ import ChatProvider  from './UserContext.js';
 import Chats from './components/Chats-ChatsHome/Chats.js';
 import { ThemeProvider } from './Context/ThemeContext.js';
 import JobExperiences from './pages/Job-Related-Pages/JobExperiences.jsx';
-
-
+import EditResume from './components/resume/EditResume.jsx'
+import ResumeForm from './components/resume/Form.jsx'
 
 function App() {
-  axios.defaults.baseURL = 'https://jobcatalyst.onrender.com';
+  axios.defaults.baseURL = 'http://localhost:5000';
   axios.defaults.withCredentials = true;
 
   return (
@@ -56,6 +56,8 @@ function App() {
             <Route path="/update-password/:id" element={<UpdatePassword/>}></Route>
             <Route path='/chats' element={<Chats/>} />
             <Route path='/post' element={<displayPost/>} />
+            <Route path="/edit-resume/:id" element={<EditResume />} />
+            <Route path="/resume/:id" element={<ResumeForm />} />
             </Routes>
         
           </div>

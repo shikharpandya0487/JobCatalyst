@@ -33,7 +33,7 @@ const JobRecord = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "https://jobcatalyst.onrender.com/api/profile/jobrecords/getAllJobRecord"
+          "http://localhost:5000/api/profile/jobrecords/getAllJobRecord"
         );
         console.log("Fetched Response", response.data);
         setSavedRecords(response.data.data);
@@ -90,7 +90,7 @@ const JobRecord = () => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "https://jobcatalyst.onrender.com/api/profile/jobrecords/createJobRecord",
+        "http://localhost:5000/api/profile/jobrecords/createJobRecord",
         recordToSave
       );
       console.log("save Response", response);
@@ -121,7 +121,7 @@ const JobRecord = () => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "https://jobcatalyst.onrender.com/api/profile/jobrecords/deleteJobRecord",
+        "http://localhost:5000/api/profile/jobrecords/deleteJobRecord",
         { postId }
       );
       console.log("Response Delete", response);
