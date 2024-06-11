@@ -5,10 +5,10 @@ Our platform streamlines the job search process, providing a user-friendly inter
 Whether you're a job seeker looking for your next career opportunity or an employer searching for the ideal candidate, JobCatalyst has got you covered.
 
 ## Team Members
-1. Shikhar Pandya : Frontend and Backend
-2. Aryaman        : Frontend and Backend
-3. Aradhya Singh  : Frontend
-4. Pihu Jain      : Frontend and Backend
+1. Shikhar Pandya 
+2. Aryaman       
+3. Aradhya Singh  
+4. Pihu Jain      
 
 ## Features
 # Basic Features
@@ -18,10 +18,14 @@ Whether you're a job seeker looking for your next career opportunity or an emplo
 - Success Stories: Display top three posts based on salary criteria.
 - User Profile: Users can add skills, certificates, and contact information.
 - Password and Security: Users can change their passwords.
-- Job Record: Users can add, edit, and delete their past job experiences.
 - Connection: Users can connect with each other by chatting.
 - Theme Setting: Both light and dark themes are available.
 - Pagination: Pagination feature is available to make visualization simpler.
+- Share Job Experience: Users can share their job experiences through posts.
+- Job Record: Users can add, edit, and delete their past job experiences.
+- Direct Apply for Jobs: Users can apply for jobs with email notifications confirming each application.
+- Job Listing Pagination: Implemented to optimize the loading and display of job listings.
+- Job Search Filters: Users can search for jobs based on filters like job location and job type.
   
 # Advanced Features
 - OAuth: Users can log in with their Google account.
