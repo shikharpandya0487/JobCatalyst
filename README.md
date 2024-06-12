@@ -10,8 +10,12 @@ Whether you're a job seeker looking for your next career opportunity or an emplo
 3. Aradhya Singh  : Frontend
 4. Pihu Jain      : Frontend and Backend
 
-## Features
-# Basic Features
+
+## Deployed link
+[job-catalyst.vercel.app](https://job-catalyst.vercel.app/)
+
+# Features
+## Basic Features
 - User Authentication: Implement login/signup with email verification and user type differentiation (employee/employer).
 - Add Post: Create a post feature for users to share experiences, including images/videos and related information.
 - Interactive Posts: Users can edit/delete their posts, search posts, and react and comment on a post.
@@ -23,7 +27,7 @@ Whether you're a job seeker looking for your next career opportunity or an emplo
 - Theme Setting: Both light and dark themes are available.
 - Pagination: Pagination feature is available to make visualization simpler.
   
-# Advanced Features
+## Advanced Features
 - OAuth: Users can log in with their Google account.
 - Resume Builder: Users can build, edit their resumes, and download them in PDF format.
 - Nested Comment: Users can comment, reply to comments, and edit or delete their comments.
@@ -70,8 +74,6 @@ As uploaded document
 - Backend: Node.js, Express.js
 - Database: MongoDB,Firebase
 
-## Deployed link
-[job-catalyst.vercel.app](https://job-catalyst.vercel.app/)
 
 
 
