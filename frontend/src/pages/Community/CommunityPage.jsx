@@ -43,7 +43,6 @@ const CommunityPage = () => {
           console.log(response.data);
           setData(response.data.post);
           setTotalPages(response.data.totalPages); 
-          setStories(response.data.post);
           toast({
             title: "Community Posts Loaded",
             description: "Successfully loaded community posts",
@@ -71,6 +70,25 @@ const CommunityPage = () => {
     };
     fetchData(currentPage);
   }, [refresh,toast,currentPage,pageSize]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+        const url = 'http://localhost:5000/api/post/get-success-post';
+        try {
+            const response = await axios.get(url);
+            if (response.data.post) {
+                console.log(response.data);
+                setStories(response.data.post);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Server error");
+        }
+    };
+    fetchData();
+}, [refresh]);
+
 
   const handleReaction = () => {
     setRefresh(!refresh);

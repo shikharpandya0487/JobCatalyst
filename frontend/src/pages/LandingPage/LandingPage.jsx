@@ -67,22 +67,6 @@ function LandingPage() {
 //     setEmail('');
 //     setPassword('');
 // };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const url = 'http://localhost:5000/api/auth/login';
-    const data = { email, password };
-    try {
-        const response = await axios.post(url, data);
-        navigate('/community');
-        console.log(response.data)
-        localStorage.setItem('token', response.data);
-        localStorage.setItem('userId', response.data.user);
-    } catch (error) {
-        console.error(error);
-    }
-    setEmail('');
-    setPassword('');
-};
 
     
  const handleGoogle=(e)=>{
@@ -94,7 +78,7 @@ function LandingPage() {
     const name=result.user.displayName.split(" ")
     const username=name[0].toLowerCase()
 
-    axios.post("http://localhost:5000/api/auth/google",{
+    axios.post("https://jobcatalyst.onrender.com/api/auth/google",{
       username:username,
       email:result?.user?.email
     })
