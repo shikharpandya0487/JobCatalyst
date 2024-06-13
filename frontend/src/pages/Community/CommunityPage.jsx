@@ -36,7 +36,7 @@ const CommunityPage = () => {
   useEffect(() => {
     const fetchData = async (page = 1) => {
       setLoadingPosts(true);
-      const url = `http://localhost:5000/api/post/get-posts?page=${page}&limit=${pageSize}`;
+      const url = `https://jobcatalyst.onrender.com/api/post/get-posts?page=${page}&limit=${pageSize}`;
       try {
         const response = await axios.get(url);
         if (response.data.post) {
@@ -74,7 +74,7 @@ const CommunityPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        const url = 'http://localhost:5000/api/post/get-success-post';
+        const url = 'https://jobcatalyst.onrender.com/api/post/get-success-post';
         try {
             const response = await axios.get(url);
             if (response.data.post) {
@@ -98,7 +98,7 @@ const CommunityPage = () => {
   // Search for posts based on title
   const handleSearch = async () => {
     setLoadingPosts(true);
-    const url = `http://localhost:5000/api/post/search?search=${search}`;
+    const url = `https://jobcatalyst.onrender.com/api/post/search?search=${search}`;
     try {
       const response = await axios.get(url);
       console.log(response.data.post);

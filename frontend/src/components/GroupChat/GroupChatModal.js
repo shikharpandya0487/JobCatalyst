@@ -24,7 +24,7 @@ const GroupChatModal = ({children}) => {
                 },
               };
         
-              const { data } = await axios.get(`http://localhost:5000/api/user?search=${search}`, config);
+              const { data } = await axios.get(`https://jobcatalyst.onrender.com/api/user?search=${search}`, config);
             
             console.log(data);
             setLoading(false)
@@ -69,7 +69,7 @@ const GroupChatModal = ({children}) => {
 
             //upload the group formed to db
             // a post req
-            const {data}=await axios.post("http://localhost:5000/api/chat/group",{
+            const {data}=await axios.post("https://jobcatalyst.onrender.com/api/chat/group",{
                 name:groupChatName,
                 users:JSON.stringify(selectedUsers.map(u=>u._id))
             },config)

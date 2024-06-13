@@ -57,7 +57,7 @@ const Form = () => {
   useEffect(() => {
     const fetchData = async () => {
       let userId = localStorage.getItem("userId");
-      const url = `http://localhost:5000/api/resume/get-resume/${userId}`
+      const url = `https://jobcatalyst.onrender.com/api/resume/get-resume/${userId}`
       try {
         const response = await axios.get(url);
         if (response.data) {
@@ -105,10 +105,10 @@ const Form = () => {
         let userId = localStorage.getItem("userId");
         console.log(userId);
         const resumeDataWithUserId = { ...formData, userId }; // Combine formData with userId
-        await axios.post('http://localhost:5000/api/resume/create-pdf', resumeDataWithUserId);
-        await axios.post('http://localhost:5000/api/resume/create-resume', { resumeData: formData, userId }); // Send userId and resumeData separately
+        await axios.post('https://jobcatalyst.onrender.com/api/resume/create-pdf', resumeDataWithUserId);
+        await axios.post('https://jobcatalyst.onrender.com/api/resume/create-resume', { resumeData: formData, userId }); // Send userId and resumeData separately
         //Fetch the PDF
-        const response = await axios.get('http://localhost:5000/api/resume/fetch-pdf', {
+        const response = await axios.get('https://jobcatalyst.onrender.com/api/resume/fetch-pdf', {
           responseType: 'blob',
         });
         //Process and save the PDF
@@ -135,7 +135,7 @@ const Form = () => {
 
   const fetchData = async () => {
     let userId = localStorage.getItem("userId");
-    const url = `http://localhost:5000/api/resume/get-resume/${userId}`;
+    const url = `https://jobcatalyst.onrender.com/api/resume/get-resume/${userId}`;
     try {
       const response = await axios.get(url);
       if (response.data) {
@@ -153,9 +153,9 @@ const Form = () => {
       //Create PDF
       let userId = localStorage.getItem("userId");
       const resumeDataWithUserId = { ...formData, userId }; // Combine formData with userId
-      await axios.post('http://localhost:5000/api/resume/create-pdf', resumeDataWithUserId);
+      await axios.post('https://jobcatalyst.onrender.com/api/resume/create-pdf', resumeDataWithUserId);
       //Fetch the PDF
-      const response = await axios.get('http://localhost:5000/api/resume/fetch-pdf', {
+      const response = await axios.get('https://jobcatalyst.onrender.com/api/resume/fetch-pdf', {
         responseType: 'blob',
       });
       //Process and save the PDF

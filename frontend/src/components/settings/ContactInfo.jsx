@@ -31,7 +31,7 @@ const ContactInfo = () => {
       };
       console.log(linkName.name)
       const response = await axios.post(
-        `http://localhost:5000/api/user/add-link/${linkName.name}`,
+        `https://jobcatalyst.onrender.com/api/user/add-link/${linkName.name}`,
         {
           name: `${linkName.name}`,
           url: `${linkName.url}`,
@@ -73,7 +73,7 @@ const ContactInfo = () => {
       };
       console.log(deleteName)
      
-      const response =await axios.post(`http://localhost:5000/api/user/delete-link/${deleteName}`,config)
+      const response =await axios.post(`https://jobcatalyst.onrender.com/api/user/delete-link/${deleteName}`,config)
     
  
       if(!response)
@@ -151,7 +151,7 @@ const ContactInfo = () => {
             },
           };
       
-          const response=await axios.get("http://localhost:5000/api/user/access-link",config)
+          const response=await axios.get("https://jobcatalyst.onrender.com/api/user/access-link",config)
           // console.log(response)
           const links=response.data.links 
           console.log(links)

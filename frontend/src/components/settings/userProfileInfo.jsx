@@ -9,7 +9,7 @@ import { ChatState } from "../../UserContext.js";
 const UserProfileInfo = () => {
   const { theme } = useTheme();
   const userId = localStorage.getItem('userId');
-  const profileDataApi = `http://localhost:5000/api/user/profile/${userId}`;
+  const profileDataApi = `https://jobcatalyst.onrender.com/api/user/profile/${userId}`;
   const { user } = ChatState();
   const toast = useToast();
 
@@ -38,7 +38,7 @@ const UserProfileInfo = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const response = await axios.delete(`http://localhost:5000/api/user/delete-skill/${id}`, config);
+      const response = await axios.delete(`https://jobcatalyst.onrender.com/api/user/delete-skill/${id}`, config);
       const skills = response.data.skills.map(skill => ({
         ...skill,
         skillId: skill._id
@@ -65,7 +65,7 @@ const UserProfileInfo = () => {
         name: newName,
         proficiency: newProficiency
       };
-      const response = await axios.put(`http://localhost:5000/api/user/edit-skill/${id}`, { skill: editSkill }, config);
+      const response = await axios.put(`https://jobcatalyst.onrender.com/api/user/edit-skill/${id}`, { skill: editSkill }, config);
 
       if (!response) {
         console.log("resolve the editing of skill");
@@ -98,7 +98,7 @@ const UserProfileInfo = () => {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        const response = await axios.get(`http://localhost:5000/api/user/get-skills`, config);
+        const response = await axios.get(`https://jobcatalyst.onrender.com/api/user/get-skills`, config);
         const skills = response.data.skills.map(skill => ({
           ...skill,
           skillId: skill._id
@@ -136,7 +136,7 @@ const UserProfileInfo = () => {
         Authorization: 'Bearer ' + user.token,
       };
 
-      const url = 'http://localhost:5000/api/user/add-certificate';
+      const url = 'https://jobcatalyst.onrender.com/api/user/add-certificate';
 
       try {
         const response = await axios.post(url, formDataToSend, { headers });
@@ -163,7 +163,7 @@ const UserProfileInfo = () => {
 
   useEffect(() => {
     const fetchCertificate = async () => {
-      const url = `http://localhost:5000/api/user/get-certificate/${userId}`;
+      const url = `https://jobcatalyst.onrender.com/api/user/get-certificate/${userId}`;
       const headers = {
         'Content-Type': 'multipart/form-data',
         Authorization: 'Bearer ' + user.token,
@@ -189,7 +189,7 @@ const UserProfileInfo = () => {
   }, [upload]);
 
   const handlePdf = (pdf) => {
-    window.open(`http://localhost:5000/uploads/${pdf}`);
+    window.open(`https://jobcatalyst.onrender.com/uploads/${pdf}`);
   };
 
   return (

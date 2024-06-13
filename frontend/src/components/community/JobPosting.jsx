@@ -70,16 +70,16 @@ const JobPosting = ({
     // URLs for different reactions
     const urls = {
       like: {
-        add: 'http://localhost:5000/api/post/like-post',
-        remove: 'http://localhost:5000/api/post/dislike-post'
+        add: 'https://jobcatalyst.onrender.com/api/post/like-post',
+        remove: 'https://jobcatalyst.onrender.com/api/post/dislike-post'
       },
       heart: {
-        add: 'http://localhost:5000/api/post/heart-post',
-        remove: 'http://localhost:5000/api/post/unheart-post'
+        add: 'https://jobcatalyst.onrender.com/api/post/heart-post',
+        remove: 'https://jobcatalyst.onrender.com/api/post/unheart-post'
       },
       congrats: {
-        add: 'http://localhost:5000/api/post/cong-post',
-        remove: 'http://localhost:5000/api/post/discong-post'
+        add: 'https://jobcatalyst.onrender.com/api/post/cong-post',
+        remove: 'https://jobcatalyst.onrender.com/api/post/discong-post'
       }
     };
 
@@ -114,7 +114,7 @@ const JobPosting = ({
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
     // Perform search query here
-    axios.get(`http://localhost:5000/api/user/search?query=${event.target.value}`)
+    axios.get(`https://jobcatalyst.onrender.com/api/user/search?query=${event.target.value}`)
       .then((response) => {
         setSearchResults(response.data);
       })
@@ -125,7 +125,7 @@ const JobPosting = ({
 
   const handleShareToUser = (userId) => {
     // Share post logic
-    axios.post('http://localhost:5000/api/post/share', { postId: id, userId })
+    axios.post('https://jobcatalyst.onrender.com/api/post/share', { postId: id, userId })
       .then((response) => {
         console.log("Post shared successfully", response);
         onClose();
@@ -144,7 +144,7 @@ const JobPosting = ({
         },
       };
       console.log("username ", postedBy, "id ", postedById);
-      const response = await axios.get(`http://localhost:5000/api/community/search?username=${postedBy}&id=${postedById}`, config);
+      const response = await axios.get(`https://jobcatalyst.onrender.com/api/community/search?username=${postedBy}&id=${postedById}`, config);
       if (response === undefined) {
         console.log("no");
       }

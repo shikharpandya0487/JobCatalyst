@@ -28,7 +28,7 @@ const DisplayData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = `http://localhost:5000/api/post/get-post/${id}`;
+        const url = `https://jobcatalyst.onrender.com/api/post/get-post/${id}`;
         const response = await axios.get(url);
         setData(response.data);
       } catch (error) {

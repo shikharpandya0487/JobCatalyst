@@ -50,7 +50,7 @@ const PasswordAndSecurity = () => {
         confirmPassword,
       };
       const userId = localStorage.getItem("userId");
-      const url = `http://localhost:5000/api/auth/changepassword/${userId}`;
+      const url = `https://jobcatalyst.onrender.com/api/auth/changepassword/${userId}`;
       const response = await axios({
         method: 'POST',
         url: url,
