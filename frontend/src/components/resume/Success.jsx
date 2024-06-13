@@ -25,6 +25,7 @@ const Success = () => {
     fetchData();
   }, []);
 
+
   return (
     <div
       className={`resume-container ${theme === "dark" ? " dark-theme" : ""}`}

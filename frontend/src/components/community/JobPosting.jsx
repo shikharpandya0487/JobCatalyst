@@ -61,76 +61,54 @@ const JobPosting = ({
 
   const userId = localStorage.getItem('userId');
 
-  const likePost = (id) => {
+  const handleReaction = async (reactionType) => {
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/like-post';
-    const data = { postId: id };
-    axios.put(url, data, { headers })
-      .then(() => onReaction())
-      .catch((err) => console.log("server err", err));
-  };
 
-  const dislikePost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    // URLs for different reactions
+    const urls = {
+      like: {
+        add: 'https://jobcatalyst.onrender.com/api/post/like-post',
+        remove: 'https://jobcatalyst.onrender.com/api/post/dislike-post'
+      },
+      heart: {
+        add: 'https://jobcatalyst.onrender.com/api/post/heart-post',
+        remove: 'https://jobcatalyst.onrender.com/api/post/unheart-post'
+      },
+      congrats: {
+        add: 'https://jobcatalyst.onrender.com/api/post/cong-post',
+        remove: 'https://jobcatalyst.onrender.com/api/post/discong-post'
+      }
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/dislike-post';
-    const data = { postId: id };
-    axios.put(url, data, { headers })
-      .then(() => onReaction())
-      .catch((err) => console.log("server err", err));
-  };
 
-  const heartPost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    // Check the current state of each reaction
+    const reactions = {
+      like: post.likes.includes(userId),
+      heart: post.heart.includes(userId),
+      congrats: post.congrats.includes(userId)
     };
-    const url = 'https://jobcatalyst.onrender.com/api/post/heart-post';
-    const data = { postId: id };
-    axios.put(url, data, { headers })
-      .then(() => onReaction())
-      .catch((err) => console.log("server err", err));
-  };
 
-  const disHeartPost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-    const url = 'https://jobcatalyst.onrender.com/api/post/unheart-post';
+    // Prepare the payload
     const data = { postId: id };
-    axios.put(url, data, { headers })
-      .then(() => onReaction())
-      .catch((err) => console.log("server err", err));
-  };
 
-  const congratsPost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-    const url = 'https://jobcatalyst.onrender.com/api/post/cong-post';
-    const data = { postId: id };
-    axios.put(url, data, { headers })
-      .then(() => onReaction())
-      .catch((err) => console.log("server err", err));
-  };
+    // Handle the removal of existing reactions
+    for (const [type, active] of Object.entries(reactions)) {
+      if (active && type !== reactionType) {
+        await axios.put(urls[type].remove, data, { headers });
+      }
+    }
 
-  const disCongratsPost = (id) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    };
-    const url = 'https://jobcatalyst.onrender.com/api/post/discong-post';
-    const data = { postId: id };
-    axios.put(url, data, { headers })
-      .then(() => onReaction())
-      .catch((err) => console.log("server err", err));
+    // Add or remove the new reaction
+    if (reactions[reactionType]) {
+      await axios.put(urls[reactionType].remove, data, { headers });
+    } else {
+      await axios.put(urls[reactionType].add, data, { headers });
+    }
+
+    // Trigger the reaction update
+    onReaction();
   };
 
   const handleSearchChange = (event) => {
@@ -216,9 +194,9 @@ const JobPosting = ({
         <div className='flex justify-evenly items-center w-3/4 gap-1 '>
           <div className='flex flex-col w-fit p-1 items-center justify-center gap-1'>
             {
-              post.likes.find((id) => id === userId)
-                ? <FaThumbsUp className='cursor-pointer' onClick={() => dislikePost(id)} />
-                : <FaRegThumbsUp className='cursor-pointer' onClick={() => likePost(id)} />
+              post.likes.includes(userId)
+                ? <FaThumbsUp className='cursor-pointer' onClick={() => handleReaction('like')} />
+                : <FaRegThumbsUp className='cursor-pointer' onClick={() => handleReaction('like')} />
             }
             <div>
               <h5>{post.likes.length} Likes</h5>
@@ -227,9 +205,9 @@ const JobPosting = ({
 
           <div className='flex flex-col w-fit p-1 items-center justify-center gap-1'>
             {
-              post.heart.find((id) => id === userId)
-                ? <FaHeart className='cursor-pointer' onClick={() => disHeartPost(id)} />
-                : <CiHeart className='cursor-pointer' onClick={() => heartPost(id)} />
+              post.heart.includes(userId)
+                ? <FaHeart className='cursor-pointer' onClick={() => handleReaction('heart')} />
+                : <CiHeart className='cursor-pointer' onClick={() => handleReaction('heart')} />
             }
             <div>
               <h5>{post.heart.length} Loves</h5>
@@ -238,9 +216,9 @@ const JobPosting = ({
 
           <div className='flex flex-col w-fit p-1 items-center justify-center gap-1'>
             {
-              post.congrats.find((id) => id === userId)
-                ? <FaHandsClapping className='cursor-pointer' onClick={() => disCongratsPost(id)} />
-                : <PiHandsClapping className='cursor-pointer' onClick={() => congratsPost(id)} />
+              post.congrats.includes(userId)
+                ? <FaHandsClapping className='cursor-pointer' onClick={() => handleReaction('congrats')} />
+                : <PiHandsClapping className='cursor-pointer' onClick={() => handleReaction('congrats')} />
             }
             <div>
               <h5>{post.congrats.length} Congrats</h5>

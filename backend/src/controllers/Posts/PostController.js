@@ -70,6 +70,21 @@ const getPosts = async (req, res) => {
   }
 };
 
+
+const getSuccessPosts = async (req, res) => {
+  try { 
+      const result = await Post.find().populate({
+        path: 'comments',
+        populate: { path: 'replies' }
+      }).populate("postedBy", "_id username");
+      res.json({ msg: "Find success", post: result });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ msg: "Server error" });
+  }
+};
+
+
 const likePost = async (req, res) => {
   try {
       const postId = req.body.postId;
@@ -429,4 +444,4 @@ const editPost =  async (req, res) => {
   }
 };
 
-module.exports = {createPost,getPosts,likePost,dislikePost,heart,disheart,congrats,discongrats,search,createComment,getComments,deleteComment,updateComment,deletePost,myPost,getPost,editPost}
+module.exports = {createPost,getPosts,likePost,dislikePost,heart,disheart,congrats,discongrats,search,createComment,getComments,deleteComment,updateComment,deletePost,myPost,getPost,editPost,getSuccessPosts}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useTheme } from '../../Context/ThemeContext'; 
+import { useTheme } from '../../Context/ThemeContext';
 import axios from 'axios';
-import { Input, Spinner, Center } from "@chakra-ui/react";
+import { Input, Spinner, Button, Center, Box, useToast } from "@chakra-ui/react";
 import InputDetails from './Helper-Modals/InputDetails.js';
 import SkillItem from "./Helper-Modals/SkillItem.js";
 import { ChatState } from "../../UserContext.js";
@@ -11,7 +11,7 @@ const UserProfileInfo = () => {
   const userId = localStorage.getItem('userId');
   const profileDataApi = `https://jobcatalyst.onrender.com/api/user/profile/${userId}`;
   const { user } = ChatState();
-  console.log("printing user from skills",user.token)
+  const toast = useToast();
 
   const [profile, setProfile] = useState({
     username: "",
@@ -20,11 +20,16 @@ const UserProfileInfo = () => {
   });
 
   const [userInformation, setUserInformation] = useState({
-    skills: []
+    skills: [],
   });
 
   const [skillsLoading, setSkillsLoading] = useState(true);
   const [addingSkill, setAddingSkill] = useState(false);
+  const [upload, setUpload] = useState(false);
+  const [formData, setFormData] = useState({
+    cv: null,
+  });
+  const [certificate, setCertificate] = useState("");
 
   const handleDeleteSkill = async (id, index) => {
     try {
@@ -83,7 +88,6 @@ const UserProfileInfo = () => {
         setProfile({ username, email, contact });
       })
       .catch(error => console.log(error));
-       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   useEffect(() => {
@@ -104,7 +108,6 @@ const UserProfileInfo = () => {
           skills: [...user.skills]
         }));
       } catch (error) {
-        
         console.log("Error while accessing the skills", error);
       } finally {
         setSkillsLoading(false);
@@ -112,20 +115,88 @@ const UserProfileInfo = () => {
     };
 
     accessSkills();
-     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.token]);
 
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "cv") {
+      setFormData({ ...formData, [name]: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
-  const handleFileChange=()=>{
+  const handleCertificate = async () => {
+    if (formData.cv) {
+      const formDataToSend = new FormData();
+      formDataToSend.append('file', formData.cv);
 
-  }
+      const headers = {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + user.token,
+      };
 
-  
+      const url = 'https://jobcatalyst.onrender.com/api/user/add-certificate';
+
+      try {
+        const response = await axios.post(url, formDataToSend, { headers });
+        console.log(response);
+        setUpload(!upload);
+        toast({
+          title: "Certificate uploaded successfully.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      } catch (error) {
+        console.error('Error in add certificate', error);
+        toast({
+          title: "Error uploading certificate.",
+          description: error.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetchCertificate = async () => {
+      const url = `https://jobcatalyst.onrender.com/api/user/get-certificate/${userId}`;
+      const headers = {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + user.token,
+      };
+
+      try {
+        const response = await axios.get(url, { headers });
+        if (response.data.certificates && response.data.certificates.length > 0) {
+          setCertificate(response.data.certificates[0].url); // Assuming there's at least one certificate
+        }
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: "Error fetching certificate.",
+          description: error.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    };
+    fetchCertificate();
+  }, [upload]);
+
+  const handlePdf = (pdf) => {
+    window.open(`https://jobcatalyst.onrender.com/uploads/${pdf}`);
+  };
+
   return (
-    <div 
-      style={{ 
+    <div
+      style={{
         width: "900px",
-        margin: "auto", 
+        margin: "auto",
         padding: "20px",
         backgroundColor: theme === "dark" ? "#333" : "#fff",
         color: theme === "dark" ? "#fff" : "#333",
@@ -205,10 +276,17 @@ const UserProfileInfo = () => {
           <div className="w-full">
             <Input
               type="file"
-              onChange={handleFileChange}
-              accept=".jpg, .jpeg, .png, .pdf"
+              id="cv"
+              name="cv"
+              accept=".pdf,.doc,.docx,.jpeg,.png"
+              onChange={handleChange}
+              required
             />
+            <Button onClick={handleCertificate} mt={2}>Upload</Button>
           </div>
+          {certificate && (
+            <Button onClick={() => handlePdf(certificate)} mt={2}>View Certificate</Button>
+          )}
         </div>
       </div>
     </div>

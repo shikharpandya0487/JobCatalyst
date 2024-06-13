@@ -11,6 +11,8 @@ router.post("/create-post",requireLogin,upload.single("file"),postcontroller.cre
 //GET ALL POST ON COMMUNITY PAGE 
 router.get("/get-posts",postcontroller.getPosts)
 
+router.get("/get-success-post",postcontroller.getSuccessPosts)
+
 //LIKE POST AND ADD THEM TO THAT POST DATABASE
 router.put("/like-post",requireLogin,postcontroller.likePost)
 
