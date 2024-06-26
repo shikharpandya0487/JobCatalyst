@@ -5,10 +5,10 @@ Our platform streamlines the job search process, providing a user-friendly inter
 Whether you're a job seeker looking for your next career opportunity or an employer searching for the ideal candidate, JobCatalyst has got you covered.
 
 ## Team Members
-1. Shikhar Pandya 
-2. Aryaman       
-3. Aradhya Singh  
-4. Pihu Jain      
+1. Shikhar Pandya
+2. Pihu Jain     
+3. Aradhya Singh
+4. Aryaman 
 
 
 ## Deployed link
